@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">TSViewer</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="ip_adress">IP Adress</string>
+    <string name="query_username">Query Username</string>
+    <string name="query_password">Query Password</string>
+    <string name="nickname">Nickname</string>
+
+    <string name="advanced">Advanced</string>
+    <string name="login">Log In</string>
+
+    <string name="mustBeProvided">This must be provided</string>
+</resources>
