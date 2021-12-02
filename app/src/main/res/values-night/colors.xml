@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">@color/material_dynamic_neutral10</color>
+    <color name="text_on_primary">#FF6200EE</color>
+    <color name="text">#FF3700B3</color>
+</resources>

@@ -1,6 +1,7 @@
 package com.blazecode.tsviewer
 
 import android.content.SharedPreferences
+import android.os.Binder
 import android.os.Bundle
 import android.os.SharedMemory
 import com.google.android.material.snackbar.Snackbar
@@ -20,11 +21,14 @@ import com.github.theholywaffle.teamspeak3.TS3Query
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import androidx.core.widget.addTextChangedListener
+import com.blazecode.tsviewer.databinding.ContentMainBinding
+import com.github.theholywaffle.teamspeak3.api.wrapper.Binding
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var contentBinding: ContentMainBinding
 
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""
@@ -35,28 +39,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+        contentBinding = binding.content
         setContentView(binding.root)
 
 
-        binding.inputEditTextIp.addTextChangedListener(){
+        contentBinding.inputEditTextIp.addTextChangedListener(){
             IP_ADRESS = it.toString()
         }
 
-        binding.inputEditTextUsername.addTextChangedListener(){
+        contentBinding.inputEditTextUsername.addTextChangedListener(){
             USERNAME = it.toString()
         }
 
-        binding.inputEditTextPassword.addTextChangedListener(){
+        contentBinding.inputEditTextPassword.addTextChangedListener(){
             PASSWORD = it.toString()
         }
 
-        binding.buttonLogIn.setOnClickListener {
+        contentBinding.buttonLogIn.setOnClickListener {
 
             if(isAllInfoProvided()) {
                 val connectionManager = ConnectionManager
                 var connectionResult = ConnectionStatus.CONNECTING
-                connectionResult =
-                    connectionManager.connect(IP_ADRESS, USERNAME, PASSWORD, "TSViewer")
+                connectionResult = connectionManager.connect(IP_ADRESS, USERNAME, PASSWORD, "TSViewer")
                 while (connectionResult == ConnectionStatus.CONNECTING) {
 
                 }
@@ -98,16 +102,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadViews(){
-        binding.inputEditTextIp.setText(IP_ADRESS)
-        binding.inputEditTextUsername.setText(USERNAME)
-        binding.inputEditTextPassword.setText(PASSWORD)
+        contentBinding.inputEditTextIp.setText(IP_ADRESS)
+        contentBinding.inputEditTextUsername.setText(USERNAME)
+        contentBinding.inputEditTextPassword.setText(PASSWORD)
     }
 
     fun isAllInfoProvided() : Boolean {
-        if (binding.inputEditTextIp.text.isNullOrEmpty() || binding.inputEditTextUsername.text.isNullOrEmpty() || binding.inputEditTextPassword.text.isNullOrEmpty()){
-            if(binding.inputEditTextIp.text.isNullOrEmpty()) binding.inputEditTextIp.error = getString(R.string.mustBeProvided)
-            if(binding.inputEditTextUsername.text.isNullOrEmpty()) binding.inputEditTextUsername.error = getString(R.string.mustBeProvided)
-            if(binding.inputEditTextPassword.text.isNullOrEmpty()) binding.inputEditTextPassword.error = getString(R.string.mustBeProvided)
+        if (contentBinding.inputEditTextIp.text.isNullOrEmpty() || contentBinding.inputEditTextUsername.text.isNullOrEmpty() || contentBinding.inputEditTextPassword.text.isNullOrEmpty()){
+            if(contentBinding.inputEditTextIp.text.isNullOrEmpty()) contentBinding.inputEditTextIp.error = getString(R.string.mustBeProvided)
+            if(contentBinding.inputEditTextUsername.text.isNullOrEmpty()) contentBinding.inputEditTextUsername.error = getString(R.string.mustBeProvided)
+            if(contentBinding.inputEditTextPassword.text.isNullOrEmpty()) contentBinding.inputEditTextPassword.error = getString(R.string.mustBeProvided)
 
             return false
         } else {
