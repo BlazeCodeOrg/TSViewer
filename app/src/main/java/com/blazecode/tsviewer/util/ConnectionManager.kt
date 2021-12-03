@@ -1,5 +1,6 @@
 package com.blazecode.tsviewer.util
 
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.blazecode.tsviewer.enums.ConnectionStatus
@@ -19,6 +20,8 @@ object ConnectionManager {
 
     var lastRandom : Int = 0
     var apiNickname : String = ""
+
+    val errorHandler = ErrorHandler()
 
     fun getClients(ip : String, username : String, password : String, nickname : String, randomizedNickname: Boolean, includeQueryClients: Boolean) : MutableList<Client> {
         var clientList = mutableListOf<Client>()
@@ -43,8 +46,15 @@ object ConnectionManager {
                     apiNickname = nickname
                     api.setNickname(nickname)
                 }
-                var clientId = api.getClientByNameExact("TimeLabsmedia", true).id
-                api.sendPrivateMessage(clientId,"$nickname is online")
+
+                //NOTIFY CLIENT THAT APP HAS GRABBED INFO
+                try {
+                    var clientId = api.getClientByNameExact("TimeLabsmedia", true).id
+                    api.sendPrivateMessage(clientId,"Grabbed Clients")
+                } catch (e: Exception){
+                    errorHandler.reportError(e, "Could not notify client")
+                }
+
 
                 //GET CLIENTS
                 clientList = api.clients
