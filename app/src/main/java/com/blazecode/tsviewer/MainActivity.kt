@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     private fun getClients(){
         if(isAllInfoProvided()) {
             val connectionManager = ConnectionManager
-            clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, "TSViewer", true)
+            clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, "TSViewer", true, false)
 
             Toast.makeText(this, "got ${clientList.size} clients", Toast.LENGTH_SHORT).show()
         }
