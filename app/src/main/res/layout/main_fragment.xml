@@ -97,17 +97,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayoutMiddleContainer" />
 
+    <include
+        android:id="@+id/advancedLayout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAdvanced"
+        layout="@layout/main_fragment_advanced_layout"/>
 
     <Button
         android:id="@+id/buttonLogIn"
         style="@style/Widget.Material3.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="@string/get_clients"
         android:textColor="@color/text_on_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAdvanced" />
+        app:layout_constraintTop_toBottomOf="@+id/advancedLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

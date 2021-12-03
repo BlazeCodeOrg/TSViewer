@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.databinding.MainFragmentAdvancedLayoutBinding
 import com.blazecode.tsviewer.databinding.MainFragmentBinding
 import com.blazecode.tsviewer.util.ConnectionManager
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
@@ -18,6 +19,8 @@ class MainFragment : Fragment() {
 
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var advancedLayoutBinding: MainFragmentAdvancedLayoutBinding
 
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""

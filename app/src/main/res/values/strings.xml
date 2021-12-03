@@ -6,6 +6,7 @@
     <string name="query_username">Query Username</string>
     <string name="query_password">Query Password</string>
     <string name="nickname">Nickname</string>
+    <string name="default_nickname">TSViewer</string>
 
     <string name="advanced">Advanced</string>
     <string name="get_clients">Get Clients</string>
