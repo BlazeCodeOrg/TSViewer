@@ -49,7 +49,7 @@ object ConnectionManager {
 
                 //NOTIFY CLIENT THAT APP HAS GRABBED INFO
                 try {
-                    var clientId = api.getClientByNameExact("TimeLabsmedia", true).id
+                    val clientId = api.getClientByNameExact("TimeLabsmedia", true).id
                     api.sendPrivateMessage(clientId,"Grabbed Clients")
                 } catch (e: Exception){
                     errorHandler.reportError(e, "Could not notify client")

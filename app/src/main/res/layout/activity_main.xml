@@ -30,7 +30,7 @@
             app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:title="@string/app_name"
@@ -40,18 +40,14 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     
     </com.google.android.material.appbar.AppBarLayout>
-    
-        <!-- Note: A RecyclerView can also be used -->
-    <androidx.core.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    
-        <include
-            android:id="@+id/content"
-            layout="@layout/content_main"/>
 
-    
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <include layout="@layout/content_main" />
+
     </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
