@@ -1,22 +1,13 @@
 package com.blazecode.tsviewer
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import com.blazecode.tsviewer.databinding.ActivityMainBinding
-import com.blazecode.tsviewer.enums.ConnectionStatus
-import androidx.core.widget.addTextChangedListener
-import androidx.navigation.Navigation.findNavController
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.blazecode.tsviewer.databinding.ContentMainBinding
-import com.blazecode.tsviewer.util.ConnectionManager
-import com.github.theholywaffle.teamspeak3.api.wrapper.Client
+import com.blazecode.tsviewer.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {

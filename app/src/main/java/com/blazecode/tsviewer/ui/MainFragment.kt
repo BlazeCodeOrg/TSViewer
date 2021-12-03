@@ -1,20 +1,15 @@
 package com.blazecode.tsviewer.ui
 
 import android.content.SharedPreferences
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.navigateUp
+import androidx.fragment.app.Fragment
 import com.blazecode.tsviewer.R
-import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.databinding.MainFragmentBinding
 import com.blazecode.tsviewer.util.ConnectionManager
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client

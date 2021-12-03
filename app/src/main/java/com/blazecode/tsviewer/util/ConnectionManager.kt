@@ -1,20 +1,11 @@
 package com.blazecode.tsviewer.util
 
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
-import com.blazecode.tsviewer.enums.ConnectionStatus
-import com.github.theholywaffle.teamspeak3.TS3Api
 import com.github.theholywaffle.teamspeak3.TS3Config
 import com.github.theholywaffle.teamspeak3.TS3Query
-import com.github.theholywaffle.teamspeak3.api.ClientProperty
-import com.github.theholywaffle.teamspeak3.api.wrapper.Channel
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.lang.Exception
 
 object ConnectionManager {
 
