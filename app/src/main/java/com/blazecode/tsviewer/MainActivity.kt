@@ -1,28 +1,17 @@
 package com.blazecode.tsviewer
 
 import android.content.SharedPreferences
-import android.os.Binder
 import android.os.Bundle
-import android.os.SharedMemory
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.enums.ConnectionStatus
-import com.github.theholywaffle.teamspeak3.TS3Api
-import com.github.theholywaffle.teamspeak3.TS3Config
-import com.github.theholywaffle.teamspeak3.TS3Query
-import android.os.StrictMode
-import android.os.StrictMode.ThreadPolicy
 import androidx.core.widget.addTextChangedListener
 import com.blazecode.tsviewer.databinding.ContentMainBinding
-import com.github.theholywaffle.teamspeak3.api.wrapper.Binding
+import com.blazecode.tsviewer.util.ConnectionManager
+import com.github.theholywaffle.teamspeak3.api.wrapper.Client
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""
     private var PASSWORD : String = ""
+
+    private var clientList = mutableListOf<Client>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,20 +47,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         contentBinding.buttonLogIn.setOnClickListener {
+            getClients()
+        }
+    }
 
-            if(isAllInfoProvided()) {
-                val connectionManager = ConnectionManager
-                var connectionResult = ConnectionStatus.CONNECTING
-                connectionResult = connectionManager.connect(IP_ADRESS, USERNAME, PASSWORD, "TSViewer")
-                while (connectionResult == ConnectionStatus.CONNECTING) {
+    private fun getClients(){
+        if(isAllInfoProvided()) {
+            val connectionManager = ConnectionManager
+            clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, "TSViewer", true)
 
-                }
-                if (connectionResult == ConnectionStatus.CONNECTED) {
-                    Toast.makeText(this, "Connection Successful", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Connection Error", Toast.LENGTH_SHORT).show()
-                }
-            }
+            Toast.makeText(this, "got ${clientList.size} clients", Toast.LENGTH_SHORT).show()
         }
     }
 
