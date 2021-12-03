@@ -1,13 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.TSViewer" parent="Theme.Material3.DayNight">
+    <style name="Theme.TSViewer" parent="Theme.Material3.DynamicColors.DayNight">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/material_dynamic_primary40</item>
         <item name="colorPrimaryVariant">@color/material_dynamic_secondary40</item>
         <item name="colorOnPrimary">@color/material_dynamic_primary100</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/material_dynamic_neutral10</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
         <!-- Customize your theme here. -->
+        <item name="fontFamily">@font/inter_regular</item>
+        <item name="android:colorBackground">@color/background</item>
     </style>
 
     <style name="Theme.TSViewer.NoActionBar">
