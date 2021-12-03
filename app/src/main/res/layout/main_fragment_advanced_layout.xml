@@ -12,7 +12,6 @@
         android:layout_weight="1"
         android:backgroundTint="@color/material_dynamic_neutral60"
         android:hint="@string/nickname"
-        android:text="@string/default_nickname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.blazecode.tsviewer.R
@@ -49,6 +51,12 @@ class MainFragment : Fragment() {
 
         binding.inputEditTextPassword.addTextChangedListener(){
             PASSWORD = it.toString()
+        }
+
+        binding.buttonAdvanced.setOnClickListener {
+            binding.advancedLayout.isVisible = !binding.advancedLayout.isVisible
+            if (binding.buttonAdvanced.text == getString(R.string.more)) binding.buttonAdvanced.text = getString(R.string.less)
+            else binding.buttonAdvanced.text = getString(R.string.more)
         }
 
         binding.buttonLogIn.setOnClickListener {

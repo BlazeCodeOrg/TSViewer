@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:animateLayoutChanges="true"
     tools:context=".ui.MainFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,16 +15,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3">
+        app:layout_constraintVertical_bias="0.0">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutIp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:hint="@string/ip_adress"
-            android:layout_margin="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,8 +69,8 @@
                 android:layout_margin="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1"
-                android:hint="@string/query_password"
                 android:backgroundTint="@color/material_dynamic_neutral60"
+                android:hint="@string/query_password"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutIp">
@@ -90,19 +91,26 @@
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/advanced"
+        android:text="@string/more"
         android:textColor="@color/text"
-        app:icon="@drawable/outline_expand_more_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayoutMiddleContainer" />
 
-    <include
+    <LinearLayout
         android:id="@+id/advancedLayout"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAdvanced"
-        layout="@layout/main_fragment_advanced_layout"/>
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAdvanced">
+
+        <include
+            layout="@layout/main_fragment_advanced_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/buttonAdvanced" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonLogIn"
