@@ -22,6 +22,14 @@ import com.blazecode.tsviewer.util.ClientsWorker
 import com.blazecode.tsviewer.util.ConnectionManager
 import com.blazecode.tsviewer.util.ErrorHandler
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
+import java.text.NumberFormat
+import androidx.annotation.NonNull
+import com.google.android.material.slider.LabelFormatter
+
+import com.google.android.material.slider.Slider
+
+
+
 
 class MainFragment : Fragment() {
 
@@ -38,6 +46,7 @@ class MainFragment : Fragment() {
     private var NICKNAME : String = "TSViewer"
     private var RANDOMIZE_NICKNAME : Boolean = true
     private var INCLUDE_QUERY_CLIENTS : Boolean = false
+    private var SCHEDULE_TIME : Float = 1f
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,14 +62,17 @@ class MainFragment : Fragment() {
 
         binding.inputEditTextIp.addTextChangedListener(){
             IP_ADRESS = it.toString()
+            savePreferences()
         }
 
         binding.inputEditTextUsername.addTextChangedListener(){
             USERNAME = it.toString()
+            savePreferences()
         }
 
         binding.inputEditTextPassword.addTextChangedListener(){
             PASSWORD = it.toString()
+            savePreferences()
         }
 
         binding.buttonAdvanced.setOnClickListener {
@@ -71,10 +83,12 @@ class MainFragment : Fragment() {
 
         advancedLayoutBinding.inputEditTextNickname.addTextChangedListener(){
             NICKNAME = it.toString()
+            savePreferences()
         }
 
         advancedLayoutBinding.switchNicknameRandomize.setOnCheckedChangeListener { compoundButton, isChecked ->
             RANDOMIZE_NICKNAME = isChecked
+            savePreferences()
         }
 
         advancedLayoutBinding.buttonInfoRandomize.setOnClickListener {
@@ -83,10 +97,17 @@ class MainFragment : Fragment() {
 
         advancedLayoutBinding.switchIncludeQueryClients.setOnCheckedChangeListener { compoundButton, isChecked ->
             INCLUDE_QUERY_CLIENTS = isChecked
+            savePreferences()
         }
 
         advancedLayoutBinding.buttonInfoIncludeQueryClients.setOnClickListener {
             TODO("Include Query Clients Info Button")
+        }
+
+        binding.timeSlider.setLabelFormatter { "${binding.timeSlider.value}h" }
+        binding.timeSlider.addOnChangeListener { slider, value, fromUser ->
+            SCHEDULE_TIME = value
+            savePreferences()
         }
 
         binding.buttonLogIn.setOnClickListener {
@@ -129,6 +150,7 @@ class MainFragment : Fragment() {
         editor.putString("nick", NICKNAME)
         editor.putBoolean("randNick", RANDOMIZE_NICKNAME)
         editor.putBoolean("includeQuery", INCLUDE_QUERY_CLIENTS)
+        editor.putFloat("scheduleTime", SCHEDULE_TIME)
         editor.commit()
     }
 
@@ -140,6 +162,7 @@ class MainFragment : Fragment() {
         NICKNAME = preferences.getString("nick", getString(R.string.app_name)).toString()
         RANDOMIZE_NICKNAME = preferences.getBoolean("randNick", true)
         INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
+        SCHEDULE_TIME = preferences.getFloat("scheduleTime", 1f)
 
         loadViews()
     }
@@ -151,6 +174,7 @@ class MainFragment : Fragment() {
         advancedLayoutBinding.inputEditTextNickname.setText(NICKNAME)
         advancedLayoutBinding.switchNicknameRandomize.isChecked = RANDOMIZE_NICKNAME
         advancedLayoutBinding.switchIncludeQueryClients.isChecked = INCLUDE_QUERY_CLIENTS
+        binding.timeSlider.value = SCHEDULE_TIME
     }
 
     fun isAllInfoProvided() : Boolean {

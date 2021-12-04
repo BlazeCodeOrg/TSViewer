@@ -112,17 +112,43 @@
 
     </LinearLayout>
 
+    <com.google.android.material.slider.Slider
+        android:id="@+id/timeSlider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:stepSize=".5"
+        android:valueFrom=".5"
+        android:valueTo="12"
+        app:layout_constraintEnd_toStartOf="@+id/buttonStartSchedule"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAdvanced" />
+
+    <Button
+        android:id="@+id/buttonStartSchedule"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/start_schedule"
+        android:textColor="@color/text_on_primary"
+        app:layout_constraintBottom_toBottomOf="@+id/timeSlider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/timeSlider" />
+
     <Button
         android:id="@+id/buttonLogIn"
         style="@style/Widget.Material3.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/get_clients"
+        android:layout_marginTop="24dp"
+        android:text="@string/check_connection"
         android:textColor="@color/text_on_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/advancedLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonStartSchedule" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

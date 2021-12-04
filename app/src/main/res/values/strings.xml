@@ -14,7 +14,8 @@
 
     <string name="more">More</string>
     <string name="less">Less</string>
-    <string name="get_clients">Get Clients</string>
+    <string name="check_connection">Check Connection</string>
+    <string name="start_schedule">Start Schedule</string>
     <string name="connection_attempts">Connection Attempts</string>
 
     <!-- ERROR MESSAGES -->
