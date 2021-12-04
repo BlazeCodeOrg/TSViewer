@@ -75,8 +75,8 @@ object ConnectionManager {
     private fun filterClients(clientList: MutableList<Client>, includeQueryClients: Boolean, nickname: String): MutableList<Client> {
         var tempList = mutableListOf<Client>()
         for (client in clientList){
-            if(!includeQueryClients && client.platform != "ServerQuery") tempList.add(client)
-            else if(includeQueryClients && client.nickname != nickname) tempList.add(client)
+            if(!includeQueryClients && client.platform != "ServerQuery") tempList.add(client)               //FILTER OUT ALL QUERY CLIENTS
+            else if(includeQueryClients && client.nickname != nickname) tempList.add(client)                //FILTER OUT ONLY THE CLIENT CREATED BY THIS APP
         }
         return tempList
     }
