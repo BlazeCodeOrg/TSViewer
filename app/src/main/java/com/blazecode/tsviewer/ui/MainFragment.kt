@@ -27,6 +27,8 @@ class MainFragment : Fragment() {
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""
     private var PASSWORD : String = ""
+    private var NICKNAME : String = "TSViewer"
+    private var RANDOMIZE_NICKNAME : Boolean = true
 
     private var clientList = mutableListOf<Client>()
 
@@ -35,6 +37,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = MainFragmentBinding.inflate(inflater, container, false)
+        advancedLayoutBinding = MainFragmentAdvancedLayoutBinding.bind(_binding!!.root)
         return binding.root
     }
 
@@ -58,6 +61,16 @@ class MainFragment : Fragment() {
             if (binding.buttonAdvanced.text == getString(R.string.more)) binding.buttonAdvanced.text = getString(R.string.less)
             else binding.buttonAdvanced.text = getString(R.string.more)
         }
+
+        advancedLayoutBinding.inputEditTextNickname.addTextChangedListener(){
+            NICKNAME = it.toString()
+        }
+
+        advancedLayoutBinding.switchNicknameRandomize.setOnCheckedChangeListener { compoundButton, isChecked ->
+            RANDOMIZE_NICKNAME = isChecked
+        }
+
+        //TODO("Randomize Info Button")
 
         binding.buttonLogIn.setOnClickListener {
             getClients()
@@ -94,6 +107,8 @@ class MainFragment : Fragment() {
         editor.putString("ip", IP_ADRESS)
         editor.putString("user", USERNAME)
         editor.putString("pass", PASSWORD)
+        editor.putString("nick", NICKNAME)
+        editor.putBoolean("randNick", RANDOMIZE_NICKNAME)
         editor.commit()
     }
 
@@ -102,6 +117,8 @@ class MainFragment : Fragment() {
         IP_ADRESS = preferences.getString("ip", "").toString()
         USERNAME = preferences.getString("user", "").toString()
         PASSWORD = preferences.getString("pass", "").toString()
+        NICKNAME = preferences.getString("nick", getString(R.string.app_name)).toString()
+        RANDOMIZE_NICKNAME = preferences.getBoolean("randNick", true)
 
         loadViews()
     }
@@ -110,6 +127,8 @@ class MainFragment : Fragment() {
         binding.inputEditTextIp.setText(IP_ADRESS)
         binding.inputEditTextUsername.setText(USERNAME)
         binding.inputEditTextPassword.setText(PASSWORD)
+        advancedLayoutBinding.inputEditTextNickname.setText(NICKNAME)
+        advancedLayoutBinding.switchNicknameRandomize.isChecked = RANDOMIZE_NICKNAME
     }
 
     fun isAllInfoProvided() : Boolean {
