@@ -58,9 +58,7 @@ object ConnectionManager {
                 query.exit()
             }
             apiCall.join()
-            Log.i("coroutine", "finished coroutine")
         }
-        Log.i("coroutine", "returned list")
         return clientList
     }
 

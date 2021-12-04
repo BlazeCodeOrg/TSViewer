@@ -11,9 +11,14 @@ import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.databinding.MainFragmentAdvancedLayoutBinding
 import com.blazecode.tsviewer.databinding.MainFragmentBinding
+import com.blazecode.tsviewer.util.ClientsWorker
 import com.blazecode.tsviewer.util.ConnectionManager
 import com.blazecode.tsviewer.util.ErrorHandler
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
@@ -33,9 +38,6 @@ class MainFragment : Fragment() {
     private var NICKNAME : String = "TSViewer"
     private var RANDOMIZE_NICKNAME : Boolean = true
     private var INCLUDE_QUERY_CLIENTS : Boolean = false
-
-    private var clientList = mutableListOf<Client>()
-    private var clientListNames = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,10 +90,17 @@ class MainFragment : Fragment() {
         }
 
         binding.buttonLogIn.setOnClickListener {
+            /*
             try {
                 getClients()
             } catch (exeption: Exception){
                 errorHandler.reportError(exeption, "Connection Failed: Wrong IP, Username or Password")
+            }
+
+             */
+            if(isAllInfoProvided()){
+                val clientWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ClientsWorker>().build()
+                context?.let { it1 -> WorkManager.getInstance(it1).enqueue(clientWorkRequest) }
             }
         }
     }
@@ -99,23 +108,6 @@ class MainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun getClients(){
-        if(isAllInfoProvided()) {
-            val connectionManager = ConnectionManager
-            clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, RANDOMIZE_NICKNAME, INCLUDE_QUERY_CLIENTS)
-            extractNames()
-
-            Toast.makeText(context, "got ${clientList.size} client(s): ${clientListNames}.", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun extractNames(){
-        clientListNames.clear()
-        for(client in clientList){
-            clientListNames.add(client.nickname)
-        }
     }
 
     override fun onPause() {
