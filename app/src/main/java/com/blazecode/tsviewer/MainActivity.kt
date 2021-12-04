@@ -29,7 +29,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_force_stop -> TODO("add force stop service")
+
+            R.id.action_licenses -> TODO("add open source licenses")
+
             else -> super.onOptionsItemSelected(item)
         }
     }
