@@ -6,10 +6,11 @@
         <item name="colorPrimaryVariant">@color/material_dynamic_secondary40</item>
         <item name="colorOnPrimary">@color/material_dynamic_primary100</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/material_dynamic_neutral95</item>
         <!-- Customize your theme here. -->
         <item name="fontFamily">@font/inter_regular</item>
         <item name="android:colorBackground">@color/background</item>
+        <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
     </style>
 
     <style name="Theme.TSViewer.NoActionBar">
