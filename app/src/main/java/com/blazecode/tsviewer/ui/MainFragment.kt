@@ -100,7 +100,7 @@ class MainFragment : Fragment() {
     private fun getClients(){
         if(isAllInfoProvided()) {
             val connectionManager = ConnectionManager
-            clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, RANDOMIZE_NICKNAME, false)
+            clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, RANDOMIZE_NICKNAME, INCLUDE_QUERY_CLIENTS)
             extractNames()
 
             Toast.makeText(context, "got ${clientList.size} client(s): ${clientListNames}.", Toast.LENGTH_SHORT).show()
