@@ -75,13 +75,17 @@ class MainFragment : Fragment() {
             RANDOMIZE_NICKNAME = isChecked
         }
 
-        //TODO("Randomize Info Button")
+        advancedLayoutBinding.buttonInfoRandomize.setOnClickListener {
+            TODO("Randomize Info Button")
+        }
 
         advancedLayoutBinding.switchIncludeQueryClients.setOnCheckedChangeListener { compoundButton, isChecked ->
             INCLUDE_QUERY_CLIENTS = isChecked
         }
 
-        //TODO("Include Query Clients Info Button")
+        advancedLayoutBinding.buttonInfoIncludeQueryClients.setOnClickListener {
+            TODO("Include Query Clients Info Button")
+        }
 
         binding.buttonLogIn.setOnClickListener {
             try {
