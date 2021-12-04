@@ -1,11 +1,13 @@
 package com.blazecode.tsviewer.util
 
+import android.util.Log
 import com.github.theholywaffle.teamspeak3.TS3Config
 import com.github.theholywaffle.teamspeak3.TS3Query
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 object ConnectionManager {
 
@@ -16,8 +18,9 @@ object ConnectionManager {
 
     fun getClients(ip : String, username : String, password : String, nickname : String, randomizedNickname: Boolean, includeQueryClients: Boolean) : MutableList<Client> {
         var clientList = mutableListOf<Client>()
-        try {
-            GlobalScope.launch(Dispatchers.IO){
+
+        runBlocking {
+            val apiCall = GlobalScope.launch(Dispatchers.IO){
                 //CONFIGURE
                 var config = TS3Config()
                 config.setHost(ip)
@@ -54,9 +57,10 @@ object ConnectionManager {
                 //DISCONNECT AFTER TASK
                 query.exit()
             }
-        } catch (e : Exception){
-            return mutableListOf()
+            apiCall.join()
+            Log.i("coroutine", "finished coroutine")
         }
+        Log.i("coroutine", "returned list")
         return clientList
     }
 
@@ -71,9 +75,11 @@ object ConnectionManager {
     private fun filterClients(clientList: MutableList<Client>, includeQueryClients: Boolean, nickname: String): MutableList<Client> {
         var tempList = mutableListOf<Client>()
         for (client in clientList){
-            if(!includeQueryClients && client.platform != "ServerQuery") tempList.add(client)               //EXCLUDE ALL QUERY CLIENTS
-            else if(includeQueryClients && client.nickname != nickname) tempList.add(client)                //EXCLUDE ONLY THE QUERY CLIENT WHICH GETS THE DATA FOR THE APP
-            else tempList = mutableListOf()
+            if(!includeQueryClients && client.platform != "ServerQuery"){
+                tempList.add(client)
+            } else if(includeQueryClients && client.nickname != nickname){
+                tempList.add(client)
+            }
         }
         return tempList
     }

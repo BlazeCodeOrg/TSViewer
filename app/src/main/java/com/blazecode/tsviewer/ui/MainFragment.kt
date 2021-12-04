@@ -35,6 +35,7 @@ class MainFragment : Fragment() {
     private var INCLUDE_QUERY_CLIENTS : Boolean = false
 
     private var clientList = mutableListOf<Client>()
+    private var clientListNames = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -99,9 +100,17 @@ class MainFragment : Fragment() {
     private fun getClients(){
         if(isAllInfoProvided()) {
             val connectionManager = ConnectionManager
-            clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, RANDOMIZE_NICKNAME, INCLUDE_QUERY_CLIENTS)
+            clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, RANDOMIZE_NICKNAME, false)
+            extractNames()
 
-            Toast.makeText(context, "got ${clientList.size} clients", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "got ${clientList.size} client(s): ${clientListNames}.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun extractNames(){
+        clientListNames.clear()
+        for(client in clientList){
+            clientListNames.add(client.nickname)
         }
     }
 
