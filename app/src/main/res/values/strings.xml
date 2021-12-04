@@ -9,6 +9,8 @@
     <string name="default_nickname">TSViewer</string>
     <string name="randomize_nickname">Randomize</string>
 
+    <string name="include_query_clients">Include Query Clients</string>
+
     <string name="more">More</string>
     <string name="less">Less</string>
     <string name="get_clients">Get Clients</string>

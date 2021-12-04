@@ -15,6 +15,7 @@ import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.databinding.MainFragmentAdvancedLayoutBinding
 import com.blazecode.tsviewer.databinding.MainFragmentBinding
 import com.blazecode.tsviewer.util.ConnectionManager
+import com.blazecode.tsviewer.util.ErrorHandler
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
 
 class MainFragment : Fragment() {
@@ -24,11 +25,14 @@ class MainFragment : Fragment() {
 
     private lateinit var advancedLayoutBinding: MainFragmentAdvancedLayoutBinding
 
+    private val errorHandler = ErrorHandler()
+
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""
     private var PASSWORD : String = ""
     private var NICKNAME : String = "TSViewer"
     private var RANDOMIZE_NICKNAME : Boolean = true
+    private var INCLUDE_QUERY_CLIENTS : Boolean = false
 
     private var clientList = mutableListOf<Client>()
 
@@ -72,8 +76,18 @@ class MainFragment : Fragment() {
 
         //TODO("Randomize Info Button")
 
+        advancedLayoutBinding.switchIncludeQueryClients.setOnCheckedChangeListener { compoundButton, isChecked ->
+            INCLUDE_QUERY_CLIENTS = isChecked
+        }
+
+        //TODO("Include Query Clients Info Button")
+
         binding.buttonLogIn.setOnClickListener {
-            getClients()
+            try {
+                getClients()
+            } catch (exeption: Exception){
+                errorHandler.reportError(exeption, "Connection Failed: Wrong IP, Username or Password")
+            }
         }
     }
 
@@ -85,7 +99,7 @@ class MainFragment : Fragment() {
     private fun getClients(){
         if(isAllInfoProvided()) {
             val connectionManager = ConnectionManager
-            clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, "TSViewer", true, false)
+            clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, RANDOMIZE_NICKNAME, INCLUDE_QUERY_CLIENTS)
 
             Toast.makeText(context, "got ${clientList.size} clients", Toast.LENGTH_SHORT).show()
         }
@@ -109,6 +123,7 @@ class MainFragment : Fragment() {
         editor.putString("pass", PASSWORD)
         editor.putString("nick", NICKNAME)
         editor.putBoolean("randNick", RANDOMIZE_NICKNAME)
+        editor.putBoolean("includeQuery", INCLUDE_QUERY_CLIENTS)
         editor.commit()
     }
 
@@ -119,6 +134,7 @@ class MainFragment : Fragment() {
         PASSWORD = preferences.getString("pass", "").toString()
         NICKNAME = preferences.getString("nick", getString(R.string.app_name)).toString()
         RANDOMIZE_NICKNAME = preferences.getBoolean("randNick", true)
+        INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
 
         loadViews()
     }
@@ -129,6 +145,7 @@ class MainFragment : Fragment() {
         binding.inputEditTextPassword.setText(PASSWORD)
         advancedLayoutBinding.inputEditTextNickname.setText(NICKNAME)
         advancedLayoutBinding.switchNicknameRandomize.isChecked = RANDOMIZE_NICKNAME
+        advancedLayoutBinding.switchIncludeQueryClients.isChecked = INCLUDE_QUERY_CLIENTS
     }
 
     fun isAllInfoProvided() : Boolean {
