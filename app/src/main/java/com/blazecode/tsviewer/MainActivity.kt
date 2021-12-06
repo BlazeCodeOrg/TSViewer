@@ -1,5 +1,6 @@
 package com.blazecode.tsviewer
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -20,6 +21,21 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        //CREATE NOTIFICATION CHANNEL IF FIRST START
+
+
+    }
+
+    fun isFirstStart() : Boolean {
+        val preferences = getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)!!
+        return if(preferences.getBoolean("isFirstStart", true)){
+            val preferences : SharedPreferences = getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)!!
+            val editor : SharedPreferences.Editor = preferences.edit()
+            editor.putBoolean("isFirstStart", false)
+            true
+        } else false
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -11,10 +11,6 @@ import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.work.OneTimeWorkRequest
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.databinding.MainFragmentAdvancedLayoutBinding
 import com.blazecode.tsviewer.databinding.MainFragmentBinding
@@ -24,12 +20,12 @@ import com.blazecode.tsviewer.util.ErrorHandler
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
 import java.text.NumberFormat
 import androidx.annotation.NonNull
+import androidx.work.*
 import com.blazecode.tsviewer.databinding.MainFragmentScheduleLayoutBinding
 import com.google.android.material.slider.LabelFormatter
 
 import com.google.android.material.slider.Slider
-
-
+import java.util.concurrent.TimeUnit
 
 
 class MainFragment : Fragment() {
@@ -41,6 +37,7 @@ class MainFragment : Fragment() {
     private lateinit var scheduleLayoutBinding: MainFragmentScheduleLayoutBinding
 
     private val errorHandler = ErrorHandler()
+    private lateinit var workManager: WorkManager
 
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""
@@ -62,6 +59,8 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        workManager = context?.let { WorkManager.getInstance(it) }!!
 
         binding.inputEditTextIp.addTextChangedListener(){
             IP_ADRESS = it.toString()
@@ -125,7 +124,18 @@ class MainFragment : Fragment() {
              */
             if(isAllInfoProvided()){
                 val clientWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ClientsWorker>().build()
-                context?.let { it1 -> WorkManager.getInstance(it1).enqueue(clientWorkRequest) }
+                workManager.enqueue(clientWorkRequest)
+            }
+        }
+
+        scheduleLayoutBinding.buttonStartSchedule.setOnClickListener {
+            if(isAllInfoProvided()){
+                val clientWorkRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<ClientsWorker>(
+                    SCHEDULE_TIME.toLong(),                                                                                 //GIVE NEW WORK TIME
+                    TimeUnit.MINUTES,
+                    1, TimeUnit.MINUTES)                                                                      //FLEX TIME INTERVAL
+                    .build()
+                workManager.enqueueUniquePeriodicWork("scheduleClients", ExistingPeriodicWorkPolicy.REPLACE, clientWorkRequest)
             }
         }
     }
