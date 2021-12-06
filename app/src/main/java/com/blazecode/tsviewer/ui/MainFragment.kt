@@ -24,6 +24,7 @@ import com.blazecode.tsviewer.util.ErrorHandler
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
 import java.text.NumberFormat
 import androidx.annotation.NonNull
+import com.blazecode.tsviewer.databinding.MainFragmentScheduleLayoutBinding
 import com.google.android.material.slider.LabelFormatter
 
 import com.google.android.material.slider.Slider
@@ -37,6 +38,7 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var advancedLayoutBinding: MainFragmentAdvancedLayoutBinding
+    private lateinit var scheduleLayoutBinding: MainFragmentScheduleLayoutBinding
 
     private val errorHandler = ErrorHandler()
 
@@ -54,6 +56,7 @@ class MainFragment : Fragment() {
     ): View? {
         _binding = MainFragmentBinding.inflate(inflater, container, false)
         advancedLayoutBinding = MainFragmentAdvancedLayoutBinding.bind(_binding!!.root)
+        scheduleLayoutBinding = MainFragmentScheduleLayoutBinding.bind(_binding!!.root)
         return binding.root
     }
 
@@ -104,9 +107,10 @@ class MainFragment : Fragment() {
             TODO("Include Query Clients Info Button")
         }
 
-        binding.timeSlider.setLabelFormatter { "${binding.timeSlider.value}h" }
-        binding.timeSlider.addOnChangeListener { slider, value, fromUser ->
+        scheduleLayoutBinding.timeSlider.setLabelFormatter { "${scheduleLayoutBinding.timeSlider.value} min" }
+        scheduleLayoutBinding.timeSlider.addOnChangeListener { slider, value, fromUser ->
             SCHEDULE_TIME = value
+            scheduleLayoutBinding.textViewScheduleTime.text = "$SCHEDULE_TIME min"
             savePreferences()
         }
 
@@ -174,7 +178,8 @@ class MainFragment : Fragment() {
         advancedLayoutBinding.inputEditTextNickname.setText(NICKNAME)
         advancedLayoutBinding.switchNicknameRandomize.isChecked = RANDOMIZE_NICKNAME
         advancedLayoutBinding.switchIncludeQueryClients.isChecked = INCLUDE_QUERY_CLIENTS
-        binding.timeSlider.value = SCHEDULE_TIME
+        scheduleLayoutBinding.timeSlider.value = SCHEDULE_TIME
+        scheduleLayoutBinding.textViewScheduleTime.text = "$SCHEDULE_TIME min"
     }
 
     fun isAllInfoProvided() : Boolean {

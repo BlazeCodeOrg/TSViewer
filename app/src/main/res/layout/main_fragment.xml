@@ -21,11 +21,8 @@
             android:id="@+id/textInputLayoutIp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_margin="@dimen/mediumMargin"
             android:hint="@string/ip_adress"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -40,6 +37,7 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/smallMargin"
             android:orientation="horizontal"
             android:weightSum="2"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutIp">
@@ -48,8 +46,8 @@
                 android:id="@+id/textInputLayoutUsername"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="@dimen/mediumMargin"
+                android:layout_marginEnd="@dimen/smallMargin"
                 android:layout_weight="1"
                 android:hint="@string/query_username"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -66,8 +64,8 @@
                 android:id="@+id/textInputLayoutPassword"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="@dimen/smallMargin"
+                android:layout_marginEnd="@dimen/mediumMargin"
                 android:layout_weight="1"
                 android:backgroundTint="@color/material_dynamic_neutral60"
                 android:hint="@string/query_password"
@@ -86,6 +84,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <include
+        android:id="@+id/scheduleLayout"
+        layout="@layout/main_fragment_schedule_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/mediumMargin"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutMiddleContainer" />
+
     <Button
         android:id="@+id/buttonAdvanced"
         style="@style/Widget.Material3.Button.TextButton"
@@ -93,16 +99,18 @@
         android:layout_height="wrap_content"
         android:text="@string/more"
         android:textColor="@color/text"
+        android:layout_marginTop="@dimen/mediumMargin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutMiddleContainer" />
+        app:layout_constraintTop_toBottomOf="@+id/scheduleLayout" />
 
     <LinearLayout
         android:id="@+id/advancedLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAdvanced">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAdvanced" >
 
         <include
             layout="@layout/main_fragment_advanced_layout"
@@ -112,43 +120,16 @@
 
     </LinearLayout>
 
-    <com.google.android.material.slider.Slider
-        android:id="@+id/timeSlider"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:stepSize=".5"
-        android:valueFrom=".5"
-        android:valueTo="12"
-        app:layout_constraintEnd_toStartOf="@+id/buttonStartSchedule"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAdvanced" />
-
-    <Button
-        android:id="@+id/buttonStartSchedule"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/start_schedule"
-        android:textColor="@color/text_on_primary"
-        app:layout_constraintBottom_toBottomOf="@+id/timeSlider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/timeSlider" />
-
     <Button
         android:id="@+id/buttonLogIn"
         style="@style/Widget.Material3.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="@string/check_connection"
         android:textColor="@color/text_on_primary"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/largeMargin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonStartSchedule" />
+        app:layout_constraintTop_toBottomOf="@+id/advancedLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
