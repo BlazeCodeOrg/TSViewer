@@ -107,10 +107,10 @@ class MainFragment : Fragment() {
             TODO("Include Query Clients Info Button")
         }
 
-        scheduleLayoutBinding.timeSlider.setLabelFormatter { "${scheduleLayoutBinding.timeSlider.value} min" }
+        scheduleLayoutBinding.timeSlider.setLabelFormatter { "${scheduleLayoutBinding.timeSlider.value.toString().split(".")[0]} min" }
         scheduleLayoutBinding.timeSlider.addOnChangeListener { slider, value, fromUser ->
             SCHEDULE_TIME = value
-            scheduleLayoutBinding.textViewScheduleTime.text = "$SCHEDULE_TIME min"
+            scheduleLayoutBinding.textViewScheduleTime.text = "${scheduleLayoutBinding.timeSlider.value.toString().split(".")[0]} min"
             savePreferences()
         }
 
@@ -179,7 +179,7 @@ class MainFragment : Fragment() {
         advancedLayoutBinding.switchNicknameRandomize.isChecked = RANDOMIZE_NICKNAME
         advancedLayoutBinding.switchIncludeQueryClients.isChecked = INCLUDE_QUERY_CLIENTS
         scheduleLayoutBinding.timeSlider.value = SCHEDULE_TIME
-        scheduleLayoutBinding.textViewScheduleTime.text = "$SCHEDULE_TIME min"
+        scheduleLayoutBinding.textViewScheduleTime.text = "${SCHEDULE_TIME.toString().split(".")[0]} min"
     }
 
     fun isAllInfoProvided() : Boolean {
