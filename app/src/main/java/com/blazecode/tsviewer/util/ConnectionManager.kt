@@ -41,15 +41,6 @@ object ConnectionManager {
                     api.setNickname(nickname)
                 }
 
-                //NOTIFY CLIENT THAT APP HAS GRABBED INFO
-                try {
-                    val clientId = api.getClientByNameExact("TimeLabsmedia", true).id
-                    api.sendPrivateMessage(clientId,"Grabbed Clients")
-                } catch (e: Exception){
-                    errorHandler.reportError(e, "Could not notify client")
-                }
-
-
                 //GET CLIENTS
                 clientList = api.clients
                 clientList = filterClients(clientList, includeQueryClients, apiNickname)

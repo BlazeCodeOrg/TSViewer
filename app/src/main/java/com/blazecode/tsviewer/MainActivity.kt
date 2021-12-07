@@ -1,6 +1,7 @@
 package com.blazecode.tsviewer
 
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,6 +10,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
+import com.blazecode.tsviewer.util.NotificationManager
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,14 +26,16 @@ class MainActivity : AppCompatActivity() {
 
 
         //CREATE NOTIFICATION CHANNEL IF FIRST START
-
-
+        if (isFirstStart()){
+            val notificationManager = NotificationManager(this)
+            notificationManager.createChannel()
+        }
     }
 
-    fun isFirstStart() : Boolean {
-        val preferences = getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)!!
+    private fun isFirstStart() : Boolean {
+        val preferences = getSharedPreferences("preferences", MODE_PRIVATE)!!
         return if(preferences.getBoolean("isFirstStart", true)){
-            val preferences : SharedPreferences = getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)!!
+            val preferences : SharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE)!!
             val editor : SharedPreferences.Editor = preferences.edit()
             editor.putBoolean("isFirstStart", false)
             true

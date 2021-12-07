@@ -22,6 +22,12 @@
     <!-- ERROR MESSAGES -->
     <string name="mustBeProvided">This must be provided</string>
 
+    <!-- NOTIFICATIONS -->
+    <string name="notificationChannelClient">Client Channel</string>
+    <string name="notificationChannelClientID">CLIENT_CHANNEL</string>
+    <string name="client_connected">Client connected</string>
+    <string name="clients_connected">Clients connected</string>
+
     <!-- MENU -->
     <string name="forceStop">Force Stop Service</string>
     <string name="licenses">Open Source Licenses</string>

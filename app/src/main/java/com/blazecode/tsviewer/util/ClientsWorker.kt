@@ -15,6 +15,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     Worker(context, workerParameters) {
 
     val connectionManager = ConnectionManager
+    val notificationManager = NotificationManager(context)
 
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""
@@ -34,12 +35,13 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     }
 
     private fun getClients(){
-        val connectionManager = ConnectionManager
         clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, RANDOMIZE_NICKNAME, INCLUDE_QUERY_CLIENTS)
         extractNames()
 
+        notificationManager.post(clientListNames)
+
         Looper.prepare()
-        Toast.makeText(context, "got ${clientList.size} client(s): ${clientListNames}.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "got ${clientList.size} client(s): ${clientListNames.joinToString() }", Toast.LENGTH_SHORT).show()
     }
 
     private fun extractNames(){
