@@ -41,9 +41,6 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         extractNames()
 
         notificationManager.post(clientListNames)
-
-        Looper.prepare()
-        Toast.makeText(context, "got ${clientList.size} client(s): ${clientListNames.joinToString() }", Toast.LENGTH_SHORT).show()
     }
 
     private fun extractNames(){
