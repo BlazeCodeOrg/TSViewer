@@ -22,6 +22,7 @@ import java.text.NumberFormat
 import androidx.annotation.NonNull
 import androidx.work.*
 import com.blazecode.tsviewer.databinding.MainFragmentScheduleLayoutBinding
+import com.blazecode.tsviewer.util.TileManager
 import com.google.android.material.slider.LabelFormatter
 
 import com.google.android.material.slider.Slider
@@ -38,6 +39,7 @@ class MainFragment : Fragment() {
 
     private val errorHandler = ErrorHandler()
     private lateinit var workManager: WorkManager
+    private val tileManager = TileManager()
     private var isWorkScheduled : Boolean = false
 
     private var IP_ADRESS : String = ""
@@ -46,7 +48,7 @@ class MainFragment : Fragment() {
     private var NICKNAME : String = "TSViewer"
     private var RANDOMIZE_NICKNAME : Boolean = true
     private var INCLUDE_QUERY_CLIENTS : Boolean = false
-    private var SCHEDULE_TIME : Float = 1f
+    private var SCHEDULE_TIME : Float = 15f
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -188,7 +190,7 @@ class MainFragment : Fragment() {
         NICKNAME = preferences.getString("nick", getString(R.string.app_name)).toString()
         RANDOMIZE_NICKNAME = preferences.getBoolean("randNick", true)
         INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
-        SCHEDULE_TIME = preferences.getFloat("scheduleTime", 1f)
+        SCHEDULE_TIME = preferences.getFloat("scheduleTime", 15f)
         isWorkScheduled = preferences.getBoolean("isWorkScheduled", false)
 
         loadViews()

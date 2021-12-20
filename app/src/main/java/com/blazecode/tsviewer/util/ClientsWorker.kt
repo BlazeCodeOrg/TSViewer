@@ -2,6 +2,7 @@ package com.blazecode.tsviewer.util
 
 import android.content.Context
 import android.os.Looper
+import android.service.quicksettings.Tile
 import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
 
     val connectionManager = ConnectionManager
     val notificationManager = NotificationManager(context)
+    val tileManager = TileManager()
 
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""
