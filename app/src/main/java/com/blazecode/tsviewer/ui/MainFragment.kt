@@ -38,6 +38,7 @@ class MainFragment : Fragment() {
 
     private val errorHandler = ErrorHandler()
     private lateinit var workManager: WorkManager
+    private var isWorkScheduled : Boolean = false
 
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""
@@ -129,13 +130,23 @@ class MainFragment : Fragment() {
         }
 
         scheduleLayoutBinding.buttonStartSchedule.setOnClickListener {
-            if(isAllInfoProvided()){
-                val clientWorkRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<ClientsWorker>(
-                    SCHEDULE_TIME.toLong(),                                                                                 //GIVE NEW WORK TIME
-                    TimeUnit.MINUTES,
-                    1, TimeUnit.MINUTES)                                                                      //FLEX TIME INTERVAL
-                    .build()
-                workManager.enqueueUniquePeriodicWork("scheduleClients", ExistingPeriodicWorkPolicy.REPLACE, clientWorkRequest)
+            val clientWorkRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<ClientsWorker>(
+                SCHEDULE_TIME.toLong(),                                                                                 //GIVE NEW WORK TIME
+                TimeUnit.MINUTES,
+                1, TimeUnit.MINUTES)                                                                      //FLEX TIME INTERVAL
+                .build()
+
+            if(isAllInfoProvided() && !isWorkScheduled){
+                val oneTimeclientWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ClientsWorker>().build()          //RUN ONE TIME
+                workManager.enqueue(oneTimeclientWorkRequest)
+
+                workManager.enqueueUniquePeriodicWork("scheduleClients", ExistingPeriodicWorkPolicy.REPLACE, clientWorkRequest)     //SCHEDULE THE NEXT RUNS
+                isWorkScheduled = true
+                scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.stop_schedule)
+            } else if (isWorkScheduled) {
+                workManager.cancelWorkById(clientWorkRequest.id)
+                isWorkScheduled = false
+                scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.start_schedule)
             }
         }
     }
@@ -165,6 +176,7 @@ class MainFragment : Fragment() {
         editor.putBoolean("randNick", RANDOMIZE_NICKNAME)
         editor.putBoolean("includeQuery", INCLUDE_QUERY_CLIENTS)
         editor.putFloat("scheduleTime", SCHEDULE_TIME)
+        editor.putBoolean("isWorkScheduled", isWorkScheduled)
         editor.commit()
     }
 
@@ -177,6 +189,7 @@ class MainFragment : Fragment() {
         RANDOMIZE_NICKNAME = preferences.getBoolean("randNick", true)
         INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
         SCHEDULE_TIME = preferences.getFloat("scheduleTime", 1f)
+        isWorkScheduled = preferences.getBoolean("isWorkScheduled", false)
 
         loadViews()
     }
@@ -186,6 +199,8 @@ class MainFragment : Fragment() {
         binding.inputEditTextUsername.setText(USERNAME)
         binding.inputEditTextPassword.setText(PASSWORD)
         advancedLayoutBinding.inputEditTextNickname.setText(NICKNAME)
+        if(isWorkScheduled) scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.stop_schedule)
+        if(!isWorkScheduled) scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.start_schedule)
         advancedLayoutBinding.switchNicknameRandomize.isChecked = RANDOMIZE_NICKNAME
         advancedLayoutBinding.switchIncludeQueryClients.isChecked = INCLUDE_QUERY_CLIENTS
         scheduleLayoutBinding.timeSlider.value = SCHEDULE_TIME

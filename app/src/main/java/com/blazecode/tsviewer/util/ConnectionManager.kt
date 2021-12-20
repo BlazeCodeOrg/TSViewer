@@ -38,7 +38,7 @@ object ConnectionManager {
                     api.setNickname(apiNickname)
                 } else {
                     apiNickname = nickname
-                    api.setNickname(nickname)
+                    api.setNickname(apiNickname)
                 }
 
                 //GET CLIENTS

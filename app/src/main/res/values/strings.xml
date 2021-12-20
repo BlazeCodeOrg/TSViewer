@@ -29,7 +29,7 @@
     <string name="clients_connected">Clients connected</string>
 
     <!-- MENU -->
-    <string name="forceStop">Force Stop Service</string>
+    <string name="source">Source</string>
     <string name="licenses">Open Source Licenses</string>
 
 </resources>

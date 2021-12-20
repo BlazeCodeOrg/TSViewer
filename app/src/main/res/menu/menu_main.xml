@@ -4,8 +4,8 @@
     tools:context="com.blazecode.tsviewer.MainActivity">
 
     <item
-        android:id="@+id/action_force_stop"
-        android:title="@string/forceStop" />
+        android:id="@+id/action_source"
+        android:title="@string/source" />
 
     <item
         android:id="@+id/action_licenses"

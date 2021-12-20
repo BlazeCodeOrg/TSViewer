@@ -18,7 +18,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:stepSize="5"
-        android:valueFrom="5"
+        android:valueFrom="15"
         android:valueTo="120"
         app:layout_constraintBottom_toBottomOf="@+id/buttonStartSchedule"
         app:layout_constraintEnd_toStartOf="@+id/buttonStartSchedule"
