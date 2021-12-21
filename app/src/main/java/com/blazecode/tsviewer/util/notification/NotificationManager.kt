@@ -23,9 +23,8 @@ class NotificationManager(private val context: Context) {
             with(NotificationManagerCompat.from(context)) {
                 notify(1, builder.build())
             }
-
         } else {
-            NotificationManagerCompat.from(context).cancel(null, 1)
+            removeNotification()
         }
     }
 
@@ -38,5 +37,9 @@ class NotificationManager(private val context: Context) {
             val notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    fun removeNotification(){
+        NotificationManagerCompat.from(context).cancel(null, 1)
     }
 }

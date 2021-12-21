@@ -38,6 +38,7 @@ class MainFragment : Fragment() {
     private var RANDOMIZE_NICKNAME : Boolean = true
     private var INCLUDE_QUERY_CLIENTS : Boolean = false
     private var SCHEDULE_TIME : Float = 15f
+    private var RUN_ONLY_WIFI : Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,6 +99,11 @@ class MainFragment : Fragment() {
             TODO("Include Query Clients Info Button")
         }
 
+        advancedLayoutBinding.switchOnlyWiFi.setOnCheckedChangeListener { compoundButton, isChecked ->
+            RUN_ONLY_WIFI = isChecked
+            savePreferences()
+        }
+
         scheduleLayoutBinding.timeSlider.setLabelFormatter { "${scheduleLayoutBinding.timeSlider.value.toString().split(".")[0]} min" }
         scheduleLayoutBinding.timeSlider.addOnChangeListener { slider, value, fromUser ->
             SCHEDULE_TIME = value
@@ -106,14 +112,6 @@ class MainFragment : Fragment() {
         }
 
         binding.buttonLogIn.setOnClickListener {
-            /*
-            try {
-                getClients()
-            } catch (exeption: Exception){
-                errorHandler.reportError(exeption, "Connection Failed: Wrong IP, Username or Password")
-            }
-
-             */
             if(isAllInfoProvided()){
                 val clientWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ClientsWorker>().build()
                 workManager.enqueue(clientWorkRequest)
@@ -167,6 +165,7 @@ class MainFragment : Fragment() {
         editor.putBoolean("randNick", RANDOMIZE_NICKNAME)
         editor.putBoolean("includeQuery", INCLUDE_QUERY_CLIENTS)
         editor.putFloat("scheduleTime", SCHEDULE_TIME)
+        editor.putBoolean("run_only_wifi", RUN_ONLY_WIFI)
         editor.putBoolean("isWorkScheduled", isWorkScheduled)
         editor.commit()
     }
@@ -180,6 +179,7 @@ class MainFragment : Fragment() {
         RANDOMIZE_NICKNAME = preferences.getBoolean("randNick", true)
         INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
         SCHEDULE_TIME = preferences.getFloat("scheduleTime", 15f)
+        RUN_ONLY_WIFI = preferences.getBoolean("run_only_wifi", true)
         isWorkScheduled = preferences.getBoolean("isWorkScheduled", false)
 
         loadViews()
@@ -194,6 +194,7 @@ class MainFragment : Fragment() {
         if(!isWorkScheduled) scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.start_schedule)
         advancedLayoutBinding.switchNicknameRandomize.isChecked = RANDOMIZE_NICKNAME
         advancedLayoutBinding.switchIncludeQueryClients.isChecked = INCLUDE_QUERY_CLIENTS
+        advancedLayoutBinding.switchOnlyWiFi.isChecked = RUN_ONLY_WIFI
         scheduleLayoutBinding.timeSlider.value = SCHEDULE_TIME
         scheduleLayoutBinding.textViewScheduleTime.text = "${SCHEDULE_TIME.toString().split(".")[0]} min"
     }

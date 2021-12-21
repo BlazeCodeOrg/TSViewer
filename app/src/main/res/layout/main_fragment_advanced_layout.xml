@@ -56,6 +56,18 @@
         app:thumbTint="@color/switch_thumb"
         app:trackTint="@color/switch_material_track_color" />
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchOnlyWiFi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/only_wifi"
+        app:layout_constraintEnd_toStartOf="@+id/buttonInfoIncludeQueryClients"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/switchIncludeQueryClients"
+        app:layout_constraintTop_toBottomOf="@+id/switchIncludeQueryClients"
+        app:thumbTint="@color/switch_thumb"
+        app:trackTint="@color/switch_material_track_color" />
+
     <Button
         android:id="@+id/buttonInfoIncludeQueryClients"
         style="@style/Widget.Material3.Button.IconButton"

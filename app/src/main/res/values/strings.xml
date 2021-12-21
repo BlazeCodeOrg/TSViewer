@@ -11,6 +11,7 @@
     <string name="randomize_nickname">Randomize</string>
 
     <string name="include_query_clients">Include Query Clients</string>
+    <string name="only_wifi">Execute only on WiFi</string>
 
     <string name="more">More</string>
     <string name="less">Less</string>
@@ -27,8 +28,11 @@
     <string name="notificationChannelClientID">CLIENT_CHANNEL</string>
     <string name="client_connected">Client connected</string>
     <string name="clients_connected">Clients connected</string>
+
+    <!-- QS TILE -->
     <string name="client">Client</string>
     <string name="clients">Clients</string>
+    <string name="no_network">No Network</string>
 
     <!-- MENU -->
     <string name="source">Source</string>

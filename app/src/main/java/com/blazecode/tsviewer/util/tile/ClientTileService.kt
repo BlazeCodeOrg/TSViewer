@@ -23,9 +23,10 @@ class ClientTileService : TileService() {
 
         //GET SHARED PREFERENCES
         val tileSetting = this.getSharedPreferences("tile", AppCompatActivity.MODE_PRIVATE)!!
+        val tileActive = tileSetting.getBoolean("stateActive", false)
 
         //SET STATE
-        if(tileSetting.getBoolean("stateActive", false)) qsTile.state = Tile.STATE_ACTIVE
+        if(tileActive) qsTile.state = Tile.STATE_ACTIVE
         else qsTile.state = Tile.STATE_INACTIVE
 
         //SET SUBTITLE

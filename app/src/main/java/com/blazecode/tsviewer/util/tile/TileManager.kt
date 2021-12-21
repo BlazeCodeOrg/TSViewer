@@ -22,8 +22,18 @@ class TileManager(val context: Context) {
         else setState(true)
 
         //SAVE SUBTITLE
-        if (clientListNames.size == 1) editor.putString("subtitle", "${clientListNames.size} ${context.getString(R.string.client)}")
-        else editor.putString("subtitle","${clientListNames.size} ${context.getString(R.string.clients)}")
+        if (clientListNames.size == 1) setSubtitle("${clientListNames.size} ${context.getString(R.string.client)}")
+        else setSubtitle("${clientListNames.size} ${context.getString(R.string.clients)}")
+        editor.commit()
+    }
+
+    fun noNetwork(){
+        setState(false)
+        setSubtitle("${context.getString(R.string.no_network)}")
+    }
+
+    fun setSubtitle(subtitle: String){
+        editor.putString("subtitle", subtitle)
         editor.commit()
     }
 
