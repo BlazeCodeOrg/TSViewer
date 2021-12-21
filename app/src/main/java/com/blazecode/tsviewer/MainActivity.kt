@@ -1,7 +1,6 @@
 package com.blazecode.tsviewer
 
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,7 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
-import com.blazecode.tsviewer.util.NotificationManager
+import com.blazecode.tsviewer.util.notification.NotificationManager
 
 
 class MainActivity : AppCompatActivity() {

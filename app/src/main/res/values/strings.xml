@@ -27,6 +27,8 @@
     <string name="notificationChannelClientID">CLIENT_CHANNEL</string>
     <string name="client_connected">Client connected</string>
     <string name="clients_connected">Clients connected</string>
+    <string name="client">Client</string>
+    <string name="clients">Clients</string>
 
     <!-- MENU -->
     <string name="source">Source</string>

@@ -1,4 +1,4 @@
-package com.blazecode.tsviewer.util
+package com.blazecode.tsviewer.util.notification
 
 import android.app.NotificationChannel
 import android.content.Context

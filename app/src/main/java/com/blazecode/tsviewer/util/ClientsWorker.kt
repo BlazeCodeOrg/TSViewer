@@ -1,15 +1,14 @@
 package com.blazecode.tsviewer.util
 
 import android.content.Context
-import android.os.Looper
 import android.service.quicksettings.Tile
-import android.widget.Toast
-import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.blazecode.tsviewer.MainActivity
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.util.notification.NotificationManager
+import com.blazecode.tsviewer.util.tile.ClientTileService
+import com.blazecode.tsviewer.util.tile.TileManager
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
 
 class ClientsWorker(private val context: Context, workerParameters: WorkerParameters) :
@@ -17,7 +16,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
 
     val connectionManager = ConnectionManager
     val notificationManager = NotificationManager(context)
-    val tileManager = TileManager()
+    val tileManager = TileManager(context)
 
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""
@@ -41,6 +40,8 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         extractNames()
 
         notificationManager.post(clientListNames)
+        tileManager.init()
+        tileManager.post(clientListNames)
     }
 
     private fun extractNames(){

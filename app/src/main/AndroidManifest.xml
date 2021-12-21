@@ -28,7 +28,7 @@
 
         <!-- QUICK SETTINGS TILE -->
         <service
-            android:name=".util.TileManager"
+            android:name=".util.tile.ClientTileService"
             android:icon="@drawable/ic_teamspeak_icon"
             android:label="@string/app_name"
             android:description="@string/clients_connected"

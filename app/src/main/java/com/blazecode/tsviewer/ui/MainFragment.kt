@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -15,17 +13,10 @@ import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.databinding.MainFragmentAdvancedLayoutBinding
 import com.blazecode.tsviewer.databinding.MainFragmentBinding
 import com.blazecode.tsviewer.util.ClientsWorker
-import com.blazecode.tsviewer.util.ConnectionManager
 import com.blazecode.tsviewer.util.ErrorHandler
-import com.github.theholywaffle.teamspeak3.api.wrapper.Client
-import java.text.NumberFormat
-import androidx.annotation.NonNull
 import androidx.work.*
 import com.blazecode.tsviewer.databinding.MainFragmentScheduleLayoutBinding
-import com.blazecode.tsviewer.util.TileManager
-import com.google.android.material.slider.LabelFormatter
 
-import com.google.android.material.slider.Slider
 import java.util.concurrent.TimeUnit
 
 
@@ -39,7 +30,6 @@ class MainFragment : Fragment() {
 
     private val errorHandler = ErrorHandler()
     private lateinit var workManager: WorkManager
-    private val tileManager = TileManager()
     private var isWorkScheduled : Boolean = false
 
     private var IP_ADRESS : String = ""
