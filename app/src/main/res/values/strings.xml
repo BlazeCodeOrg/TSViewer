@@ -15,7 +15,7 @@
 
     <string name="more">More</string>
     <string name="less">Less</string>
-    <string name="check_connection">Check Connection</string>
+    <string name="run_once">Run Once</string>
     <string name="start_schedule">Start Schedule</string>
     <string name="stop_schedule">Stop Schedule</string>
     <string name="connection_attempts">Connection Attempts</string>
