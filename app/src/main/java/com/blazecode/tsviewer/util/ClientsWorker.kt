@@ -15,7 +15,7 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client
 class ClientsWorker(private val context: Context, workerParameters: WorkerParameters) :
     Worker(context, workerParameters) {
 
-    val connectionManager = ConnectionManager
+    val connectionManager = ConnectionManager(context)
     val notificationManager = NotificationManager(context)
     val tileManager = TileManager(context)
 

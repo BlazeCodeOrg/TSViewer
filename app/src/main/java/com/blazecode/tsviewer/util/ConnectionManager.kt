@@ -1,25 +1,23 @@
 package com.blazecode.tsviewer.util
 
+import android.content.Context
 import com.github.theholywaffle.teamspeak3.TS3Config
 import com.github.theholywaffle.teamspeak3.TS3Query
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
-object ConnectionManager {
+class ConnectionManager(val context: Context) {
 
     var lastRandom : Int = 0
     var apiNickname : String = ""
 
-    val errorHandler = ErrorHandler()
+    val errorHandler = ErrorHandler(context)
 
     fun getClients(ip : String, username : String, password : String, nickname : String, randomizedNickname: Boolean, includeQueryClients: Boolean) : MutableList<Client> {
         var clientList = mutableListOf<Client>()
 
         runBlocking {
-            val apiCall = GlobalScope.launch(Dispatchers.IO){
+            val apiCall = GlobalScope.launch(exceptionHandler){
                 //CONFIGURE
                 var config = TS3Config()
                 config.setHost(ip)
@@ -50,6 +48,10 @@ object ConnectionManager {
             apiCall.join()
         }
         return clientList
+    }
+
+    val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        errorHandler.reportError(exception.toString())
     }
 
     private fun randomizedNickname(nickname: String): String {

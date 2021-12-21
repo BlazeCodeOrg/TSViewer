@@ -27,7 +27,7 @@ class MainFragment : Fragment() {
     private lateinit var advancedLayoutBinding: MainFragmentAdvancedLayoutBinding
     private lateinit var scheduleLayoutBinding: MainFragmentScheduleLayoutBinding
 
-    private val errorHandler = ErrorHandler()
+    private val errorHandler = context?.let { ErrorHandler(it) }
     private lateinit var workManager: WorkManager
     private var isWorkScheduled : Boolean = false
 
@@ -113,7 +113,8 @@ class MainFragment : Fragment() {
 
         binding.buttonLogIn.setOnClickListener {
             if(isAllInfoProvided()){
-                val clientWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ClientsWorker>().build()
+                val clientWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ClientsWorker>()
+                    .build()
                 workManager.enqueue(clientWorkRequest)
             }
         }
@@ -210,6 +211,4 @@ class MainFragment : Fragment() {
             return true
         }
     }
-
-
 }

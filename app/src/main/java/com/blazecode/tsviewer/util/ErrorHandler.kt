@@ -1,9 +1,21 @@
 package com.blazecode.tsviewer.util
 
-class ErrorHandler {
+import android.content.Context
+import android.os.Looper
+import android.widget.Toast
 
-    fun reportError(exeption: Exception, description: String?){
-        //TODO("toast or snackbar for displaying the error")
-        //TODO("log the error")
+class ErrorHandler(val context: Context) {
+
+    fun reportError(exception: String) {
+
+        //USED FOR DISPLAYING THE TOAST WITHOUT A VIEW
+        //CANNOT CREATE MULTIPLE LOOPERS
+        if(Looper.myLooper() == null){
+            Looper.prepare()
+        }
+
+        //DISPLAY EXCEPTION
+        val cutException = exception.split(">>")[1]
+        Toast.makeText(context, cutException, Toast.LENGTH_LONG).show()
     }
 }
