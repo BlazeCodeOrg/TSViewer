@@ -1,6 +1,5 @@
 package com.blazecode.tsviewer.util.tile
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.service.quicksettings.Tile
@@ -8,9 +7,6 @@ import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.blazecode.tsviewer.MainActivity
-import com.blazecode.tsviewer.R
-
-
 
 
 class ClientTileService : TileService() {

@@ -2,9 +2,6 @@ package com.blazecode.tsviewer.util.tile
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Build
-import android.service.quicksettings.Tile
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.blazecode.tsviewer.R
 

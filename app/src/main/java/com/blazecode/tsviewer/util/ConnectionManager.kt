@@ -1,6 +1,5 @@
 package com.blazecode.tsviewer.util
 
-import android.util.Log
 import com.github.theholywaffle.teamspeak3.TS3Config
 import com.github.theholywaffle.teamspeak3.TS3Query
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client

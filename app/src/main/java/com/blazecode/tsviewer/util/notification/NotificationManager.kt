@@ -1,11 +1,11 @@
 package com.blazecode.tsviewer.util.notification
 
 import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import android.app.NotificationManager
 import com.blazecode.tsviewer.R
 
 class NotificationManager(private val context: Context) {

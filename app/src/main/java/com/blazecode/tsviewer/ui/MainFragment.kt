@@ -9,14 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.work.*
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.databinding.MainFragmentAdvancedLayoutBinding
 import com.blazecode.tsviewer.databinding.MainFragmentBinding
+import com.blazecode.tsviewer.databinding.MainFragmentScheduleLayoutBinding
 import com.blazecode.tsviewer.util.ClientsWorker
 import com.blazecode.tsviewer.util.ErrorHandler
-import androidx.work.*
-import com.blazecode.tsviewer.databinding.MainFragmentScheduleLayoutBinding
-
 import java.util.concurrent.TimeUnit
 
 

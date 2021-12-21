@@ -1,13 +1,11 @@
 package com.blazecode.tsviewer.util
 
 import android.content.Context
-import android.service.quicksettings.Tile
 import androidx.appcompat.app.AppCompatActivity
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.util.notification.NotificationManager
-import com.blazecode.tsviewer.util.tile.ClientTileService
 import com.blazecode.tsviewer.util.tile.TileManager
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
 
