@@ -16,6 +16,8 @@ import com.blazecode.tsviewer.databinding.MainFragmentBinding
 import com.blazecode.tsviewer.databinding.MainFragmentScheduleLayoutBinding
 import com.blazecode.tsviewer.util.ClientsWorker
 import com.blazecode.tsviewer.util.ErrorHandler
+import it.sephiroth.android.library.xtooltip.ClosePolicy
+import it.sephiroth.android.library.xtooltip.Tooltip
 import java.util.concurrent.TimeUnit
 
 
@@ -87,7 +89,7 @@ class MainFragment : Fragment() {
         }
 
         advancedLayoutBinding.buttonInfoRandomize.setOnClickListener {
-            TODO("Randomize Info Button")
+            showTooltip(it, getString(R.string.tooltip_randomize))
         }
 
         advancedLayoutBinding.switchIncludeQueryClients.setOnCheckedChangeListener { compoundButton, isChecked ->
@@ -96,7 +98,7 @@ class MainFragment : Fragment() {
         }
 
         advancedLayoutBinding.buttonInfoIncludeQueryClients.setOnClickListener {
-            TODO("Include Query Clients Info Button")
+            showTooltip(it, getString(R.string.tooltip_include_query_clients))
         }
 
         advancedLayoutBinding.switchOnlyWiFi.setOnCheckedChangeListener { compoundButton, isChecked ->
@@ -154,6 +156,25 @@ class MainFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         loadPreferences()
+    }
+
+    private fun showTooltip(anchorView: View, text: String){
+
+        val tooltip = Tooltip.Builder(anchorView.context)
+            .anchor(anchorView, 0, 0, false)
+            .text(text)
+            .styleId(R.style.ToolTipLayoutDefaultStyle)
+            .maxWidth(resources.displayMetrics.widthPixels / 4 * 3)
+            .arrow(true)
+            .closePolicy(ClosePolicy.TOUCH_ANYWHERE_CONSUME)
+            .overlay(true)
+            .create()
+
+        tooltip
+            .doOnHidden { }
+            .doOnFailure { }
+            .doOnShown { }
+            .show(anchorView, Tooltip.Gravity.CENTER, true)
     }
 
     fun savePreferences(){
