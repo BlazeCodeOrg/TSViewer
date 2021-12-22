@@ -170,11 +170,7 @@ class MainFragment : Fragment() {
             .overlay(true)
             .create()
 
-        tooltip
-            .doOnHidden { }
-            .doOnFailure { }
-            .doOnShown { }
-            .show(anchorView, Tooltip.Gravity.CENTER, true)
+        tooltip.show(anchorView, Tooltip.Gravity.CENTER, true)
     }
 
     fun savePreferences(){

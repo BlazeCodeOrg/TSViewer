@@ -3,7 +3,6 @@ package com.blazecode.tsviewer.util
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.work.Worker
 import androidx.work.WorkerParameters
