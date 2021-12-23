@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             "App Version: ${BuildConfig.VERSION_NAME}" +
                     "\nAndroid Version: ${Build.VERSION.SDK_INT}" +
                     "\nDeviceInfo: ${Build.MANUFACTURER} ${Build.MODEL}" +
-                    "\nDeviceLanguage: ${Resources.getSystem().configuration.locale.language}" +
+                    "\nDeviceLanguage: ${Locale.getDefault().language}" +
                     "\n\nPlease consider attaching a screenshot or recording." +
                     "\nPlease describe your issue below this line.\n\n"
         )
@@ -95,9 +95,10 @@ class MainActivity : AppCompatActivity() {
     private fun isFirstStart() : Boolean {
         val preferences = getSharedPreferences("preferences", MODE_PRIVATE)!!
         return if(preferences.getBoolean("isFirstStart", true)){
-            val preferences : SharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE)!!
-            val editor : SharedPreferences.Editor = preferences.edit()
+            val prefs : SharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE)!!
+            val editor : SharedPreferences.Editor = prefs.edit()
             editor.putBoolean("isFirstStart", false)
+            editor.commit()
             true
         } else false
     }
