@@ -13,7 +13,7 @@ class NotificationManager(private val context: Context) {
     fun post(clientListNames: MutableList<String>){
         if (clientListNames.size > 0) {
             val builder = NotificationCompat.Builder(context, context.getString(R.string.notificationChannelClientID))
-                .setSmallIcon(R.drawable.ic_teamspeak_icon)
+                .setSmallIcon(R.drawable.ic_notification_icon)
                 .setContentText(clientListNames.joinToString())
                 .setPriority(NotificationCompat.PRIORITY_MIN)
 
