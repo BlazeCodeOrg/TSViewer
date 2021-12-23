@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.action_send_email -> {
-                    sendMail("Report", true)
+                    sendMail("Report")
                     return@setOnMenuItemClickListener true
                 }
                 else -> false
@@ -67,23 +67,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendMail(subject: String, showDeviceSpecs: Boolean) {
+    private fun sendMail(subject: String) {
         val intent = Intent(Intent.ACTION_SENDTO)
         intent.data = Uri.parse("mailto:")
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.email_address)))
         intent.putExtra(Intent.EXTRA_SUBJECT, subject + " - " + getString(R.string.app_name))
 
-        if (showDeviceSpecs) {
-            intent.putExtra(
-                Intent.EXTRA_TEXT,
-                "App Version: ${BuildConfig.VERSION_NAME}" +
-                        "\nAndroid Version: ${Build.VERSION.SDK_INT}" +
-                        "\nDeviceInfo: ${Build.MANUFACTURER} ${Build.MODEL}" +
-                        "\nDeviceLanguage: ${Resources.getSystem().configuration.locale.language}" +
-                        "\n\nPlease consider attaching a screenshot or recording." +
-                        "\nPlease describe your issue below this line.\n\n"
-            )
-        }
+        intent.putExtra(
+            Intent.EXTRA_TEXT,
+            "App Version: ${BuildConfig.VERSION_NAME}" +
+                    "\nAndroid Version: ${Build.VERSION.SDK_INT}" +
+                    "\nDeviceInfo: ${Build.MANUFACTURER} ${Build.MODEL}" +
+                    "\nDeviceLanguage: ${Resources.getSystem().configuration.locale.language}" +
+                    "\n\nPlease consider attaching a screenshot or recording." +
+                    "\nPlease describe your issue below this line.\n\n"
+        )
+
         startActivity(Intent.createChooser(intent, getString(R.string.send_email)))
     }
 
