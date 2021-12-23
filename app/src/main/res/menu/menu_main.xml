@@ -10,4 +10,8 @@
     <item
         android:id="@+id/action_licenses"
         android:title="@string/licenses" />
+
+    <item
+        android:id="@+id/action_send_email"
+        android:title="@string/send_email"/>
 </menu>

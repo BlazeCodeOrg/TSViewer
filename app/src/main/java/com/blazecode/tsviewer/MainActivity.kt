@@ -1,7 +1,11 @@
 package com.blazecode.tsviewer
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Resources
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.Menu
@@ -16,6 +20,7 @@ import com.blazecode.tsviewer.util.notification.NotificationManager
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import kotlinx.coroutines.NonCancellable.start
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -46,6 +51,11 @@ class MainActivity : AppCompatActivity() {
 
                     return@setOnMenuItemClickListener true
                 }
+
+                R.id.action_send_email -> {
+                    sendMail("Report", true)
+                    return@setOnMenuItemClickListener true
+                }
                 else -> false
             }
         }
@@ -55,6 +65,26 @@ class MainActivity : AppCompatActivity() {
             val notificationManager = NotificationManager(this)
             notificationManager.createChannel()
         }
+    }
+
+    private fun sendMail(subject: String, showDeviceSpecs: Boolean) {
+        val intent = Intent(Intent.ACTION_SENDTO)
+        intent.data = Uri.parse("mailto:")
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.email_address)))
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject + " - " + getString(R.string.app_name))
+
+        if (showDeviceSpecs) {
+            intent.putExtra(
+                Intent.EXTRA_TEXT,
+                "App Version: ${BuildConfig.VERSION_NAME}" +
+                        "\nAndroid Version: ${Build.VERSION.SDK_INT}" +
+                        "\nDeviceInfo: ${Build.MANUFACTURER} ${Build.MODEL}" +
+                        "\nDeviceLanguage: ${Resources.getSystem().configuration.locale.language}" +
+                        "\n\nPlease consider attaching a screenshot or recording." +
+                        "\nPlease describe your issue below this line.\n\n"
+            )
+        }
+        startActivity(Intent.createChooser(intent, getString(R.string.send_email)))
     }
 
     private fun isFirstStart() : Boolean {
