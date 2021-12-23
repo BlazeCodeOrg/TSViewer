@@ -2,6 +2,7 @@
     <string name="app_name">TSViewer</string>
     <string name="action_settings">Settings</string>
     <string name="email_address">info@blazecodeapps.com</string>
+    <string name="github_source_url">https://github.com/BlazeCodeDev/TSViewer</string>
 
     <!-- UI ELEMENTS -->
     <string name="ip_adress">IP Adress</string>

@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_source -> {
+                    openLink(getString(R.string.github_source_url))
                     return@setOnMenuItemClickListener true
                 }
 
@@ -84,6 +85,11 @@ class MainActivity : AppCompatActivity() {
         )
 
         startActivity(Intent.createChooser(intent, getString(R.string.send_email)))
+    }
+
+    private fun openLink (url: String) {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(browserIntent)
     }
 
     private fun isFirstStart() : Boolean {
