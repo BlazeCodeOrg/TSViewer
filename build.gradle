@@ -1,13 +1,22 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    ext {
+        ABOUT_LIBRARIES_VERSION = "8.9.4"
+    }
     repositories {
         google()
         mavenCentral()
+        //NEEDED FOR TOOLTIPS
         maven { url 'https://jitpack.io' }
+        //NEEDED FOR ABOUTLIBRARIES
+        maven { url 'https://plugins.gradle.org/m2/'}
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.4'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+
+        //ABOUT LIBRARIES
+        classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:$ABOUT_LIBRARIES_VERSION"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

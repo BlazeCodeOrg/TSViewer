@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id("com.mikepenz.aboutlibraries.plugin")
 }
 
 android {
@@ -62,4 +63,8 @@ dependencies {
 
     //TOOLTIPS
     implementation 'com.github.sephiroth74:android-target-tooltip:release-2.0.5'
+
+    //ABOUT LIBRARIES
+    implementation("com.mikepenz:aboutlibraries:$ABOUT_LIBRARIES_VERSION")
+
 }
