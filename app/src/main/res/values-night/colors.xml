@@ -5,6 +5,7 @@
     <color name="background">@color/material_dynamic_neutral10</color>
     <color name="text_on_primary">@color/material_dynamic_neutral90</color>
     <color name="text">@color/material_dynamic_primary60</color>
+    <color name="text_secondary">@color/material_dynamic_neutral80</color>
 
     <!-- SWITCH COLORS -->
     <color name="switch_thumb">@color/material_dynamic_primary60</color>

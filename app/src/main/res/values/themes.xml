@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--BASE THEME-->
-    <style name="Theme.TSViewer" parent="Theme.Material3.DynamicColors.DayNight">
+    <style name="Theme.TSViewer" parent="Theme.Material3.DayNight.NoActionBar">
         <!--PRIMARY COLORS-->
         <item name="colorPrimary">@color/material_dynamic_primary40</item>
         <item name="colorPrimaryVariant">@color/material_dynamic_secondary40</item>
@@ -12,6 +12,8 @@
         <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
         <!--TEXT-->
         <item name="fontFamily">@font/inter_regular</item>
+        <!-- ABOUT LIBRARIES -->
+        <item name="aboutLibrariesStyle">@style/CustomAboutLibrariesStyle</item>
     </style>
 
     <style name="Theme.TSViewer.NoActionBar">
@@ -26,5 +28,18 @@
 
     <style name="TextAppearance.App.CollapsingToolbar.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">@font/inter</item>
+    </style>
+
+    <!-- ABOUT LIBRARIES -->
+    <style name="CustomAboutLibrariesStyle" parent="">
+
+        <item name="aboutLibrariesCardBackground">@color/background</item>
+        <item name="aboutLibrariesDescriptionTitle">@color/text</item>
+        <item name="aboutLibrariesDescriptionText">@color/text_secondary</item>
+        <item name="aboutLibrariesDescriptionDivider">@color/background</item>
+        <item name="aboutLibrariesOpenSourceTitle">@color/text</item>
+        <item name="aboutLibrariesOpenSourceText">@color/text_secondary</item>
+        <item name="aboutLibrariesSpecialButtonText">@color/text</item>
+        <item name="aboutLibrariesOpenSourceDivider">@color/background</item>
     </style>
 </resources>

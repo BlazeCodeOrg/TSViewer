@@ -1,15 +1,21 @@
 package com.blazecode.tsviewer
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.util.notification.NotificationManager
+import com.mikepenz.aboutlibraries.Libs
+import com.mikepenz.aboutlibraries.LibsBuilder
+import kotlinx.coroutines.NonCancellable.start
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +29,26 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_source -> {
+                    return@setOnMenuItemClickListener true
+                }
+
+                R.id.action_licenses -> {
+                    LibsBuilder()
+                        .withLicenseShown(true)
+                        .withAboutIconShown(true)
+                        .withVersionShown(true)
+                        .withActivityTitle(getString(R.string.licenses))
+                        .withAboutDescription("test description")
+                        .start(this)
+
+                    return@setOnMenuItemClickListener true
+                }
+                else -> false
+            }
+        }
 
         //CREATE NOTIFICATION CHANNEL IF FIRST START
         if (isFirstStart()){
@@ -39,21 +65,6 @@ class MainActivity : AppCompatActivity() {
             editor.putBoolean("isFirstStart", false)
             true
         } else false
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_source -> TODO("add open github source")
-
-            R.id.action_licenses -> TODO("add open source licenses")
-
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
