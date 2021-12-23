@@ -1,25 +1,17 @@
 package com.blazecode.tsviewer
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.util.notification.NotificationManager
-import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
-import kotlinx.coroutines.NonCancellable.start
 import java.util.*
 
 
