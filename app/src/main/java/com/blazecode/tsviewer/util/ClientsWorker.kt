@@ -1,9 +1,14 @@
 package com.blazecode.tsviewer.util
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
 import androidx.appcompat.app.AppCompatActivity
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.blazecode.tsviewer.R
@@ -67,12 +72,38 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
 
     private fun loadPreferences(){
         val preferences = context?.getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)!!
-        IP_ADRESS = preferences.getString("ip", "").toString()
-        USERNAME = preferences.getString("user", "").toString()
-        PASSWORD = preferences.getString("pass", "").toString()
+        //IP, USER AND PASS ARE ENCRYPTED
         NICKNAME = preferences.getString("nick", context.getString(R.string.app_name)).toString()
         RANDOMIZE_NICKNAME = preferences.getBoolean("randNick", true)
         INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
         RUN_ONLY_WIFI = preferences.getBoolean("run_only_wifi", true)
+        loadEncryptedPreferences()
+    }
+
+    private fun loadEncryptedPreferences(){
+        val encryptedSharedPreferences: SharedPreferences = EncryptedSharedPreferences.create(
+            context,
+            "encrypted_preferences",
+            getMasterKey(),
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
+
+        IP_ADRESS = encryptedSharedPreferences.getString("ip", "").toString()
+        USERNAME = encryptedSharedPreferences.getString("user", "").toString()
+        PASSWORD = encryptedSharedPreferences.getString("pass", "").toString()
+    }
+
+    private fun getMasterKey() : MasterKey {
+        //MAKE AN ENCRYPTION KEY
+        val spec = KeyGenParameterSpec.Builder("_androidx_security_master_key_",
+            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+            .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+            .setKeySize(256)
+            .build()
+
+        return MasterKey.Builder(context)
+            .setKeyGenParameterSpec(spec)
+            .build()
     }
 }

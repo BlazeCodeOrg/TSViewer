@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 import androidx.work.*
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.databinding.MainFragmentAdvancedLayoutBinding
@@ -19,6 +21,16 @@ import com.blazecode.tsviewer.util.ErrorHandler
 import it.sephiroth.android.library.xtooltip.ClosePolicy
 import it.sephiroth.android.library.xtooltip.Tooltip
 import java.util.concurrent.TimeUnit
+import com.blazecode.tsviewer.MainActivity
+
+import androidx.security.crypto.MasterKey
+
+import djb.Curve25519.KEY_SIZE
+
+import android.security.keystore.KeyProperties
+
+import android.security.keystore.KeyGenParameterSpec
+import djb.Curve25519
 
 
 class MainFragment : Fragment() {
@@ -176,9 +188,7 @@ class MainFragment : Fragment() {
     fun savePreferences(){
         val preferences : SharedPreferences = context?.getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)!!
         val editor : SharedPreferences.Editor = preferences.edit()
-        editor.putString("ip", IP_ADRESS)
-        editor.putString("user", USERNAME)
-        editor.putString("pass", PASSWORD)
+        //IP, USERNAME AND PASS ARE ENCRYPTED
         editor.putString("nick", NICKNAME)
         editor.putBoolean("randNick", RANDOMIZE_NICKNAME)
         editor.putBoolean("includeQuery", INCLUDE_QUERY_CLIENTS)
@@ -186,13 +196,30 @@ class MainFragment : Fragment() {
         editor.putBoolean("run_only_wifi", RUN_ONLY_WIFI)
         editor.putBoolean("isWorkScheduled", isWorkScheduled)
         editor.commit()
+
+        saveEncryptedPreferences()
+    }
+
+    private fun saveEncryptedPreferences(){
+
+        //SAVE DATA
+        val encryptedSharedPreferences: SharedPreferences = EncryptedSharedPreferences.create(
+            this.requireContext(),
+            "encrypted_preferences",
+            getMasterKey(),
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+        with (encryptedSharedPreferences.edit()) {
+            this.putString("ip", IP_ADRESS)
+            this.putString("user", USERNAME)
+            this.putString("pass", PASSWORD)
+            apply()
+        }
     }
 
     fun loadPreferences(){
         val preferences = context?.getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)!!
-        IP_ADRESS = preferences.getString("ip", "").toString()
-        USERNAME = preferences.getString("user", "").toString()
-        PASSWORD = preferences.getString("pass", "").toString()
         NICKNAME = preferences.getString("nick", getString(R.string.app_name)).toString()
         RANDOMIZE_NICKNAME = preferences.getBoolean("randNick", true)
         INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
@@ -200,10 +227,38 @@ class MainFragment : Fragment() {
         RUN_ONLY_WIFI = preferences.getBoolean("run_only_wifi", true)
         isWorkScheduled = preferences.getBoolean("isWorkScheduled", false)
 
+        loadEncryptedPreferences()
         loadViews()
     }
 
-    fun loadViews(){
+    private fun loadEncryptedPreferences(){
+        val encryptedSharedPreferences: SharedPreferences = EncryptedSharedPreferences.create(
+            this.requireContext(),
+            "encrypted_preferences",
+            getMasterKey(),
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
+
+        IP_ADRESS = encryptedSharedPreferences.getString("ip", "").toString()
+        USERNAME = encryptedSharedPreferences.getString("user", "").toString()
+        PASSWORD = encryptedSharedPreferences.getString("pass", "").toString()
+    }
+
+    private fun getMasterKey() : MasterKey {
+        //MAKE AN ENCRYPTION KEY
+        val spec = KeyGenParameterSpec.Builder("_androidx_security_master_key_",
+            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+            .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+            .setKeySize(256)
+            .build()
+
+        return MasterKey.Builder(this.requireContext())
+            .setKeyGenParameterSpec(spec)
+            .build()
+    }
+
+    private fun loadViews(){
         binding.inputEditTextIp.setText(IP_ADRESS)
         binding.inputEditTextUsername.setText(USERNAME)
         binding.inputEditTextPassword.setText(PASSWORD)
@@ -217,7 +272,7 @@ class MainFragment : Fragment() {
         scheduleLayoutBinding.textViewScheduleTime.text = "${SCHEDULE_TIME.toString().split(".")[0]} min"
     }
 
-    fun isAllInfoProvided() : Boolean {
+    private fun isAllInfoProvided() : Boolean {
         if (binding.inputEditTextIp.text.isNullOrEmpty() || binding.inputEditTextUsername.text.isNullOrEmpty() || binding.inputEditTextPassword.text.isNullOrEmpty()){
             if(binding.inputEditTextIp.text.isNullOrEmpty()) binding.inputEditTextIp.error = getString(R.string.mustBeProvided)
             if(binding.inputEditTextUsername.text.isNullOrEmpty()) binding.inputEditTextUsername.error = getString(R.string.mustBeProvided)
