@@ -12,8 +12,24 @@
         <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
         <!--TEXT-->
         <item name="fontFamily">@font/inter_regular</item>
+        <!-- BUTTONS -->
+        <item name="buttonStyle">@style/Widget.Material3.Button</item>
         <!-- ABOUT LIBRARIES -->
         <item name="aboutLibrariesStyle">@style/CustomAboutLibrariesStyle</item>
+    </style>
+
+    <style name="Theme.TSViewer.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!--TOOLBAR-->
+    <style name="TextAppearance.App.CollapsingToolbar.Expanded" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
+        <item name="android:fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.App.CollapsingToolbar.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">@font/inter</item>
     </style>
 
     <!-- ABOUT LIBRARIES -->

@@ -5,6 +5,8 @@
     <dimen name="silk_toolbar_scrim_visible_height">174dp</dimen>
     <dimen name="silk_toolbar_expanded_title_margin">24dp</dimen>
 
+    <dimen name="buttonRadius">50dp</dimen>
+
     <!--MARGINS-->
     <dimen name="smallMargin">8dp</dimen>
     <dimen name="mediumMargin">16dp</dimen>

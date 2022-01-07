@@ -2,6 +2,8 @@ package com.blazecode.tsviewer.ui
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +12,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
+import androidx.security.crypto.MasterKey
 import androidx.work.*
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.databinding.MainFragmentAdvancedLayoutBinding
@@ -21,16 +23,6 @@ import com.blazecode.tsviewer.util.ErrorHandler
 import it.sephiroth.android.library.xtooltip.ClosePolicy
 import it.sephiroth.android.library.xtooltip.Tooltip
 import java.util.concurrent.TimeUnit
-import com.blazecode.tsviewer.MainActivity
-
-import androidx.security.crypto.MasterKey
-
-import djb.Curve25519.KEY_SIZE
-
-import android.security.keystore.KeyProperties
-
-import android.security.keystore.KeyGenParameterSpec
-import djb.Curve25519
 
 
 class MainFragment : Fragment() {

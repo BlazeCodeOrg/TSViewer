@@ -27,11 +27,11 @@
 
     <Button
         android:id="@+id/buttonStartSchedule"
-        style="@style/Widget.Material3.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/start_schedule"
         android:textColor="@color/text_on_primary"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,17 +1,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--BASE THEME-->
-    <style name="Theme.TSViewer" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.TSViewer" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!--PRIMARY COLORS-->
-        <item name="colorPrimary">@color/material_dynamic_primary40</item>
-        <item name="colorPrimaryVariant">@color/material_dynamic_secondary40</item>
-        <item name="colorOnPrimary">@color/material_dynamic_primary100</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primaryVariant</item>
+        <item name="colorOnPrimary">@color/onPrimary</item>
         <item name="android:colorBackground">@color/background</item>
         <!--STATUS BAR-->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/material_dynamic_neutral95</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/statusBar</item>
         <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
         <!--TEXT-->
         <item name="fontFamily">@font/inter_regular</item>
+        <!-- BUTTONS -->
+        <item name="materialButtonStyle">@style/tsButton</item>
+        <!-- TEXT INPUT STYLE -->
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
         <!-- ABOUT LIBRARIES -->
         <item name="aboutLibrariesStyle">@style/CustomAboutLibrariesStyle</item>
     </style>
@@ -28,6 +32,19 @@
 
     <style name="TextAppearance.App.CollapsingToolbar.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">@font/inter</item>
+    </style>
+
+    <!-- BUTTONS -->
+    <style name="tsButton" parent="@style/Widget.MaterialComponents.Button">
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/buttonRadius</item>
+        <item name="android:textColor">@color/text_on_primary</item>
+    </style>
+
+    <style name="tsTextButton" parent="@style/Widget.MaterialComponents.Button.TextButton">
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/buttonRadius</item>
+        <item name="android:textColor">@color/primary</item>
     </style>
 
     <!-- ABOUT LIBRARIES -->

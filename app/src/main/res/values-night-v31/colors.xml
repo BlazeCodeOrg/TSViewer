@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- BASIC COLORS -->
+    <color name="primary">@color/material_dynamic_primary50</color>
+    <color name="primaryVariant">@color/material_dynamic_secondary40</color>
+    <color name="onPrimary">@color/material_dynamic_primary100</color>
+    <color name="background">@color/material_dynamic_neutral10</color>
+    <color name="text_on_primary">@color/material_dynamic_neutral90</color>
+    <color name="text">@color/material_dynamic_primary60</color>
+    <color name="text_secondary">@color/material_dynamic_neutral40</color>
+    <color name="background_tint">@color/material_dynamic_neutral60</color>
+    <color name="statusBar">@color/material_dynamic_neutral10</color>
+
+    <!-- SWITCH COLORS -->
+    <color name="switch_thumb">@color/material_dynamic_primary60</color>
+    <color name="swtich_track_activated">@color/material_dynamic_primary60</color>
+    <color name="swtich_track_deactivated">@color/material_dynamic_neutral30</color>
+
+</resources>

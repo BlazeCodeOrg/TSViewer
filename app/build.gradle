@@ -59,7 +59,7 @@ dependencies {
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
     //ENCRYPTED SHARED PREFERENCES
-    implementation 'androidx.security:security-crypto:1.0.0'
+    implementation 'androidx.security:security-crypto:1.1.0-alpha03'
 
     //TS API
     implementation group: 'com.github.theholywaffle', name: 'teamspeak3-api', version: '1.3.0'
