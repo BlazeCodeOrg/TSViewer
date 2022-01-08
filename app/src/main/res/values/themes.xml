@@ -47,6 +47,17 @@
         <item name="android:textColor">@color/primary</item>
     </style>
 
+    <!-- TOOLTIPS -->
+    <style name="tsTooltipStyle" parent="ToolTipLayoutDefaultStyle">
+        <item name="ttlm_backgroundColor">@color/tooltip_background</item>
+        <item name="ttlm_overlayStyle">@style/tsTooltipOverlay</item>
+    </style>
+
+    <style name="tsTooltipOverlay" parent="ToolTipOverlayDefaultStyle">
+        <item name="android:color">@color/primary</item>
+        <item name="ttlm_repeatCount">2</item>
+    </style>
+
     <!-- ABOUT LIBRARIES -->
     <style name="CustomAboutLibrariesStyle" parent="">
         <item name="aboutLibrariesCardBackground">@color/background</item>

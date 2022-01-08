@@ -16,4 +16,7 @@
     <color name="swtich_track_activated">#58609F</color>
     <color name="swtich_track_deactivated">#353B68</color>
 
+    <!-- TOOLTIP COLORS -->
+    <color name="tooltip_background">#F2F4FF</color>
+
 </resources>
