@@ -8,7 +8,7 @@
         <item name="colorOnPrimary">@color/onPrimary</item>
         <item name="android:colorBackground">@color/background</item>
         <!--STATUS BAR-->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/statusBar</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/background</item>
         <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
         <!--TEXT-->
         <item name="fontFamily">@font/inter_regular</item>

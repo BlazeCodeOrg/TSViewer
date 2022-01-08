@@ -10,7 +10,6 @@
     <color name="primary">#6169AC</color>
     <color name="primaryVariant">#4E569A</color>
     <color name="onPrimary">#3F467E</color>
-    <color name="statusBar">#F2F4FF</color>
 
     <!-- SWITCH COLORS -->
     <color name="switch_thumb">#6169AC</color>

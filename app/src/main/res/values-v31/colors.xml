@@ -10,7 +10,6 @@
     <color name="text">@color/material_dynamic_primary60</color>
     <color name="text_secondary">@color/material_dynamic_neutral40</color>
     <color name="background_tint">@color/material_dynamic_neutral60</color>
-    <color name="statusBar">@color/material_dynamic_neutral90</color>
 
     <!-- SWITCH COLORS -->
     <color name="switch_thumb">@color/material_dynamic_primary60</color>

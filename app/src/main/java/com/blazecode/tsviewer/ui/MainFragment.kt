@@ -167,7 +167,7 @@ class MainFragment : Fragment() {
         val tooltip = Tooltip.Builder(anchorView.context)
             .anchor(anchorView, 0, 0, false)
             .text(text)
-            .styleId(R.style.ToolTipLayoutDefaultStyle)
+            .styleId(R.style.tsTooltipStyle)
             .maxWidth(resources.displayMetrics.widthPixels / 4 * 3)
             .arrow(true)
             .closePolicy(ClosePolicy.TOUCH_ANYWHERE_CONSUME)
