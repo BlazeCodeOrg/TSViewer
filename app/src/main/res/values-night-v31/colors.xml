@@ -16,4 +16,7 @@
     <color name="swtich_track_activated">@color/material_dynamic_primary60</color>
     <color name="swtich_track_deactivated">@color/material_dynamic_neutral30</color>
 
+    <!-- TOOLTIP COLORS -->
+    <color name="tooltip_background">@color/material_dynamic_neutral90</color>
+
 </resources>
