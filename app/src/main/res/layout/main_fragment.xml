@@ -69,6 +69,8 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/background_tint"
                 android:hint="@string/query_password"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/text_secondary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutIp">
