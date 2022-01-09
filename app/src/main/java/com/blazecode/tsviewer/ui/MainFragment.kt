@@ -155,11 +155,13 @@ class MainFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         savePreferences()
+        setAppInForeground(false)
     }
 
     override fun onResume() {
         super.onResume()
         loadPreferences()
+        setAppInForeground(true)
     }
 
     private fun showTooltip(anchorView: View, text: String){
@@ -248,6 +250,14 @@ class MainFragment : Fragment() {
         return MasterKey.Builder(this.requireContext())
             .setKeyGenParameterSpec(spec)
             .build()
+    }
+
+    private fun setAppInForeground(isInForeground: Boolean){
+        val preferences : SharedPreferences = context?.getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)!!
+        val editor : SharedPreferences.Editor = preferences.edit()
+        //IP, USERNAME AND PASS ARE ENCRYPTED
+        editor.putBoolean("appInForeground", isInForeground)
+        editor.commit()
     }
 
     private fun loadViews(){
