@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -28,9 +27,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val demoModeMenuItem = binding.toolbar.menu.findItem(R.id.action_demo_mode)
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG)
             demoModeMenuItem.isVisible = true
-        }
+
 
 
         binding.toolbar.setOnMenuItemClickListener {
