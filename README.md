@@ -17,6 +17,9 @@ The app uses the new Material You adaptive colors, but is also backwards compati
 ## Video Demo
 ![DEMO](https://user-images.githubusercontent.com/60486125/148692387-03ac0eac-58e2-417e-ba43-cac4bc41f90a.gif)
 
+## Bug reporting
+If you encounter any bugs please open an issue in the repo or send me an e-mail via the "Send E-Mail" menu entry in the app. Please consider including a logcat/screenshot or screen recording. If you open an issue please also include the app version and android version of your device.
+
 ## Privacy
 Please tell the users of your TeamSpeak server that you are using this kind of software, because this may be seen as a violation of privacy. You could use a text like this in your default channel: 
 ```
