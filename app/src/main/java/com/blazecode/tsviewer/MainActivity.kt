@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -25,6 +26,12 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val demoModeMenuItem = binding.toolbar.menu.findItem(R.id.action_demo_mode)
+        if (BuildConfig.DEBUG){
+            demoModeMenuItem.isVisible = true
+        }
+
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -47,6 +54,12 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.action_send_email -> {
                     sendMail("Report")
+                    return@setOnMenuItemClickListener true
+                }
+
+                R.id.action_demo_mode -> {
+                    demoModeMenuItem.isChecked = !demoModeMenuItem.isChecked
+                    demoMode(demoModeMenuItem.isChecked )
                     return@setOnMenuItemClickListener true
                 }
                 else -> false
@@ -93,6 +106,13 @@ class MainActivity : AppCompatActivity() {
             editor.commit()
             true
         } else false
+    }
+
+    private fun demoMode(demoMode: Boolean) {
+        val preferences : SharedPreferences = getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)!!
+        val editor : SharedPreferences.Editor = preferences.edit()
+        editor.putBoolean("demoMode", demoMode)
+        editor.commit()
     }
 
     override fun onSupportNavigateUp(): Boolean {

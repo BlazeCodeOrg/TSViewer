@@ -14,4 +14,10 @@
     <item
         android:id="@+id/action_send_email"
         android:title="@string/send_email"/>
+
+    <item
+        android:id="@+id/action_demo_mode"
+        android:visible="false"
+        android:title="DemoMode"
+        android:checkable="true"/>
 </menu>

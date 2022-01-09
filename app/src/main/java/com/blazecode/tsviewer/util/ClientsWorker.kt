@@ -35,6 +35,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     private var RANDOMIZE_NICKNAME : Boolean = true
     private var INCLUDE_QUERY_CLIENTS : Boolean = false
     private var RUN_ONLY_WIFI : Boolean = true
+    private var DEMO_MODE : Boolean = false
 
     private var clientList = mutableListOf<Client>()
     private var clientListNames = mutableListOf<String>()
@@ -54,7 +55,10 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
 
     private fun getClients(){
         clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, RANDOMIZE_NICKNAME, INCLUDE_QUERY_CLIENTS)
-        extractNames()
+        if(DEMO_MODE)
+            clientListNames = mutableListOf("Cocktail", "Cosmo", "Commando", "Dangle", "SnoopWoot")
+        else
+            extractNames()
 
         notificationManager.post(clientListNames)
         tileManager.init()
@@ -82,6 +86,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         RANDOMIZE_NICKNAME = preferences.getBoolean("randNick", true)
         INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
         RUN_ONLY_WIFI = preferences.getBoolean("run_only_wifi", true)
+        DEMO_MODE = preferences.getBoolean("demoMode", false)
         loadEncryptedPreferences()
     }
 
