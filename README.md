@@ -11,6 +11,7 @@ The app uses the new Material You adaptive colors, but is also backwards compati
 - Locally stored and encryped IP and login credentials
 - No trackers like Firebase and Crashlytics
 
+[License](/license.md)
 
 
 
