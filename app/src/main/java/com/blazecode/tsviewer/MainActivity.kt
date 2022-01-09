@@ -27,10 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val demoModeMenuItem = binding.toolbar.menu.findItem(R.id.action_demo_mode)
-        if (BuildConfig.DEBUG)
-            demoModeMenuItem.isVisible = true
-
-
+        if (BuildConfig.DEBUG) demoModeMenuItem.isVisible = true
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
