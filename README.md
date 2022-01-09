@@ -11,10 +11,11 @@ The app uses the new Material You adaptive colors, but is also backwards compati
 - Locally stored and encryped IP and login credentials
 - No trackers like Firebase and Crashlytics
 
-##Privacy
+## Privacy
 Please tell the users of your TeamSpeak server that you are using this kind of software, because this may be seen as a violation of privacy. You could use a text like this in your default channel: 
 ```
-This server is using one or more instances of [TSViewer](https://github.com/BlazeCodeDev/TSViewer/). Please contact the admin if you do not agree to this.
+This server is using one or more instances of [url=https://github.com/BlazeCodeDev/TSViewer/]TSViewer[/url]. 
+Please contact the admin/owner if you do not agree to this.
 ```
 
 ## Disclaimer
