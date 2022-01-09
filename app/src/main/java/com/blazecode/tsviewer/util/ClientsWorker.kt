@@ -35,7 +35,6 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     private var RANDOMIZE_NICKNAME : Boolean = true
     private var INCLUDE_QUERY_CLIENTS : Boolean = false
     private var RUN_ONLY_WIFI : Boolean = true
-    private var IS_APP_IN_FOREGROUND : Boolean = false
 
     private var clientList = mutableListOf<Client>()
     private var clientListNames = mutableListOf<String>()
@@ -60,11 +59,6 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         notificationManager.post(clientListNames)
         tileManager.init()
         tileManager.post(clientListNames)
-
-        if(IS_APP_IN_FOREGROUND) {
-            Looper.prepare()
-            Toast.makeText(context, "Got ${clientList.size} client/s: ${clientListNames.joinToString()}", Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun extractNames(){
@@ -88,7 +82,6 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         RANDOMIZE_NICKNAME = preferences.getBoolean("randNick", true)
         INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
         RUN_ONLY_WIFI = preferences.getBoolean("run_only_wifi", true)
-        IS_APP_IN_FOREGROUND = preferences.getBoolean("appInForeground", false)
         loadEncryptedPreferences()
     }
 
