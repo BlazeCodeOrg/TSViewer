@@ -5,6 +5,7 @@ import com.github.theholywaffle.teamspeak3.TS3Config
 import com.github.theholywaffle.teamspeak3.TS3Query
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -19,7 +20,7 @@ class ConnectionManager(val context: Context) {
         var clientList = mutableListOf<Client>()
 
         runBlocking {
-            val apiCall = launch(exceptionHandler){
+            val apiCall = GlobalScope.launch(exceptionHandler){
                 //CONFIGURE
                 var config = TS3Config()
                 config.setHost(ip)

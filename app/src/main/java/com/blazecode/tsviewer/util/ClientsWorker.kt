@@ -4,17 +4,21 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.os.Looper
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import androidx.work.Worker
-import androidx.work.WorkerParameters
+import androidx.work.*
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.util.notification.NotificationManager
 import com.blazecode.tsviewer.util.tile.TileManager
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
+import java.util.*
+import kotlin.coroutines.coroutineContext
 
 class ClientsWorker(private val context: Context, workerParameters: WorkerParameters) :
     Worker(context, workerParameters) {
@@ -22,6 +26,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     val connectionManager = ConnectionManager(context)
     val notificationManager = NotificationManager(context)
     val tileManager = TileManager(context)
+    val errorHandler = ErrorHandler(context)
 
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""
@@ -34,6 +39,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     private var clientList = mutableListOf<Client>()
     private var clientListNames = mutableListOf<String>()
 
+
     override fun doWork() : Result {
         loadPreferences()
         if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) getClients()
@@ -42,7 +48,6 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
             tileManager.init()
             tileManager.noNetwork()
         }
-
 
         return Result.success()
     }
@@ -54,6 +59,8 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         notificationManager.post(clientListNames)
         tileManager.init()
         tileManager.post(clientListNames)
+
+        errorHandler.reportError("Got ${clientList.size} client/s: ${clientListNames.joinToString()}")
     }
 
     private fun extractNames(){
