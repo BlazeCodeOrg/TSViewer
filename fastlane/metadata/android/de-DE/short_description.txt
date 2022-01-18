@@ -1,0 +1,1 @@
+Eine einfache Android App welche sich in einem vorgegebenen Zeitabstand mit einem TeamSpeak Server verbindet und die Anzahl der verbundenen Clients mit Namen in einer Benachrichtigung anzeigt.
