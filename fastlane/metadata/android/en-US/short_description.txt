@@ -1,0 +1,1 @@
+Simple Android TeamSpeak client which connects every x minutes to get the connected clients and displays them in a notification and/or quick settings tile.
