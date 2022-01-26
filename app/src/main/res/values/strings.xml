@@ -29,6 +29,10 @@
     <!-- ERROR MESSAGES -->
     <string name="mustBeProvided">This must be provided</string>
 
+    <!-- BATTERY OPTIMIZATION SNACKBAR -->
+    <string name="batt_optimization">Please disable battery optimization for this app to make sure it runs as intended.</string>
+    <string name="batt_disable">Disable</string>
+
     <!-- NOTIFICATIONS -->
     <string name="notificationChannelClient">Client Channel</string>
     <string name="notificationChannelClientID">CLIENT_CHANNEL</string>

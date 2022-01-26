@@ -1,16 +1,20 @@
 package com.blazecode.tsviewer
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.util.notification.NotificationManager
+import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.aboutlibraries.LibsBuilder
 import java.util.*
 
@@ -63,10 +67,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         //CREATE NOTIFICATION CHANNEL IF FIRST START
-        if (isFirstStart()){
+        if (isFirstStart()) {
             val notificationManager = NotificationManager(this)
             notificationManager.createChannel()
         }
+
+        checkBatteryOptimization()
     }
 
     private fun sendMail(subject: String) {
@@ -102,6 +108,21 @@ class MainActivity : AppCompatActivity() {
             editor.commit()
             true
         } else false
+    }
+
+    private fun checkBatteryOptimization(){
+        val intent = Intent()
+        val powerManager : PowerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+        if(!powerManager.isIgnoringBatteryOptimizations(packageName)){
+            Snackbar.make(binding.parentLayout, R.string.batt_optimization, Snackbar.LENGTH_INDEFINITE)
+                .setActionTextColor(getColor(R.color.text))
+                .setAction(R.string.batt_disable){
+                    intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                    intent.data = Uri.parse("package:$packageName")
+                    startActivity(intent)
+                }
+                .show()
+        }
     }
 
     private fun demoMode(demoMode: Boolean) {
