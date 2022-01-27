@@ -1,0 +1,3 @@
+Added battery optimization snackbar
+Dependency updates
+Gradle update
