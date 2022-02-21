@@ -17,6 +17,10 @@ The app uses the new Material You adaptive colors, but is also backwards compati
 ## Video Demo
 ![DEMO](https://user-images.githubusercontent.com/60486125/148692387-03ac0eac-58e2-417e-ba43-cac4bc41f90a.gif)
 
+## Download
+[<img height=80 alt="Get it on F-Droid" src="https://user-images.githubusercontent.com/60486125/154999401-f69b1a74-dd6d-44e6-b729-e49f6b00ec4c.png" />](https://f-droid.org/en/packages/com.blazecode.tsviewer/)
+[<img height=80 alt="Get it on GitHub" src="https://user-images.githubusercontent.com/60486125/154999292-534a685f-5fbf-49cd-8c47-6c0475ab2aaf.png" />](https://github.com/BlazeCodeDev/TSViewer/releases)
+
 ## Bug reporting
 If you encounter any bugs please open an issue in the repo or send me an e-mail via the "Send E-Mail" menu entry in the app. Please consider including a logcat/screenshot or screen recording. If you open an issue please also include the app version and android version of your device.
 
@@ -28,7 +32,7 @@ Please contact the admin/owner if you do not agree to this.
 ```
 
 ## Disclaimer
-You are using this software at your own risk, I cannot be held responsible for any kind of damage this may produce in any way. Please only use the app when downloaded from official sources like this GitHub repo.
+You are using this software at your own risk, I cannot be held responsible for any kind of damage this may produce in any way. Please only use the app when downloaded from official sources linked above.
 
 ## License
 MIT License
