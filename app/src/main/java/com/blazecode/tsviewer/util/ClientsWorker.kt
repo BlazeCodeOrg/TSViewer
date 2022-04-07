@@ -12,17 +12,27 @@ import androidx.security.crypto.MasterKey
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.util.database.UserCount
+import com.blazecode.tsviewer.util.database.UserCountDAO
+import com.blazecode.tsviewer.util.database.UserCountDatabase
 import com.blazecode.tsviewer.util.notification.NotificationManager
 import com.blazecode.tsviewer.util.tile.TileManager
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 class ClientsWorker(private val context: Context, workerParameters: WorkerParameters) :
     Worker(context, workerParameters) {
+
+    val mContext = context
 
     val connectionManager = ConnectionManager(context)
     val notificationManager = NotificationManager(context)
     val tileManager = TileManager(context)
     val errorHandler = ErrorHandler(context)
+
+    lateinit var db: UserCountDatabase
+    lateinit var userCountDAO: UserCountDAO
 
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""
@@ -59,12 +69,22 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         notificationManager.post(clientListNames)
         tileManager.init()
         tileManager.post(clientListNames)
+        saveToDatabase(clientListNames)
     }
 
     private fun extractNames(){
         clientListNames.clear()
         for(client in clientList){
             clientListNames.add(client.nickname)
+        }
+    }
+
+    private fun saveToDatabase(list: MutableList<String>) {
+        db = UserCountDatabase.build(mContext)
+        userCountDAO = db.userCountDao()
+        run {
+            val userCount = UserCount(null, System.currentTimeMillis(), list.size, list.joinToString())
+            userCountDAO.insertUserCount(userCount)
         }
     }
 

@@ -14,6 +14,6 @@ abstract class UserCountDatabase : RoomDatabase() {
     abstract fun userCountDao(): UserCountDAO
 
     companion object {
-        fun build(context: Context) = Room.databaseBuilder(context, UserCountDatabase::class.java, "databaseUserCount")
+        fun build(context: Context) = Room.databaseBuilder(context, UserCountDatabase::class.java, "databaseUserCount").build()
     }
 }
