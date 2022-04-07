@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id("com.mikepenz.aboutlibraries.plugin")
+    id 'kotlin-kapt'
 }
 
 android {
@@ -68,4 +69,10 @@ dependencies {
 
     //ABOUT LIBRARIES
     implementation("com.mikepenz:aboutlibraries:$ABOUT_LIBRARIES_VERSION")
+
+    //ROOM DB
+    def room_version = "2.4.2"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 }
