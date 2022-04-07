@@ -12,4 +12,11 @@
         tools:layout="@layout/main_fragment">
     </fragment>
 
+    <fragment
+        android:id="@+id/GraphFragment"
+        android:name="com.blazecode.tsviewer.ui.GraphFragment"
+        android:label="graph_fragment"
+        tools:layout="@layout/fragment_graph">
+    </fragment>
+
 </navigation>

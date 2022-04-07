@@ -5,6 +5,9 @@
     <string name="github_source_url">https://github.com/BlazeCodeDev/TSViewer</string>
 
     <!-- UI ELEMENTS -->
+    <string name="start">Start</string>
+    <string name="graph">Graph</string>
+
     <string name="ip_adress">IP Adress</string>
     <string name="query_username">Query Username</string>
     <string name="query_password">Query Password</string>
@@ -48,5 +51,7 @@
     <string name="source">Source</string>
     <string name="licenses">Open Source Licenses</string>
     <string name="send_email">Send E-Mail</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

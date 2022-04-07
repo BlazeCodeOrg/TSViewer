@@ -8,11 +8,15 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
+import com.blazecode.tsviewer.ui.GraphFragment
+import com.blazecode.tsviewer.ui.MainFragment
 import com.blazecode.tsviewer.util.notification.NotificationManager
 import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.aboutlibraries.LibsBuilder
@@ -29,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportFragmentManager.commit { replace(R.id.fragment_container, MainFragment()) }
 
         val demoModeMenuItem = binding.toolbar.menu.findItem(R.id.action_demo_mode)
         if (BuildConfig.DEBUG) demoModeMenuItem.isVisible = true
@@ -61,6 +66,20 @@ class MainActivity : AppCompatActivity() {
                     demoModeMenuItem.isChecked = !demoModeMenuItem.isChecked
                     demoMode(demoModeMenuItem.isChecked )
                     return@setOnMenuItemClickListener true
+                }
+                else -> false
+            }
+        }
+
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.action_start -> {
+                    supportFragmentManager.commit { replace(R.id.fragment_container, MainFragment()) }
+                    true
+                }
+                R.id.action_graph -> {
+                    supportFragmentManager.commit { replace(R.id.fragment_container, GraphFragment()) }
+                    true
                 }
                 else -> false
             }
