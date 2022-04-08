@@ -21,6 +21,8 @@ import com.blazecode.tsviewer.util.notification.NotificationManager
 import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.aboutlibraries.LibsBuilder
 import java.util.*
+import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.coroutines.coroutineContext
 
 
 class MainActivity : AppCompatActivity() {
@@ -78,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.action_graph -> {
-                    supportFragmentManager.commit { replace(R.id.fragment_container, GraphFragment()) }
+                    supportFragmentManager.commit { replace(R.id.fragment_container, GraphFragment(EmptyCoroutineContext)) }
                     true
                 }
                 else -> false
