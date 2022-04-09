@@ -13,9 +13,8 @@ import com.blazecode.tsviewer.util.database.UserCount
 import com.blazecode.tsviewer.util.database.UserCountDAO
 import com.blazecode.tsviewer.util.database.UserCountDatabase
 import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.data.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,34 +47,38 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val graph: BarChart = view.findViewById(R.id.chart)
+        val graph: LineChart = view.findViewById(R.id.chart)
         getDataFromDataBase(graph)
     }
 
-    private fun getDataFromDataBase(barChart: BarChart){
+    private fun getDataFromDataBase(lineChart: LineChart){
         var dataTemp = mutableListOf<UserCount>()
         launch(Dispatchers.IO) {
             dataTemp = userCountDAO.getAll()
-            remapData(dataTemp, barChart)
+            remapData(dataTemp, lineChart)
         }
     }
 
-    private fun remapData(data: MutableList<UserCount>, barChart: BarChart){
+    private fun remapData(data: MutableList<UserCount>, lineChart: LineChart){
         // CONVERT USERCOUNT TO ENTRIES
-        var entries: MutableList<BarEntry> = mutableListOf()
+        var entries: MutableList<Entry> = mutableListOf()
         for(UserCount in data){
-            entries.add(BarEntry(UserCount.timestamp!!.toFloat(), UserCount.amount!!.toFloat(), UserCount.names))
+            entries.add(Entry(UserCount.timestamp!!.toFloat(), UserCount.amount!!.toFloat(), UserCount.names))
         }
 
         // STYLE DATASET
-        val barChartDataset = BarDataSet(entries, "Clients")
-        barChartDataset.color = R.color.text
+        val lineChartDataSet = LineDataSet(entries, "Clients")
+        lineChartDataSet.color = R.color.primary
+        lineChartDataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+        lineChartDataSet.fillColor = R.color.primary
+        lineChartDataSet.setDrawFilled(true)
+        lineChartDataSet.setDrawCircles(false)
 
-        val barData = BarData(barChartDataset)
-        styleGraph(barData, barChart)
+        val lineData = LineData(lineChartDataSet)
+        styleGraph(lineData, lineChart)
     }
 
-    private fun styleGraph(barData: BarData, barChart: BarChart){
+    private fun styleGraph(lineData: LineData, lineChart: LineChart){
         // SET GRAPH HEIGHT TO HALF OF THE SCREEN
         val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             requireActivity().display
@@ -84,19 +87,20 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         }
         val size = Point()
         display!!.getSize(size)
-        val params: ViewGroup.LayoutParams = barChart.layoutParams
+        val params: ViewGroup.LayoutParams = lineChart.layoutParams
         params.height = size.y / 2
-        barChart.layoutParams = params
+        lineChart.layoutParams = params
 
         // STYLE GRAPH
-        barChart.setBackgroundColor(resources.getColor(R.color.background))
-        barChart.setDrawBorders(false)
-        barChart.description.text = ""
+        lineChart.setBackgroundColor(resources.getColor(R.color.background))
+        lineChart.description.text = ""
+        lineChart.legend.isEnabled = false
+        lineChart.setHardwareAccelerationEnabled(true)
 
-        assignDataToGraph(barData, barChart)
+        assignDataToGraph(lineData, lineChart)
     }
 
-    private fun assignDataToGraph(barData: BarData, barChart: BarChart){
-        barChart.data = barData
+    private fun assignDataToGraph(lineData: LineData, lineChart: LineChart){
+        lineChart.data = lineData
     }
 }
