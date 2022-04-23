@@ -12,6 +12,7 @@ import com.blazecode.tsviewer.databinding.FragmentGraphBinding
 import com.blazecode.tsviewer.util.database.UserCount
 import com.blazecode.tsviewer.util.database.UserCountDAO
 import com.blazecode.tsviewer.util.database.UserCountDatabase
+import com.blazecode.tsviewer.util.graphmarker.CustomGraphMarker
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.data.*
@@ -122,6 +123,12 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         //SETUP VIEW WINDOW
         lineChart.moveViewToX(xAxisTime.size.toFloat())                         //MOVE TO THE FAR RIGHT
         lineChart.setVisibleXRange(1F,96F)                                      //MAX X ZOOM OF 1 DAY AT MINIMUM SCHEDULE TIME OF 15 MINS
+
+        //ADD CUSTOM MARKER
+        lineChart.isHighlightPerTapEnabled = true
+        lineChart.isHighlightPerDragEnabled = true
+        val markerView = CustomGraphMarker(requireContext(), R.layout.marker_layout)
+        lineChart.marker = markerView
 
     }
 
