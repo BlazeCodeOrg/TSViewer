@@ -82,6 +82,7 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         lineChartDataSet.fillColor = R.color.primary
         lineChartDataSet.setDrawFilled(true)
         lineChartDataSet.setDrawCircles(false)
+        lineChartDataSet.setDrawValues(false)
 
         val lineData = LineData(lineChartDataSet)
         styleGraph(lineData, lineChart)
@@ -106,11 +107,22 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         lineChart.legend.isEnabled = false
         lineChart.setHardwareAccelerationEnabled(true)
 
+        //YAXIS STYLING
+        lineChart.axisLeft.granularity = 1F
+        lineChart.axisLeft.gridColor = R.color.primary
+        lineChart.axisRight.isEnabled = false
+
         //XAXIS VALUE FORMATTING
         val xAxis = lineChart.xAxis
+        xAxis.gridColor = R.color.primary
         xAxis.valueFormatter = IndexAxisValueFormatter(xAxisTime)
 
         assignDataToGraph(lineData, lineChart)
+
+        //SETUP VIEW WINDOW
+        lineChart.moveViewToX(xAxisTime.size.toFloat())                         //MOVE TO THE FAR RIGHT
+        lineChart.setVisibleXRange(1F,96F)                                      //MAX X ZOOM OF 1 DAY AT MINIMUM SCHEDULE TIME OF 15 MINS
+
     }
 
     private fun assignDataToGraph(lineData: LineData, lineChart: LineChart){
