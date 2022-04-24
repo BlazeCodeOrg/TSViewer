@@ -122,7 +122,7 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
 
         //SETUP VIEW WINDOW
         lineChart.moveViewToX(xAxisTime.size.toFloat())                         //MOVE TO THE FAR RIGHT
-        lineChart.setVisibleXRange(1F,96F)                                      //MAX X ZOOM OF 1 DAY AT MINIMUM SCHEDULE TIME OF 15 MINS
+        lineChart.setVisibleXRangeMaximum(96F)                                  //MAX X ZOOM OF 1 DAY AT MINIMUM SCHEDULE TIME OF 15 MINS
 
         //ADD CUSTOM MARKER
         lineChart.isHighlightPerTapEnabled = true
