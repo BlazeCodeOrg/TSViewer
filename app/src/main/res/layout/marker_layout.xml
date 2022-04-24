@@ -2,23 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="2dp"
-    android:background="@color/background"
+    android:background="@drawable/marker_background"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView_date_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/smallMargin"
+        android:layout_marginRight="@dimen/smallMargin"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:text="dd.MM - HH:mm"
+        android:fontFamily="@font/inter_regular"
+        android:textSize="14sp"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/textView_names"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hyphenationFrequency="none"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:text=""
-        android:textSize="10dp"
-        android:textColor="@android:color/white"
-        android:ellipsize="end"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:paddingBottom="32dp"/>
+        android:layout_margin="@dimen/smallMargin"
+        android:text="Cocktail, Cosmo"
+        android:fontFamily="@font/inter_regular"
+        android:textSize="12sp"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

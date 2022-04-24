@@ -1,5 +1,7 @@
 package com.blazecode.tsviewer.ui
 
+import android.content.res.Configuration
+import android.graphics.Color
 import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
@@ -14,9 +16,9 @@ import com.blazecode.tsviewer.util.database.UserCountDAO
 import com.blazecode.tsviewer.util.database.UserCountDatabase
 import com.blazecode.tsviewer.util.graphmarker.CustomGraphMarker
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -72,7 +74,7 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         // CONVERT USERCOUNT TO ENTRIES
         var entries: MutableList<Entry> = mutableListOf()
         for(UserCount in data){
-            entries.add(Entry(UserCount.id!!.toFloat(), UserCount.amount!!.toFloat(), UserCount.names))
+            entries.add(Entry(UserCount.id!!.toFloat(), UserCount.amount!!.toFloat(), "${UserCount.timestamp};${UserCount.names}"))
             xAxisTime.add(convertUnixToTime(UserCount.timestamp!!))
         }
 
