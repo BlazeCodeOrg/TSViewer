@@ -88,8 +88,10 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
                     remapData(dataTemp, lineChart)
                 }
             } else {
-                graph.isVisible = false
-                layoutEmpty.isVisible = true
+                requireActivity().runOnUiThread {
+                    graph.isVisible = false
+                    layoutEmpty.isVisible = true
+                }
             }
         }
     }
