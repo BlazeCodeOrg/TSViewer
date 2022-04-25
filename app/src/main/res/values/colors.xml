@@ -23,5 +23,6 @@
     <color name="graph_fill">#6169AC</color>
     <color name="graph_grid">#6169AC</color>
     <color name="graph_text">#2E3133</color>
+    <color name="graph_delete">@color/design_default_color_error</color>
 
 </resources>

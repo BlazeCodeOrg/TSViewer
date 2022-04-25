@@ -20,4 +20,7 @@ interface UserCountDAO {
 
     @Delete
     fun delete(userCount: UserCount)
+
+    @Query("DELETE FROM usercount")
+    fun deleteAll()
 }

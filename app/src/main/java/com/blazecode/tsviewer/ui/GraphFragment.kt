@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.blazecode.tsviewer.R
@@ -21,6 +22,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,14 +61,23 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
 
         val graph: LineChart = view.findViewById(R.id.chart)
         getDataFromDataBase(graph)
+
+        val buttonDeleteDatabase : Button = view.findViewById(R.id.buttonDeleteDatabase)
+        buttonDeleteDatabase.setOnClickListener {
+            deleteDatabaseDialog()
+        }
     }
 
     private fun getDataFromDataBase(lineChart: LineChart){
         var dataTemp = mutableListOf<UserCount>()
         launch(Dispatchers.IO) {
             dataTemp = userCountDAO.getAll()
-            requireActivity().runOnUiThread {
-                remapData(dataTemp, lineChart)
+            if(dataTemp.size >= 4){
+                requireActivity().runOnUiThread {
+                    remapData(dataTemp, lineChart)
+                }
+            } else {
+
             }
         }
     }
@@ -147,5 +158,25 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         val simpleDateFormat = SimpleDateFormat("HH:mm")
         simpleDateFormat.timeZone = TimeZone.getDefault()
         return simpleDateFormat.format(date)
+    }
+
+    private fun deleteDatabaseDialog(){
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.delete_database)
+            .setMessage(R.string.delete_database_message)
+            .setNegativeButton(R.string.cancel) { dialog, which ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(R.string.yes) { dialog, which ->
+                deleteDatabase()
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun deleteDatabase(){
+        launch(Dispatchers.IO) {
+            userCountDAO.deleteAll()
+        }
     }
 }

@@ -44,7 +44,10 @@
     <style name="tsTextButton" parent="@style/Widget.MaterialComponents.Button.TextButton">
         <item name="textAllCaps">false</item>
         <item name="cornerRadius">@dimen/buttonRadius</item>
-        <item name="android:textColor">@color/primary</item>
+    </style>
+
+    <style name="tsWarningTextButton" parent="@style/tsButton">
+        <item name="android:backgroundTint">@color/graph_delete</item>
     </style>
 
     <!-- TOOLTIPS -->

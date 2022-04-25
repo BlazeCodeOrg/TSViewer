@@ -25,6 +25,9 @@
     <string name="stop_schedule">Stop Schedule</string>
     <string name="connection_attempts">Connection Attempts</string>
 
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+
     <!-- TOOLTIPS -->
     <string name="tooltip_randomize">This setting adds a random number to the chosen nickname to avoid the \"Username is already in use\" error. The number changes with every time the app connects.</string>
     <string name="tooltip_include_query_clients">Turn this on to include any connected query clients such as bots. (The client used by the app will always be excluded)</string>
@@ -51,7 +54,11 @@
     <string name="source">Source</string>
     <string name="licenses">Open Source Licenses</string>
     <string name="send_email">Send E-Mail</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- GRAPH -->
+    <string name="delete_database">Delete Database</string>
+    <string name="delete_database_message">Are you sure that you want to empty the database? This cannot be reversed!</string>
+    <string name="enable_logging">Enable Logging</string>
+    <string name="disable_logging">Disable Logging</string>
 
 </resources>
