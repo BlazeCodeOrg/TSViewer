@@ -9,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.databinding.FragmentGraphBinding
@@ -39,6 +41,8 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
     lateinit var db: UserCountDatabase
     lateinit var userCountDAO: UserCountDAO
 
+    lateinit var graph: LineChart
+    lateinit var layoutEmpty : View
     var xAxisTime: MutableList<String> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,9 +63,10 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val graph: LineChart = view.findViewById(R.id.chart)
+        graph = view.findViewById(R.id.chart)
         getDataFromDataBase(graph)
 
+        layoutEmpty = view.findViewById(R.id.layout_empty)
         val buttonDeleteDatabase : Button = view.findViewById(R.id.buttonDeleteDatabase)
         buttonDeleteDatabase.setOnClickListener {
             deleteDatabaseDialog()
@@ -77,7 +82,8 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
                     remapData(dataTemp, lineChart)
                 }
             } else {
-
+                graph.isVisible = false
+                layoutEmpty.isVisible = true
             }
         }
     }

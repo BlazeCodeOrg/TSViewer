@@ -10,20 +10,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/graphContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/layout_empty"
+                layout="@layout/layout_empty"
+                android:visibility="gone" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="@dimen/mediumMargin"
-            app:layout_constraintTop_toBottomOf="@+id/chart">
+            app:layout_constraintTop_toBottomOf="@+id/graphContainer">
 
             <Button
                 android:id="@+id/buttonToggleLogging"
