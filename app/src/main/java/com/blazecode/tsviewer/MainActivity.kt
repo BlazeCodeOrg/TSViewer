@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent()
         val powerManager : PowerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
         if(!powerManager.isIgnoringBatteryOptimizations(packageName)){
-            Snackbar.make(binding.parentLayout, R.string.batt_optimization, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(binding.appBarLayout, R.string.batt_optimization, Snackbar.LENGTH_INDEFINITE)
                 .setActionTextColor(getColor(R.color.text))
                 .setAction(R.string.batt_disable){
                     intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
