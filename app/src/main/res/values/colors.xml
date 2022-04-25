@@ -19,4 +19,9 @@
     <!-- TOOLTIP COLORS -->
     <color name="tooltip_background">#181A20</color>
 
+    <!-- GRAPH COLORS -->
+    <color name="graph_fill">#6169AC</color>
+    <color name="graph_grid">#6169AC</color>
+    <color name="graph_text">#2E3133</color>
+
 </resources>

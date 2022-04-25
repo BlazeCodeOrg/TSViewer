@@ -19,4 +19,9 @@
     <!-- TOOLTIP COLORS -->
     <color name="tooltip_background">@color/material_dynamic_neutral10</color>
 
+    <!-- GRAPH COLORS -->
+    <color name="graph_fill">@color/material_dynamic_primary50</color>
+    <color name="graph_grid">@color/material_dynamic_primary50</color>
+    <color name="graph_text">@color/material_dynamic_neutral20</color>
+
 </resources>

@@ -82,7 +82,8 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         val lineChartDataSet = LineDataSet(entries, "Clients")
         lineChartDataSet.color = R.color.primary
         lineChartDataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-        lineChartDataSet.fillColor = R.color.primary
+        lineChartDataSet.fillColor = resources.getColor(R.color.graph_fill)
+        lineChartDataSet.fillAlpha = 255
         lineChartDataSet.setDrawFilled(true)
         lineChartDataSet.setDrawCircles(false)
         lineChartDataSet.setDrawValues(false)
@@ -112,12 +113,14 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
 
         //YAXIS STYLING
         lineChart.axisLeft.granularity = 1F
-        lineChart.axisLeft.gridColor = R.color.primary
+        lineChart.axisLeft.gridColor = resources.getColor(R.color.graph_grid)
+        lineChart.axisLeft.textColor = resources.getColor(R.color.graph_text)
         lineChart.axisRight.isEnabled = false
 
         //XAXIS VALUE FORMATTING
         val xAxis = lineChart.xAxis
-        xAxis.gridColor = R.color.primary
+        xAxis.gridColor = resources.getColor(R.color.graph_grid)
+        xAxis.textColor = resources.getColor(R.color.graph_text)
         xAxis.valueFormatter = IndexAxisValueFormatter(xAxisTime)
 
         assignDataToGraph(lineData, lineChart)
