@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.databinding.FragmentGraphBinding
@@ -82,7 +83,7 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         val lineChartDataSet = LineDataSet(entries, "Clients")
         lineChartDataSet.color = R.color.primary
         lineChartDataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-        lineChartDataSet.fillColor = resources.getColor(R.color.graph_fill)
+        lineChartDataSet.fillColor = requireContext().getColor(R.color.graph_fill)
         lineChartDataSet.fillAlpha = 255
         lineChartDataSet.setDrawFilled(true)
         lineChartDataSet.setDrawCircles(false)
@@ -106,21 +107,21 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         lineChart.layoutParams = params
 
         // STYLE GRAPH
-        lineChart.setBackgroundColor(resources.getColor(R.color.background))
+        lineChart.setBackgroundColor(requireContext().getColor(R.color.background))
         lineChart.description.text = ""
         lineChart.legend.isEnabled = false
         lineChart.setHardwareAccelerationEnabled(true)
 
         //YAXIS STYLING
         lineChart.axisLeft.granularity = 1F
-        lineChart.axisLeft.gridColor = resources.getColor(R.color.graph_grid)
-        lineChart.axisLeft.textColor = resources.getColor(R.color.graph_text)
+        lineChart.axisLeft.gridColor = requireContext().getColor(R.color.graph_grid)
+        lineChart.axisLeft.textColor = requireContext().getColor(R.color.graph_text)
         lineChart.axisRight.isEnabled = false
 
         //XAXIS VALUE FORMATTING
         val xAxis = lineChart.xAxis
-        xAxis.gridColor = resources.getColor(R.color.graph_grid)
-        xAxis.textColor = resources.getColor(R.color.graph_text)
+        xAxis.gridColor = requireContext().getColor(R.color.graph_grid)
+        xAxis.textColor = requireContext().getColor(R.color.graph_text)
         xAxis.valueFormatter = IndexAxisValueFormatter(xAxisTime)
 
         assignDataToGraph(lineData, lineChart)
