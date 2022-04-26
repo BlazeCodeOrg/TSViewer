@@ -1,12 +1,14 @@
 package com.blazecode.tsviewer.ui
 
 import android.content.SharedPreferences
+import android.nfc.Tag
 import android.os.Bundle
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -20,8 +22,10 @@ import com.blazecode.tsviewer.databinding.MainFragmentBinding
 import com.blazecode.tsviewer.databinding.MainFragmentScheduleLayoutBinding
 import com.blazecode.tsviewer.util.ClientsWorker
 import com.blazecode.tsviewer.util.ErrorHandler
+import com.google.common.util.concurrent.ListenableFuture
 import it.sephiroth.android.library.xtooltip.ClosePolicy
 import it.sephiroth.android.library.xtooltip.Tooltip
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 
 
@@ -35,7 +39,8 @@ class MainFragment : Fragment() {
 
     private val errorHandler = context?.let { ErrorHandler(it) }
     private lateinit var workManager: WorkManager
-    private var isWorkScheduled : Boolean = false
+
+    private val TAG = "scheduleClients"
 
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""
@@ -132,18 +137,36 @@ class MainFragment : Fragment() {
                 1, TimeUnit.MINUTES)                                                                      //FLEX TIME INTERVAL
                 .build()
 
-            if(isAllInfoProvided() && !isWorkScheduled){
+            if(isAllInfoProvided() && !isWorkScheduled(TAG)){
                 val oneTimeclientWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ClientsWorker>().build()          //RUN ONE TIME
                 workManager.enqueue(oneTimeclientWorkRequest)
 
-                workManager.enqueueUniquePeriodicWork("scheduleClients", ExistingPeriodicWorkPolicy.REPLACE, clientWorkRequest)     //SCHEDULE THE NEXT RUNS
-                isWorkScheduled = true
+                workManager.enqueueUniquePeriodicWork(TAG, ExistingPeriodicWorkPolicy.REPLACE, clientWorkRequest)     //SCHEDULE THE NEXT RUNS
                 scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.stop_schedule)
-            } else if (isWorkScheduled) {
-                workManager.cancelWorkById(clientWorkRequest.id)
-                isWorkScheduled = false
+            } else if (isWorkScheduled(TAG)) {
+                workManager.cancelUniqueWork(TAG)
                 scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.start_schedule)
             }
+        }
+    }
+
+    private fun isWorkScheduled(TAG: String) : Boolean {
+        val instance = WorkManager.getInstance(requireContext())
+        val statuses: ListenableFuture<List<WorkInfo>> = instance.getWorkInfosForUniqueWork(TAG)
+        return try {
+            var running = false
+            val workInfoList: List<WorkInfo> = statuses.get()
+            for (workInfo in workInfoList) {
+                val state = workInfo.state
+                running = state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED
+            }
+            running
+        } catch (e: ExecutionException) {
+            e.printStackTrace()
+            false
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+            false
         }
     }
 
@@ -186,7 +209,6 @@ class MainFragment : Fragment() {
         editor.putBoolean("includeQuery", INCLUDE_QUERY_CLIENTS)
         editor.putFloat("scheduleTime", SCHEDULE_TIME)
         editor.putBoolean("run_only_wifi", RUN_ONLY_WIFI)
-        editor.putBoolean("isWorkScheduled", isWorkScheduled)
         editor.commit()
 
         saveEncryptedPreferences()
@@ -217,7 +239,6 @@ class MainFragment : Fragment() {
         INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
         SCHEDULE_TIME = preferences.getFloat("scheduleTime", 15f)
         RUN_ONLY_WIFI = preferences.getBoolean("run_only_wifi", true)
-        isWorkScheduled = preferences.getBoolean("isWorkScheduled", false)
 
         loadEncryptedPreferences()
         loadViews()
@@ -255,8 +276,8 @@ class MainFragment : Fragment() {
         binding.inputEditTextUsername.setText(USERNAME)
         binding.inputEditTextPassword.setText(PASSWORD)
         advancedLayoutBinding.inputEditTextNickname.setText(NICKNAME)
-        if(isWorkScheduled) scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.stop_schedule)
-        if(!isWorkScheduled) scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.start_schedule)
+        if(isWorkScheduled(TAG)) scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.stop_schedule)
+        if(!isWorkScheduled(TAG)) scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.start_schedule)
         advancedLayoutBinding.switchNicknameRandomize.isChecked = RANDOMIZE_NICKNAME
         advancedLayoutBinding.switchIncludeQueryClients.isChecked = INCLUDE_QUERY_CLIENTS
         advancedLayoutBinding.switchOnlyWiFi.isChecked = RUN_ONLY_WIFI
