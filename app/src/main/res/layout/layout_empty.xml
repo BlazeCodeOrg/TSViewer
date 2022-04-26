@@ -6,18 +6,16 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <com.airbnb.lottie.LottieAnimationView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/round_home_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:lottie_rawRes="@raw/lottie_empty_database"
+        app:lottie_autoPlay="true"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="EMPTY LAYOUT PLACEHOLDER"
+        android:text="@string/not_enough_data"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
