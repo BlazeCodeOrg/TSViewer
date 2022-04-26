@@ -41,7 +41,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <include
-        android:id="@+id/layout_empty"
+        android:id="@+id/layout_empty_database"
         layout="@layout/layout_empty"
         android:visibility="gone" />
 </FrameLayout>

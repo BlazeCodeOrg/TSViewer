@@ -46,11 +46,6 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
     lateinit var db: UserCountDatabase
     lateinit var userCountDAO: UserCountDAO
 
-    lateinit var graph: LineChart
-    lateinit var layoutEmpty : View
-    lateinit var parentLayout : FrameLayout
-    lateinit var graphContainer : LinearLayoutCompat
-
     var xAxisTime: MutableList<String> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,20 +60,16 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_graph, container, false)
+        graphBinding = FragmentGraphBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        graph = view.findViewById(R.id.chart)
-        getDataFromDataBase(graph)
+        getDataFromDataBase(binding.chart)
 
-        graphContainer = view.findViewById(R.id.graphContainer)
-        layoutEmpty = view.findViewById(R.id.layout_empty)
-        parentLayout = view.findViewById(R.id.parentLayout)
-        val buttonDeleteDatabase : Button = view.findViewById(R.id.buttonDeleteDatabase)
-        buttonDeleteDatabase.setOnClickListener {
+        binding.buttonDeleteDatabase.setOnClickListener {
             deleteDatabaseDialog()
         }
     }
@@ -93,8 +84,8 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
                 }
             } else {
                 requireActivity().runOnUiThread {
-                    graphContainer.isVisible = false
-                    layoutEmpty.isVisible = true
+                    binding.graphContainer.isVisible = false
+                    binding.layoutEmptyDatabase.root.isVisible = true
                 }
             }
         }
@@ -196,8 +187,8 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         launch(Dispatchers.IO) {
             userCountDAO.deleteAll()
         }
-        TransitionManager.beginDelayedTransition(parentLayout, AutoTransition())
-        graphContainer.isVisible = false
-        layoutEmpty.isVisible = true
+        TransitionManager.beginDelayedTransition(binding.parentLayout, AutoTransition())
+        binding.graphContainer.isVisible = false
+        binding.layoutEmptyDatabase.root.isVisible = true
     }
 }
