@@ -140,12 +140,19 @@ class MainFragment : Fragment() {
             if(isAllInfoProvided() && !isWorkScheduled(TAG)){
                 val oneTimeclientWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ClientsWorker>().build()          //RUN ONE TIME
                 workManager.enqueue(oneTimeclientWorkRequest)
-
                 workManager.enqueueUniquePeriodicWork(TAG, ExistingPeriodicWorkPolicy.REPLACE, clientWorkRequest)     //SCHEDULE THE NEXT RUNS
-                scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.stop_schedule)
+                if(isWorkScheduled(TAG)){
+                    scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.stop_schedule)
+                } else {
+                    errorHandler!!.reportError("Error starting Worker")
+                }
             } else if (isWorkScheduled(TAG)) {
                 workManager.cancelUniqueWork(TAG)
-                scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.start_schedule)
+                if(!isWorkScheduled(TAG)){
+                    scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.start_schedule)
+                } else {
+                    errorHandler!!.reportError("Error cancelling Worker")
+                }
             }
         }
     }
