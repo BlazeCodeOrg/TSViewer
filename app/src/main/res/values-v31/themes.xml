@@ -16,6 +16,7 @@
         <item name="buttonStyle">@style/Widget.Material3.Button</item>
         <!-- ABOUT LIBRARIES -->
         <item name="aboutLibrariesStyle">@style/CustomAboutLibrariesStyle</item>
+        <!-- MENUS -->
+        <item name="actionOverflowMenuStyle">@style/tsMenu</item>
     </style>
-
 </resources>

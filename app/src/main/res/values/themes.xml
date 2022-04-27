@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--BASE THEME-->
-    <style name="Theme.TSViewer" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.TSViewer" parent="Theme.Material3.DayNight.NoActionBar">
         <!--PRIMARY COLORS-->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primaryVariant</item>
@@ -18,6 +18,8 @@
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
         <!-- ABOUT LIBRARIES -->
         <item name="aboutLibrariesStyle">@style/CustomAboutLibrariesStyle</item>
+        <!-- POPUP MENUS -->
+        <item name="actionOverflowMenuStyle">@style/tsMenu</item>
     </style>
 
     <style name="Theme.TSViewer.NoActionBar">
@@ -32,6 +34,11 @@
 
     <style name="TextAppearance.App.CollapsingToolbar.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">@font/inter</item>
+    </style>
+
+    <!-- MENU -->
+    <style name="tsMenu" parent="@style/Widget.MaterialComponents.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/background_menu</item>
     </style>
 
     <!-- BUTTONS -->
