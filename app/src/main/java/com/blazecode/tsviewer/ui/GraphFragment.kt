@@ -84,7 +84,7 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
                 }
             } else {
                 requireActivity().runOnUiThread {
-                    binding.graphContainer.isVisible = false
+                    binding.layoutLoading.root.isVisible = false
                     binding.layoutEmptyDatabase.root.isVisible = true
                 }
             }
@@ -160,6 +160,10 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
 
     private fun assignDataToGraph(lineData: LineData, lineChart: LineChart){
         lineChart.data = lineData
+
+        //HIDE LOADING SCREEN, SHOW GRAPH
+        binding.graphContainer.isVisible = true
+        binding.layoutLoading.root.isVisible = false
     }
 
     private fun convertUnixToTime(unix: Long): String {

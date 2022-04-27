@@ -14,6 +14,7 @@
         android:orientation="vertical"
         android:layout_gravity="center"
         android:gravity="center"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -44,4 +45,9 @@
         android:id="@+id/layout_empty_database"
         layout="@layout/layout_empty"
         android:visibility="gone" />
+
+    <include
+        android:id="@+id/layout_loading"
+        layout="@layout/layout_loading"
+        android:visibility="visible" />
 </FrameLayout>
