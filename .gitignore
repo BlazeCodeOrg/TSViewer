@@ -26,3 +26,4 @@ local.properties
 ehthumbs.db
 Thumbs.db
 /app/release/
+/app/debug/
