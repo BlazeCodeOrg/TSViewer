@@ -18,8 +18,6 @@ import com.blazecode.tsviewer.util.database.UserCountDatabase
 import com.blazecode.tsviewer.util.notification.NotificationManager
 import com.blazecode.tsviewer.util.tile.TileManager
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
 
 class ClientsWorker(private val context: Context, workerParameters: WorkerParameters) :
     Worker(context, workerParameters) {

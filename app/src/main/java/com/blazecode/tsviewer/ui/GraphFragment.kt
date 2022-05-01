@@ -1,19 +1,11 @@
 package com.blazecode.tsviewer.ui
 
-import android.content.res.Configuration
-import android.graphics.Color
 import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.transition.AutoTransition
@@ -139,10 +131,9 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         lineChart.axisRight.isEnabled = false
 
         //XAXIS VALUE FORMATTING
-        val xAxis = lineChart.xAxis
-        xAxis.gridColor = requireContext().getColor(R.color.graph_grid)
-        xAxis.textColor = requireContext().getColor(R.color.graph_text)
-        xAxis.valueFormatter = IndexAxisValueFormatter(xAxisTime)
+        lineChart.xAxis.gridColor = requireContext().getColor(R.color.graph_grid)
+        lineChart.xAxis.textColor = requireContext().getColor(R.color.graph_text)
+        lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisTime)
 
         assignDataToGraph(lineData, lineChart)
 
@@ -189,7 +180,7 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
 
     private fun deleteDatabase(){
         launch(Dispatchers.IO) {
-            userCountDAO.deleteAll()
+            db.clearAllTables()
         }
         TransitionManager.beginDelayedTransition(binding.parentLayout, AutoTransition())
         binding.graphContainer.isVisible = false
