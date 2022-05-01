@@ -28,6 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+            android:enabled="false"
             android:id="@+id/buttonDeleteDatabase"
             style="@style/tsWarningTextButton"
             android:layout_width="wrap_content"
