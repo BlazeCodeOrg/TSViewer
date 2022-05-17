@@ -36,7 +36,6 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     private var USERNAME : String = ""
     private var PASSWORD : String = ""
     private var NICKNAME : String = "TSViewer"
-    private var RANDOMIZE_NICKNAME : Boolean = true
     private var INCLUDE_QUERY_CLIENTS : Boolean = false
     private var RUN_ONLY_WIFI : Boolean = true
     private var DEMO_MODE : Boolean = false
@@ -83,8 +82,9 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     }
 
     private fun getLatestId() : Int {
-        val latestEntry : UserCount = userCountDAO.getLastEntry()
-        return latestEntry.id!!
+        val latestEntry : UserCount? = userCountDAO.getLastEntry()
+        return if(latestEntry == null) 0
+        else latestEntry.id!!
     }
 
     private fun saveToDatabase(list: MutableList<String>) {

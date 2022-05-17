@@ -19,7 +19,7 @@ interface UserCountDAO {
     fun insertUserCount(vararg userCount: UserCount)
 
     @Query("SELECT id FROM usercount ORDER BY id DESC LIMIT 1")
-    fun getLastEntry(): UserCount
+    fun getLastEntry(): UserCount?
 
     @Delete
     fun delete(userCount: UserCount)
