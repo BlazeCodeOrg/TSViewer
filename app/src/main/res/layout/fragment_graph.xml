@@ -27,19 +27,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:enabled="false"
-            android:id="@+id/buttonDeleteDatabase"
-            style="@style/tsWarningTextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/delete_database"
-            android:textColor="@color/text_on_primary"
-            android:layout_margin="@dimen/smallMargin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chart" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <include

@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.databinding.FragmentGraphBinding
 import com.blazecode.tsviewer.util.database.UserCount
@@ -21,7 +19,6 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,10 +57,6 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         super.onViewCreated(view, savedInstanceState)
 
         getDataFromDataBase(binding.chart)
-
-        binding.buttonDeleteDatabase.setOnClickListener {
-            deleteDatabaseDialog()
-        }
     }
 
     private fun getDataFromDataBase(lineChart: LineChart){
@@ -162,28 +155,5 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         val simpleDateFormat = SimpleDateFormat("HH:mm")
         simpleDateFormat.timeZone = TimeZone.getDefault()
         return simpleDateFormat.format(date)
-    }
-
-    private fun deleteDatabaseDialog(){
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.delete_database)
-            .setMessage(R.string.delete_database_message)
-            .setNegativeButton(R.string.cancel) { dialog, which ->
-                dialog.dismiss()
-            }
-            .setPositiveButton(R.string.yes) { dialog, which ->
-                deleteDatabase()
-                dialog.dismiss()
-            }
-            .show()
-    }
-
-    private fun deleteDatabase(){
-        launch(Dispatchers.IO) {
-            db.clearAllTables()
-        }
-        TransitionManager.beginDelayedTransition(binding.parentLayout, AutoTransition())
-        binding.graphContainer.isVisible = false
-        binding.layoutEmptyDatabase.root.isVisible = true
     }
 }
