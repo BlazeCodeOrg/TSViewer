@@ -44,7 +44,6 @@ class MainFragment : Fragment() {
     private var USERNAME : String = ""
     private var PASSWORD : String = ""
     private var NICKNAME : String = "TSViewer"
-    private var RANDOMIZE_NICKNAME : Boolean = true
     private var INCLUDE_QUERY_CLIENTS : Boolean = false
     private var SCHEDULE_TIME : Float = 15f
     private var RUN_ONLY_WIFI : Boolean = true
@@ -88,15 +87,6 @@ class MainFragment : Fragment() {
         advancedLayoutBinding.inputEditTextNickname.addTextChangedListener(){
             NICKNAME = it.toString()
             savePreferences()
-        }
-
-        advancedLayoutBinding.switchNicknameRandomize.setOnCheckedChangeListener { compoundButton, isChecked ->
-            RANDOMIZE_NICKNAME = isChecked
-            savePreferences()
-        }
-
-        advancedLayoutBinding.buttonInfoRandomize.setOnClickListener {
-            showTooltip(it, getString(R.string.tooltip_randomize))
         }
 
         advancedLayoutBinding.switchIncludeQueryClients.setOnCheckedChangeListener { compoundButton, isChecked ->
@@ -210,7 +200,6 @@ class MainFragment : Fragment() {
         val editor : SharedPreferences.Editor = preferences.edit()
         //IP, USERNAME AND PASS ARE ENCRYPTED
         editor.putString("nick", NICKNAME)
-        editor.putBoolean("randNick", RANDOMIZE_NICKNAME)
         editor.putBoolean("includeQuery", INCLUDE_QUERY_CLIENTS)
         editor.putFloat("scheduleTime", SCHEDULE_TIME)
         editor.putBoolean("run_only_wifi", RUN_ONLY_WIFI)
@@ -240,7 +229,6 @@ class MainFragment : Fragment() {
     fun loadPreferences(){
         val preferences = context?.getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)!!
         NICKNAME = preferences.getString("nick", getString(R.string.app_name)).toString()
-        RANDOMIZE_NICKNAME = preferences.getBoolean("randNick", true)
         INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
         SCHEDULE_TIME = preferences.getFloat("scheduleTime", 15f)
         RUN_ONLY_WIFI = preferences.getBoolean("run_only_wifi", true)
@@ -283,7 +271,6 @@ class MainFragment : Fragment() {
         advancedLayoutBinding.inputEditTextNickname.setText(NICKNAME)
         if(isWorkScheduled(TAG)) scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.stop_schedule)
         if(!isWorkScheduled(TAG)) scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.start_schedule)
-        advancedLayoutBinding.switchNicknameRandomize.isChecked = RANDOMIZE_NICKNAME
         advancedLayoutBinding.switchIncludeQueryClients.isChecked = INCLUDE_QUERY_CLIENTS
         advancedLayoutBinding.switchOnlyWiFi.isChecked = RUN_ONLY_WIFI
         scheduleLayoutBinding.timeSlider.value = SCHEDULE_TIME

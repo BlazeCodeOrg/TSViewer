@@ -47,6 +47,11 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
 
     override fun doWork() : Result {
         loadPreferences()
+
+        // OPEN DB
+        db = UserCountDatabase.build(mContext)
+        userCountDAO = db.userCountDao()
+
         if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) getClients()
         else {
             notificationManager.removeNotification()
@@ -58,7 +63,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     }
 
     private fun getClients(){
-        clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, RANDOMIZE_NICKNAME, INCLUDE_QUERY_CLIENTS)
+        clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, getLatestId(), INCLUDE_QUERY_CLIENTS)
         if(DEMO_MODE)
             clientListNames = mutableListOf("Cocktail", "Cosmo", "Commando", "Dangle", "SnoopWoot")
         else
@@ -77,9 +82,12 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         }
     }
 
+    private fun getLatestId() : Int {
+        val latestEntry : UserCount = userCountDAO.getLastEntry()
+        return latestEntry.id!!
+    }
+
     private fun saveToDatabase(list: MutableList<String>) {
-        db = UserCountDatabase.build(mContext)
-        userCountDAO = db.userCountDao()
         run {
             val userCount = UserCount(null, System.currentTimeMillis(), list.size, list.joinToString())
             userCountDAO.insertUserCount(userCount)
@@ -97,7 +105,6 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         val preferences = context?.getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)!!
         //IP, USER AND PASS ARE ENCRYPTED
         NICKNAME = preferences.getString("nick", context.getString(R.string.app_name)).toString()
-        RANDOMIZE_NICKNAME = preferences.getBoolean("randNick", true)
         INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
         RUN_ONLY_WIFI = preferences.getBoolean("run_only_wifi", true)
         DEMO_MODE = preferences.getBoolean("demoMode", false)

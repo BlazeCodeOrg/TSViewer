@@ -13,8 +13,6 @@
     <string name="query_password">Query Password</string>
     <string name="nickname">Nickname</string>
     <string name="default_nickname">TSViewer</string>
-    <string name="randomize_nickname">Randomize</string>
-
     <string name="include_query_clients">Include Query Clients</string>
     <string name="only_wifi">Execute only on WiFi</string>
 
@@ -29,7 +27,6 @@
     <string name="cancel">Cancel</string>
 
     <!-- TOOLTIPS -->
-    <string name="tooltip_randomize">This setting adds a random number to the chosen nickname to avoid the \"Username is already in use\" error. The number changes with every time the app connects.</string>
     <string name="tooltip_include_query_clients">Turn this on to include any connected query clients such as bots. (The client used by the app will always be excluded)</string>
 
     <!-- ERROR MESSAGES -->

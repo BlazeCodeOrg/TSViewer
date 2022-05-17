@@ -16,7 +16,7 @@ class ConnectionManager(val context: Context) {
 
     val errorHandler = ErrorHandler(context)
 
-    fun getClients(ip : String, username : String, password : String, nickname : String, randomizedNickname: Boolean, includeQueryClients: Boolean) : MutableList<Client> {
+    fun getClients(ip : String, username : String, password : String, nickname : String, id: Int, includeQueryClients: Boolean) : MutableList<Client> {
         var clientList = mutableListOf<Client>()
 
         runBlocking {
@@ -33,13 +33,7 @@ class ConnectionManager(val context: Context) {
                 val api = query.api
                 api.login(username, password)
                 api.selectVirtualServerById(1)
-                if(randomizedNickname){
-                    apiNickname = randomizedNickname(nickname)
-                    api.setNickname(apiNickname)
-                } else {
-                    apiNickname = nickname
-                    api.setNickname(apiNickname)
-                }
+                api.setNickname("$nickname$id")
 
                 //GET CLIENTS
                 clientList = api.clients
@@ -56,14 +50,6 @@ class ConnectionManager(val context: Context) {
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         errorHandler.reportError(exception.toString())
     }
-
-    private fun randomizedNickname(nickname: String): String {
-        var random = (0..100000).random()
-        while(random == lastRandom) random = (0..100000).random()                                           //MAKE SURE THAT IT DOESN'T USE THE SAME NUMBER TWICE IN A ROW
-        lastRandom = random
-        return "$nickname$random"
-    }
-
 
     private fun filterClients(clientList: MutableList<Client>, includeQueryClients: Boolean, nickname: String): MutableList<Client> {
         var tempList = mutableListOf<Client>()

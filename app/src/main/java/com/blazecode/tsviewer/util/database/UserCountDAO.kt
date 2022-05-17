@@ -18,6 +18,9 @@ interface UserCountDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUserCount(vararg userCount: UserCount)
 
+    @Query("SELECT id FROM usercount ORDER BY id DESC LIMIT 1")
+    fun getLastEntry(): UserCount
+
     @Delete
     fun delete(userCount: UserCount)
 }
