@@ -56,8 +56,6 @@
     <string name="send_email">Send E-Mail</string>
 
     <!-- GRAPH -->
-    <string name="delete_database">Delete Database</string>
-    <string name="delete_database_message">Are you sure that you want to empty the database? This cannot be reversed!</string>
     <string name="not_enough_data">Not enough data collected</string>
 
 </resources>
