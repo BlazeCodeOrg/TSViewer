@@ -28,6 +28,10 @@ class CustomGraphMarker(context: Context, layoutResource: Int):  MarkerView(cont
         } else {
             text_names.isVisible = false
         }
+
+        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val display: Display = windowManager.defaultDisplay
+        text_names.width = display.width / 3 * 2
         super.refreshContent(entry, highlight)
     }
 
