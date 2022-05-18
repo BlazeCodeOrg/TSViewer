@@ -3,8 +3,6 @@ package com.blazecode.tsviewer.util.graphmarker
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Point
-import android.view.Display
-import android.view.WindowManager
 import android.widget.TextView
 import androidx.core.view.isVisible
 import com.blazecode.tsviewer.R
@@ -23,15 +21,13 @@ class CustomGraphMarker(context: Context, layoutResource: Int):  MarkerView(cont
     override fun refreshContent(entry: Entry?, highlight: Highlight?) {
 
         text_date_time.text = convertUnixToTime(entry!!.data.toString().split(";")[0].toLong())
-        if(entry!!.data.toString().split(";")[1].split(",").isNotEmpty()) {
-            text_names.text = entry!!.data.toString().split(";")[1]
+        if(entry.data.toString().split(";")[1].split(",").isNotEmpty()) {
+            text_names.text = entry.data.toString().split(";")[1]
         } else {
             text_names.isVisible = false
         }
 
-        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val display: Display = windowManager.defaultDisplay
-        text_names.width = display.width / 3 * 2
+        text_names.width = context.resources.configuration.densityDpi / 3 * 2                       //Two Thirds of the t
         super.refreshContent(entry, highlight)
     }
 
@@ -41,10 +37,7 @@ class CustomGraphMarker(context: Context, layoutResource: Int):  MarkerView(cont
 
     override fun draw(canvas: Canvas, posx: Float, posy: Float) {
         var posx = posx
-        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val display: Display = windowManager.defaultDisplay
         val size = Point()
-        display.getSize(size)
         val width: Int = size.x
         val w = getWidth()
         if (width - posx - w < w) {
