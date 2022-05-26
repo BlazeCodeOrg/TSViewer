@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.blazecode.tsviewer"
-        minSdk 24
+        minSdk 26
         targetSdk 32
         versionCode 3
         versionName "1.2 Internal"
