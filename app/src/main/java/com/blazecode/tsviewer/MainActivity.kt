@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.commit
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -90,6 +91,10 @@ class MainActivity : AppCompatActivity() {
             val notificationManager = NotificationManager(this)
             notificationManager.createChannel()
         }
+
+        //OPTIMIZE TOOLBAR HEIGHT
+        val layoutParams = binding.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+        layoutParams.height = resources.configuration.densityDpi
 
         checkBatteryOptimization()
     }
