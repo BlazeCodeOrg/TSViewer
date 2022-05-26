@@ -31,6 +31,7 @@
 
     <!-- ERROR MESSAGES -->
     <string name="mustBeProvided">This must be provided</string>
+    <string name="notSupportedBelowAndroidTen">This function is not supported below Android 10</string>
 
     <!-- BATTERY OPTIMIZATION SNACKBAR -->
     <string name="batt_optimization">Please disable battery optimization for this app to make sure it runs as intended.</string>
