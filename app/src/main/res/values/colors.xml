@@ -6,10 +6,10 @@
     <color name="text_on_primary">#F2F4FF</color>
     <color name="text">#161B43</color>
     <color name="text_secondary">#242A5A</color>
-    <color name="background_tint">#ffffff</color>
     <color name="primary">#6169AC</color>
     <color name="primaryVariant">#4E569A</color>
     <color name="onPrimary">#3F467E</color>
+    <color name="background_tint">#8F9193</color>
 
     <!-- SWITCH COLORS -->
     <color name="switch_thumb">#6169AC</color>
