@@ -20,6 +20,8 @@
         <item name="aboutLibrariesStyle">@style/CustomAboutLibrariesStyle</item>
         <!-- POPUP MENUS -->
         <item name="actionOverflowMenuStyle">@style/tsMenu</item>
+        <!-- BOTTOM NAVIGATION -->
+        <item name="bottomNavigationStyle">@style/tsBottomBar</item>
     </style>
 
     <style name="Theme.TSViewer.NoActionBar">
@@ -39,6 +41,16 @@
     <!-- MENU -->
     <style name="tsMenu" parent="@style/Widget.MaterialComponents.PopupMenu.Overflow">
         <item name="android:popupBackground">@drawable/background_menu</item>
+    </style>
+
+    <!-- BOTTOM NAVIGATION -->
+    <style name="tsBottomBar" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemActiveIndicatorStyle">@style/tsBottomBarActiveIndicator</item>
+    </style>
+
+    <!-- BOTTOM NAVIGATION ACTIVE INDICATOR-->
+    <style name="tsBottomBarActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/primaryLight</item>
     </style>
 
     <!-- BUTTONS -->

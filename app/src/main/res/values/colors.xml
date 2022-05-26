@@ -8,6 +8,7 @@
     <color name="text_secondary">#242A5A</color>
     <color name="primary">#6169AC</color>
     <color name="primaryVariant">#4E569A</color>
+    <color name="primaryLight">#CAD0FD</color>
     <color name="onPrimary">#3F467E</color>
     <color name="background_tint">#8F9193</color>
 

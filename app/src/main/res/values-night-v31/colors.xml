@@ -4,6 +4,7 @@
     <!-- BASIC COLORS -->
     <color name="primary">@color/material_dynamic_primary50</color>
     <color name="primaryVariant">@color/material_dynamic_secondary40</color>
+    <color name="primaryLight">@color/material_dynamic_primary30</color>
     <color name="onPrimary">@color/material_dynamic_primary100</color>
     <color name="background">@color/material_dynamic_neutral10</color>
     <color name="text_on_primary">@color/material_dynamic_neutral90</color>

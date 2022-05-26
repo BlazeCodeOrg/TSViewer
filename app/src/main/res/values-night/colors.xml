@@ -9,6 +9,7 @@
     <color name="background_tint">#ffffff</color>
     <color name="primary">#6169AC</color>
     <color name="primaryVariant">#4E569A</color>
+    <color name="primaryLight">#184378</color>
     <color name="onPrimary">#3F467E</color>
 
     <!-- SWITCH COLORS -->

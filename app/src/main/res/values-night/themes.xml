@@ -16,5 +16,7 @@
         <item name="aboutLibrariesStyle">@style/CustomAboutLibrariesStyle</item>
         <!-- MENUS -->
         <item name="actionOverflowMenuStyle">@style/tsMenu</item>
+        <!-- BOTTOM NAVIGATION -->
+        <item name="bottomNavigationStyle">@style/tsBottomBar</item>
     </style>
 </resources>
