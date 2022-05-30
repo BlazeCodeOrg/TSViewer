@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.android.volley.Request
@@ -14,6 +15,7 @@ import com.beust.klaxon.Klaxon
 import com.blazecode.tsviewer.BuildConfig
 import com.blazecode.tsviewer.MainActivity
 import com.blazecode.tsviewer.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -47,23 +49,26 @@ class GitHubUpdater(private val context: Context) {
 
         if(BuildConfig.VERSION_NAME != latestReleaseVersion){
             Timber.tag("TSViewer").i("Found update")
-            releases?.get(0)?.let { postNotification(it.tag_name, it.body) }
+            releases?.get(0)?.let { postNotification(releases[0]) }
         } else {
             Timber.tag("TSViewer").i("No update available")
         }
     }
 
-    private fun postNotification(releaseName: String, body: String) {
-        val intent = Intent(context, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    private fun postNotification(release: GitHubRelease) {
+        val intent = Intent(context, MainActivity::class.java)
+        intent.putExtra("releaseName", release.tag_name)
+        intent.putExtra("releaseBody", release.body)
+        intent.putExtra("releaseLink", release.assets[0].browser_download_url)
         val clickIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val builder = NotificationCompat.Builder(context, context.getString(R.string.notificationChannelUpdateID))
             .setGroup(context.getString(R.string.notificationChannelUpdateID))
             .setSmallIcon(R.drawable.ic_notification_icon)
-            .setContentTitle(context.getString(R.string.update_available, releaseName))
-            .setContentText(body)
+            .setContentTitle(context.getString(R.string.update_available, release.tag_name))
+            .setContentText(release.body)
             .setStyle(NotificationCompat.BigTextStyle()
-                .bigText(body))
+                .bigText(release.body))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(clickIntent)
 
@@ -72,9 +77,23 @@ class GitHubUpdater(private val context: Context) {
         }
     }
 
+    fun downloadDialog(releaseName: String, releaseBody: String, releaseLink: String){
+        removeNotification()
+        MaterialAlertDialogBuilder(context)
+            .setTitle(context.getString(R.string.update_available, releaseName))
+            .setMessage(releaseBody)
+            .setPositiveButton(context.getString(R.string.download)) {dialog, which ->
+                Toast.makeText(context, releaseLink, Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton(context.getString(R.string.cancel)) {dialog, which ->
+                dialog.dismiss()
+            }
+            .show()
+    }
 
-    fun removeNotification(){
-        NotificationManagerCompat.from(context).cancel(context.getString(R.string.notificationChannelUpdateID), 2)
+
+    private fun removeNotification(){
+        NotificationManagerCompat.from(context).cancel(null, 2)
     }
 
     fun createNotificationChannel(){

@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+    private lateinit var gitHubUpdater: GitHubUpdater
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,7 +40,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportFragmentManager.commit { replace(R.id.fragment_container, MainFragment()) }
 
+        //START LOGGING
         Timber.plant(Timber.DebugTree())
+
+        //INITIALIZE UPDATER
+        gitHubUpdater = GitHubUpdater(this)
 
         val demoModeMenuItem = binding.toolbar.menu.findItem(R.id.action_demo_mode)
         if (BuildConfig.DEBUG) demoModeMenuItem.isVisible = true
@@ -100,17 +106,26 @@ class MainActivity : AppCompatActivity() {
         val layoutParams = binding.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
         layoutParams.height = resources.configuration.densityDpi
 
+        //CHECK FOR UPDATE
+        val extras = intent.extras
+        if (extras == null) {
+            checkForUpdate()
+        } else {
+            //START UPDATE DIALOG IF NOTIFICATION IS BEING TAPPED
+            gitHubUpdater.downloadDialog(
+                intent.getStringExtra("releaseName")!!,
+                intent.getStringExtra("releaseBody")!!,
+                intent.getStringExtra("releaseLink")!!
+            )
+        }
+
         checkBatteryOptimization()
-        checkForUpdate()
     }
 
     private fun checkForUpdate(){
-        val gitHubUpdater = GitHubUpdater(this)
-
         if(isFirstStart()){
             gitHubUpdater.createNotificationChannel()
         }
-
         gitHubUpdater.checkForUpdate()
     }
 

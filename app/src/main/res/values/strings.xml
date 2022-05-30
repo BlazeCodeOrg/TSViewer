@@ -24,6 +24,7 @@
     <string name="connection_attempts">Connection Attempts</string>
 
     <string name="yes">Yes</string>
+    <string name="download">Download</string>
     <string name="cancel">Cancel</string>
 
     <!-- TOOLTIPS -->
