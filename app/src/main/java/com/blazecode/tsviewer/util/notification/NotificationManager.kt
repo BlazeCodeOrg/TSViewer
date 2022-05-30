@@ -19,6 +19,7 @@ class NotificationManager(private val context: Context) {
 
         if (clientListNames.size > 0) {
             val builder = NotificationCompat.Builder(context, context.getString(R.string.notificationChannelClientID))
+                .setGroup(context.getString(R.string.notificationChannelClientID))
                 .setSmallIcon(R.drawable.ic_notification_icon)
                 .setContentText(clientListNames.joinToString())
                 .setPriority(NotificationCompat.PRIORITY_MIN)

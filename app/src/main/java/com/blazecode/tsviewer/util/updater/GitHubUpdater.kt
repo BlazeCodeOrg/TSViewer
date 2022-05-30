@@ -58,6 +58,7 @@ class GitHubUpdater(private val context: Context) {
         val clickIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val builder = NotificationCompat.Builder(context, context.getString(R.string.notificationChannelUpdateID))
+            .setGroup(context.getString(R.string.notificationChannelUpdateID))
             .setSmallIcon(R.drawable.ic_notification_icon)
             .setContentTitle(context.getString(R.string.update_available, releaseName))
             .setContentText(body)
