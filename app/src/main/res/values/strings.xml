@@ -43,6 +43,11 @@
     <string name="client_connected">Client connected</string>
     <string name="clients_connected">Clients connected</string>
 
+    <string name="notificationChannelUpdate">Update Channel</string>
+    <string name="notificationChannelUpdateID">UPDATE_CHANNEL</string>
+    <string name="update_available">Update %1$s available!</string>
+    <string name="tap_to_download">Tap </string>
+
     <!-- QS TILE -->
     <string name="client">Client</string>
     <string name="clients">Clients</string>
