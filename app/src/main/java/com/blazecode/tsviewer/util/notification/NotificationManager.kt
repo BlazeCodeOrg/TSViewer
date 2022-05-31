@@ -14,8 +14,13 @@ class NotificationManager(private val context: Context) {
 
     fun post(clientListNames: MutableList<String>){
 
-        val intent = Intent(context, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        val clickIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val notificationIntent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val notificationPendingIntent = PendingIntent.getActivity(
+            context, 0, notificationIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         if (clientListNames.size > 0) {
             val builder = NotificationCompat.Builder(context, context.getString(R.string.notificationChannelClientID))
@@ -23,7 +28,7 @@ class NotificationManager(private val context: Context) {
                 .setSmallIcon(R.drawable.ic_notification_icon)
                 .setContentText(clientListNames.joinToString())
                 .setPriority(NotificationCompat.PRIORITY_MIN)
-                .setContentIntent(clickIntent)
+                .setContentIntent(notificationPendingIntent)
 
             if (clientListNames.size == 1) builder.setContentTitle("${clientListNames.size} ${context.resources.getString(R.string.client_connected)}")
             else builder.setContentTitle("${clientListNames.size} ${context.resources.getString(R.string.clients_connected)}")

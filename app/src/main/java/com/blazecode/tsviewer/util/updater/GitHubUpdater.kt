@@ -56,11 +56,16 @@ class GitHubUpdater(private val context: Context) {
     }
 
     private fun postNotification(release: GitHubRelease) {
-        val intent = Intent(context, MainActivity::class.java)
-        intent.putExtra("releaseName", release.tag_name)
-        intent.putExtra("releaseBody", release.body)
-        intent.putExtra("releaseLink", release.assets[0].browser_download_url)
-        val clickIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val updateIntent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        updateIntent.putExtra("releaseName", release.tag_name)
+        updateIntent.putExtra("releaseBody", release.body)
+        updateIntent.putExtra("releaseLink", release.assets[0].browser_download_url)
+        val updatePendingIntent = PendingIntent.getActivity(
+            context, 1, updateIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         val builder = NotificationCompat.Builder(context, context.getString(R.string.notificationChannelUpdateID))
             .setGroup(context.getString(R.string.notificationChannelUpdateID))
@@ -70,7 +75,7 @@ class GitHubUpdater(private val context: Context) {
             .setStyle(NotificationCompat.BigTextStyle()
                 .bigText(release.body))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(clickIntent)
+            .setContentIntent(updatePendingIntent)
 
         with(NotificationManagerCompat.from(context)) {
             notify(2, builder.build())

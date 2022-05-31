@@ -108,10 +108,12 @@ class MainActivity : AppCompatActivity() {
 
         //CHECK FOR UPDATE
         val extras = intent.extras
+        //CHECK IF NOTIFICATION WAS TAPPED
         if (extras == null) {
+            //CHECK IF NOTIFICATION IS VISIBLE
             checkForUpdate()
         } else {
-            //START UPDATE DIALOG IF NOTIFICATION IS BEING TAPPED
+            //START UPDATE DIALOG
             gitHubUpdater.downloadDialog(
                 intent.getStringExtra("releaseName")!!,
                 intent.getStringExtra("releaseBody")!!,
