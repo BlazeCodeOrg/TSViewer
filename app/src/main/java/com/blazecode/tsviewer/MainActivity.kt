@@ -110,8 +110,6 @@ class MainActivity : AppCompatActivity() {
         val extras = intent.extras
         //CHECK IF NOTIFICATION WAS TAPPED
         if (extras == null) {
-            //CHECK IF NOTIFICATION IS VISIBLE
-
             checkForUpdate()
         } else {
             //START UPDATE DIALOG
