@@ -17,7 +17,7 @@ import androidx.navigation.ui.navigateUp
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.ui.GraphFragment
 import com.blazecode.tsviewer.ui.MainFragment
-import com.blazecode.tsviewer.util.notification.NotificationManager
+import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.updater.GitHubUpdater
 import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.aboutlibraries.LibsBuilder
@@ -98,8 +98,8 @@ class MainActivity : AppCompatActivity() {
 
         //CREATE NOTIFICATION CHANNEL IF FIRST START
         if (isFirstStart()) {
-            val notificationManager = NotificationManager(this)
-            notificationManager.createChannel()
+            val clientNotificationManager = ClientNotificationManager(this)
+            clientNotificationManager.createChannel()
         }
 
         //OPTIMIZE TOOLBAR HEIGHT
@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity() {
         //CHECK IF NOTIFICATION WAS TAPPED
         if (extras == null) {
             //CHECK IF NOTIFICATION IS VISIBLE
+
             checkForUpdate()
         } else {
             //START UPDATE DIALOG

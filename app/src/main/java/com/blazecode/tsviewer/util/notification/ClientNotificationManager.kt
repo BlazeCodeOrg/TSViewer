@@ -10,7 +10,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.blazecode.tsviewer.MainActivity
 import com.blazecode.tsviewer.R
 
-class NotificationManager(private val context: Context) {
+class ClientNotificationManager(private val context: Context) {
 
     fun post(clientListNames: MutableList<String>){
 

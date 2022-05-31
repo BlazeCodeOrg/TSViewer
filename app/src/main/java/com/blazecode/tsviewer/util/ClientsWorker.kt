@@ -15,7 +15,7 @@ import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.util.database.UserCount
 import com.blazecode.tsviewer.util.database.UserCountDAO
 import com.blazecode.tsviewer.util.database.UserCountDatabase
-import com.blazecode.tsviewer.util.notification.NotificationManager
+import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.tile.TileManager
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
 
@@ -25,7 +25,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     val mContext = context
 
     val connectionManager = ConnectionManager(context)
-    val notificationManager = NotificationManager(context)
+    val clientNotificationManager = ClientNotificationManager(context)
     val tileManager = TileManager(context)
     val errorHandler = ErrorHandler(context)
 
@@ -53,7 +53,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
 
         if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) getClients()
         else {
-            notificationManager.removeNotification()
+            clientNotificationManager.removeNotification()
             tileManager.init()
             tileManager.noNetwork()
         }
@@ -68,7 +68,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         else
             extractNames()
 
-        notificationManager.post(clientListNames)
+        clientNotificationManager.post(clientListNames)
         tileManager.init()
         tileManager.post(clientListNames)
         saveToDatabase(clientListNames)
