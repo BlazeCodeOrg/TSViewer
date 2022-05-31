@@ -100,6 +100,7 @@ class MainActivity : AppCompatActivity() {
         if (isFirstStart()) {
             val clientNotificationManager = ClientNotificationManager(this)
             clientNotificationManager.createChannel()
+            gitHubUpdater.createNotificationChannel()
         }
 
         //OPTIMIZE TOOLBAR HEIGHT
@@ -116,7 +117,8 @@ class MainActivity : AppCompatActivity() {
             gitHubUpdater.downloadDialog(
                 intent.getStringExtra("releaseName")!!,
                 intent.getStringExtra("releaseBody")!!,
-                intent.getStringExtra("releaseLink")!!
+                intent.getStringExtra("releaseLink")!!,
+                intent.getStringExtra("releaseFileName")!!
             )
         }
 
@@ -124,9 +126,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkForUpdate(){
-        if(isFirstStart()){
-            gitHubUpdater.createNotificationChannel()
-        }
         gitHubUpdater.checkForUpdate()
     }
 
