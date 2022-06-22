@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.commit
@@ -52,9 +51,16 @@ class MainActivity : AppCompatActivity() {
         //INITIALIZE UPDATER
         gitHubUpdater = GitHubUpdater(this)
 
+        // AUTO UPDATE CHECK
         val autoUpdateMenuItem = binding.toolbar.menu.findItem(R.id.action_update_check)
         autoUpdateMenuItem.isChecked = preferences.getBoolean("autoUpdateCheck", true)
 
+        // DEBUG AUTO UPDATE CHECK
+        val debugAutoUpdateMenuItem = binding.toolbar.menu.findItem(R.id.action_update_check_debug)
+        debugAutoUpdateMenuItem.isChecked = preferences.getBoolean("debugUpdateCheck", true)
+        if (BuildConfig.DEBUG) debugAutoUpdateMenuItem.isVisible = true
+
+        // DEMO MODE
         val demoModeMenuItem = binding.toolbar.menu.findItem(R.id.action_demo_mode)
         if (BuildConfig.DEBUG) demoModeMenuItem.isVisible = true
 
@@ -85,6 +91,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.action_update_check -> {
                     autoUpdateMenuItem.isChecked = !autoUpdateMenuItem.isChecked
                     setAutoUpdateCheck(autoUpdateMenuItem.isChecked)
+                    return@setOnMenuItemClickListener true
+                }
+
+                R.id.action_update_check_debug -> {
+                    debugAutoUpdateMenuItem.isChecked = !debugAutoUpdateMenuItem.isChecked
+                    setDebugUpdateCheck(debugAutoUpdateMenuItem.isChecked)
                     return@setOnMenuItemClickListener true
                 }
 
@@ -123,24 +135,24 @@ class MainActivity : AppCompatActivity() {
         layoutParams.height = resources.configuration.densityDpi
 
         //CHECK FOR UPDATE
-        if(preferences.getBoolean("autoUpdateCheck", true)){
-            if(!BuildConfig.DEBUG){
-                val extras = intent.extras
-                //CHECK IF NOTIFICATION WAS TAPPED
-                if (extras == null) {
-                    checkForUpdate()
-                } else {
-                    //START UPDATE DIALOG
-                    gitHubUpdater.downloadDialog(
-                        intent.getStringExtra("releaseName")!!,
-                        intent.getStringExtra("releaseBody")!!,
-                        intent.getStringExtra("releaseLink")!!,
-                        intent.getStringExtra("releaseFileName")!!
-                    )
-                }
-            } else Toast.makeText(this, "Update Check", Toast.LENGTH_SHORT).show()
-        }
+        val autoUpdateCheck = preferences.getBoolean("autoUpdateCheck", true)
+        val debugUpdateCheck = preferences.getBoolean("debugUpdateCheck", false)
 
+        if((autoUpdateCheck && !BuildConfig.DEBUG) || (BuildConfig.DEBUG && debugUpdateCheck)){
+            val extras = intent.extras
+            //CHECK IF NOTIFICATION WAS TAPPED
+            if (extras == null) {
+                checkForUpdate()
+            } else {
+                //START UPDATE DIALOG
+                gitHubUpdater.downloadDialog(
+                    intent.getStringExtra("releaseName")!!,
+                    intent.getStringExtra("releaseBody")!!,
+                    intent.getStringExtra("releaseLink")!!,
+                    intent.getStringExtra("releaseFileName")!!
+                )
+            }
+        }
         checkBatteryOptimization()
     }
 
@@ -201,6 +213,12 @@ class MainActivity : AppCompatActivity() {
     private fun setAutoUpdateCheck(isEnabled: Boolean){
         val editor : SharedPreferences.Editor = preferences.edit()
         editor.putBoolean("autoUpdateCheck", isEnabled)
+        editor.commit()
+    }
+
+    private fun setDebugUpdateCheck(isEnabled: Boolean) {
+        val editor : SharedPreferences.Editor = preferences.edit()
+        editor.putBoolean("debugUpdateCheck", isEnabled)
         editor.commit()
     }
 

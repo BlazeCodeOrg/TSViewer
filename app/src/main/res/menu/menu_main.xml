@@ -20,6 +20,12 @@
         android:checkable="true"/>
 
     <item
+        android:id="@+id/action_update_check_debug"
+        android:visible="false"
+        android:title="DebugUpdateCheck"
+        android:checkable="true"/>
+
+    <item
         android:id="@+id/action_demo_mode"
         android:visible="false"
         android:title="DemoMode"
