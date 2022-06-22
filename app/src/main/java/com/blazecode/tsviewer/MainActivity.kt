@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var gitHubUpdater: GitHubUpdater
 
+    private lateinit var preferences : SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,8 +45,14 @@ class MainActivity : AppCompatActivity() {
         //START LOGGING
         Timber.plant(Timber.DebugTree())
 
+        //PREFERENCES
+        preferences = getSharedPreferences("preferences", MODE_PRIVATE)!!
+
         //INITIALIZE UPDATER
         gitHubUpdater = GitHubUpdater(this)
+
+        val autoUpdateMenuItem = binding.toolbar.menu.findItem(R.id.action_update_check)
+        autoUpdateMenuItem.isChecked = preferences.getBoolean("autoUpdateCheck", true)
 
         val demoModeMenuItem = binding.toolbar.menu.findItem(R.id.action_demo_mode)
         if (BuildConfig.DEBUG) demoModeMenuItem.isVisible = true
@@ -70,6 +78,12 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.action_send_email -> {
                     sendMail("Report")
+                    return@setOnMenuItemClickListener true
+                }
+
+                R.id.action_update_check -> {
+                    autoUpdateMenuItem.isChecked = !autoUpdateMenuItem.isChecked
+                    setAutoUpdateCheck(autoUpdateMenuItem.isChecked)
                     return@setOnMenuItemClickListener true
                 }
 
@@ -108,18 +122,20 @@ class MainActivity : AppCompatActivity() {
         layoutParams.height = resources.configuration.densityDpi
 
         //CHECK FOR UPDATE
-        val extras = intent.extras
-        //CHECK IF NOTIFICATION WAS TAPPED
-        if (extras == null) {
-            checkForUpdate()
-        } else {
-            //START UPDATE DIALOG
-            gitHubUpdater.downloadDialog(
-                intent.getStringExtra("releaseName")!!,
-                intent.getStringExtra("releaseBody")!!,
-                intent.getStringExtra("releaseLink")!!,
-                intent.getStringExtra("releaseFileName")!!
-            )
+        if(preferences.getBoolean("autoUpdateCheck", true)){
+            val extras = intent.extras
+            //CHECK IF NOTIFICATION WAS TAPPED
+            if (extras == null) {
+                checkForUpdate()
+            } else {
+                //START UPDATE DIALOG
+                gitHubUpdater.downloadDialog(
+                    intent.getStringExtra("releaseName")!!,
+                    intent.getStringExtra("releaseBody")!!,
+                    intent.getStringExtra("releaseLink")!!,
+                    intent.getStringExtra("releaseFileName")!!
+                )
+            }
         }
 
         checkBatteryOptimization()
@@ -179,8 +195,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setAutoUpdateCheck(isEnabled: Boolean){
+        val editor : SharedPreferences.Editor = preferences.edit()
+        editor.putBoolean("autoUpdateCheck", isEnabled)
+        editor.commit()
+    }
+
     private fun demoMode(demoMode: Boolean) {
-        val preferences : SharedPreferences = getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)!!
         val editor : SharedPreferences.Editor = preferences.edit()
         editor.putBoolean("demoMode", demoMode)
         editor.commit()
