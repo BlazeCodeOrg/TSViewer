@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.commit
@@ -123,19 +124,21 @@ class MainActivity : AppCompatActivity() {
 
         //CHECK FOR UPDATE
         if(preferences.getBoolean("autoUpdateCheck", true)){
-            val extras = intent.extras
-            //CHECK IF NOTIFICATION WAS TAPPED
-            if (extras == null) {
-                checkForUpdate()
-            } else {
-                //START UPDATE DIALOG
-                gitHubUpdater.downloadDialog(
-                    intent.getStringExtra("releaseName")!!,
-                    intent.getStringExtra("releaseBody")!!,
-                    intent.getStringExtra("releaseLink")!!,
-                    intent.getStringExtra("releaseFileName")!!
-                )
-            }
+            if(!BuildConfig.DEBUG){
+                val extras = intent.extras
+                //CHECK IF NOTIFICATION WAS TAPPED
+                if (extras == null) {
+                    checkForUpdate()
+                } else {
+                    //START UPDATE DIALOG
+                    gitHubUpdater.downloadDialog(
+                        intent.getStringExtra("releaseName")!!,
+                        intent.getStringExtra("releaseBody")!!,
+                        intent.getStringExtra("releaseLink")!!,
+                        intent.getStringExtra("releaseFileName")!!
+                    )
+                }
+            } else Toast.makeText(this, "Update Check", Toast.LENGTH_SHORT).show()
         }
 
         checkBatteryOptimization()
