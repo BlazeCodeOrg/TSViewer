@@ -27,6 +27,8 @@ class ClientNotificationManager(private val context: Context) {
                 .setGroup(context.getString(R.string.notificationChannelClientID))
                 .setSmallIcon(R.drawable.ic_notification_icon)
                 .setContentText(clientListNames.joinToString())
+                .setStyle(NotificationCompat.BigTextStyle()
+                    .bigText(clientListNames.joinToString()))
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setContentIntent(notificationPendingIntent)
 
