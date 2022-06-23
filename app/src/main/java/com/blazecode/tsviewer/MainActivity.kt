@@ -14,15 +14,18 @@ import androidx.fragment.app.commit
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import androidx.work.*
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.ui.GraphFragment
 import com.blazecode.tsviewer.ui.MainFragment
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.updater.GitHubUpdater
+import com.blazecode.tsviewer.util.updater.UpdateCheckWorker
 import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.aboutlibraries.LibsBuilder
 import timber.log.Timber
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.coroutines.EmptyCoroutineContext
 
 
@@ -31,7 +34,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+    private lateinit var workManager: WorkManager
     private lateinit var gitHubUpdater: GitHubUpdater
+    private val TAG = "updater"
 
     private lateinit var preferences : SharedPreferences
 
@@ -48,8 +53,8 @@ class MainActivity : AppCompatActivity() {
         //PREFERENCES
         preferences = getSharedPreferences("preferences", MODE_PRIVATE)!!
 
-        //INITIALIZE UPDATER
-        gitHubUpdater = GitHubUpdater(this)
+        //INITIALIZE WORK MANAGER
+        workManager = this.let { WorkManager.getInstance(it) }
 
         // AUTO UPDATE CHECK
         val autoUpdateMenuItem = binding.toolbar.menu.findItem(R.id.action_update_check)
@@ -91,6 +96,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.action_update_check -> {
                     autoUpdateMenuItem.isChecked = !autoUpdateMenuItem.isChecked
                     setAutoUpdateCheck(autoUpdateMenuItem.isChecked)
+                    startUpdateCheckSchedule(autoUpdateMenuItem.isChecked)
                     return@setOnMenuItemClickListener true
                 }
 
@@ -128,6 +134,7 @@ class MainActivity : AppCompatActivity() {
             val clientNotificationManager = ClientNotificationManager(this)
             clientNotificationManager.createChannel()
             gitHubUpdater.createNotificationChannel()
+            startUpdateCheckSchedule(true)
         }
 
         //OPTIMIZE TOOLBAR HEIGHT
@@ -157,7 +164,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkForUpdate(){
-        gitHubUpdater.checkForUpdate()
+        val updateCheckWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<UpdateCheckWorker>().build()
+        workManager.enqueue(updateCheckWorkRequest)
+    }
+
+    private fun startUpdateCheckSchedule(enable: Boolean){
+        if(enable){
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.UNMETERED)
+                .setRequiresBatteryNotLow(true)
+                .build()
+
+            val updateCheckPeriodicWorkRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<UpdateCheckWorker>(
+                12,
+                TimeUnit.MINUTES,
+                1, TimeUnit.HOURS)
+                .setConstraints(constraints)
+                .build()
+
+            workManager.enqueueUniquePeriodicWork(TAG, ExistingPeriodicWorkPolicy.REPLACE, updateCheckPeriodicWorkRequest)
+        } else {
+            workManager.cancelUniqueWork(TAG)
+        }
     }
 
     private fun sendMail(subject: String) {
