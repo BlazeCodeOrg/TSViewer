@@ -51,16 +51,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportFragmentManager.commit { replace(R.id.fragment_container, MainFragment()) }
 
-        //START LOGGING
+        // START LOGGING
         Timber.plant(Timber.DebugTree())
 
-        //PREFERENCES
+        // PREFERENCES
         preferences = getSharedPreferences("preferences", MODE_PRIVATE)!!
 
-        //INITIALIZE WORK MANAGER
+        // INITIALIZE WORK MANAGER
         workManager = this.let { WorkManager.getInstance(it) }
 
-        //INITIALIZE UPDATER
+        // INITIALIZE UPDATER
         gitHubUpdater = GitHubUpdater(this)
 
         // AUTO UPDATE CHECK
