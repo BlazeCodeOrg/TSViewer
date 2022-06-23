@@ -1,8 +1,11 @@
 package com.blazecode.tsviewer
 
+import android.app.StatusBarManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -19,6 +22,7 @@ import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.ui.GraphFragment
 import com.blazecode.tsviewer.ui.MainFragment
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
+import com.blazecode.tsviewer.util.tile.ClientTileService
 import com.blazecode.tsviewer.util.updater.GitHubUpdater
 import com.blazecode.tsviewer.util.updater.UpdateCheckWorker
 import com.google.android.material.snackbar.Snackbar
@@ -136,6 +140,9 @@ class MainActivity : AppCompatActivity() {
             clientNotificationManager.createChannel()
             gitHubUpdater.createNotificationChannel()
             startUpdateCheckSchedule(true)
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                placeQsTile()
         }
 
         //OPTIMIZE TOOLBAR HEIGHT
@@ -231,6 +238,20 @@ class MainActivity : AppCompatActivity() {
                 }
                 .show()
         }
+    }
+
+    private fun placeQsTile(){
+        val statusBarManager = getSystemService(STATUS_BAR_SERVICE) as StatusBarManager
+        statusBarManager.requestAddTileService(
+            ComponentName(
+                this,
+                ClientTileService::class.java
+            ),
+            getString(R.string.app_name),
+            Icon.createWithResource(this, R.drawable.ic_notification_icon),
+            {},
+            {}
+        )
     }
 
     private fun setAutoUpdateCheck(isEnabled: Boolean){
