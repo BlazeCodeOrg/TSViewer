@@ -59,11 +59,11 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         getDataFromDataBase(binding.chart)
     }
 
-    private fun getDataFromDataBase(lineChart: LineChart){
+    private fun getDataFromDataBase(lineChart: LineChart) {
         var dataTemp = mutableListOf<UserCount>()
         launch(Dispatchers.IO) {
             dataTemp = userCountDAO.getAll()
-            if(dataTemp.size >= 4){
+            if (dataTemp.size >= 4) {
                 requireActivity().runOnUiThread {
                     remapData(dataTemp, lineChart)
                 }
@@ -76,10 +76,10 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         }
     }
 
-    private fun remapData(data: MutableList<UserCount>, lineChart: LineChart){
+    private fun remapData(data: MutableList<UserCount>, lineChart: LineChart) {
         // CONVERT USERCOUNT TO ENTRIES
         var entries: MutableList<Entry> = mutableListOf()
-        for(UserCount in data){
+        for (UserCount in data) {
             entries.add(Entry(UserCount.id!!.toFloat(), UserCount.amount!!.toFloat(), "${UserCount.timestamp};${UserCount.names}"))
             xAxisTime.add(convertUnixToTime(UserCount.timestamp!!))
         }
@@ -98,7 +98,7 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
         styleGraph(lineData, lineChart)
     }
 
-    private fun styleGraph(lineData: LineData, lineChart: LineChart){
+    private fun styleGraph(lineData: LineData, lineChart: LineChart) {
         // SET GRAPH HEIGHT TO HALF OF THE SCREEN
         val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             requireActivity().display
@@ -142,7 +142,7 @@ class GraphFragment(override val coroutineContext: CoroutineContext) : Fragment(
 
     }
 
-    private fun assignDataToGraph(lineData: LineData, lineChart: LineChart){
+    private fun assignDataToGraph(lineData: LineData, lineChart: LineChart) {
         lineChart.data = lineData
 
         //HIDE LOADING SCREEN, SHOW GRAPH
