@@ -40,12 +40,12 @@ class CustomGraphMarker(context: Context, layoutResource: Int):  MarkerView(cont
         val size = Point()
         val width: Int = size.x
         val w = getWidth()
+        val posy = posy / 4 * 3
         if (width - posx - w < w) {
             posx -= w.toFloat()
         }
         canvas.translate(posx, posy)
         draw(canvas)
-        canvas.translate(-posx, -posy)
     }
 
     private fun convertUnixToTime(unix: Long): String {
