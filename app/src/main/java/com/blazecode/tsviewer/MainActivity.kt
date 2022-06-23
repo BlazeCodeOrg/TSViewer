@@ -62,11 +62,12 @@ class MainActivity : AppCompatActivity() {
 
         // DEBUG AUTO UPDATE CHECK
         val debugAutoUpdateMenuItem = binding.toolbar.menu.findItem(R.id.action_update_check_debug)
-        debugAutoUpdateMenuItem.isChecked = preferences.getBoolean("debugUpdateCheck", true)
+        debugAutoUpdateMenuItem.isChecked = preferences.getBoolean("debugUpdateCheck", false)
         if (BuildConfig.DEBUG) debugAutoUpdateMenuItem.isVisible = true
 
         // DEMO MODE
         val demoModeMenuItem = binding.toolbar.menu.findItem(R.id.action_demo_mode)
+        demoModeMenuItem.isChecked = preferences.getBoolean("demoMode", false)
         if (BuildConfig.DEBUG) demoModeMenuItem.isVisible = true
 
         binding.toolbar.setOnMenuItemClickListener {
@@ -170,16 +171,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun startUpdateCheckSchedule(enable: Boolean){
         if(enable){
-            val constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.UNMETERED)
-                .setRequiresBatteryNotLow(true)
-                .build()
-
             val updateCheckPeriodicWorkRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<UpdateCheckWorker>(
                 12,
-                TimeUnit.MINUTES,
-                1, TimeUnit.HOURS)
-                .setConstraints(constraints)
+                TimeUnit.HOURS,
+                10, TimeUnit.MINUTES)
                 .build()
 
             workManager.enqueueUniquePeriodicWork(TAG, ExistingPeriodicWorkPolicy.REPLACE, updateCheckPeriodicWorkRequest)
