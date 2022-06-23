@@ -60,6 +60,9 @@ class MainActivity : AppCompatActivity() {
         //INITIALIZE WORK MANAGER
         workManager = this.let { WorkManager.getInstance(it) }
 
+        //INITIALIZE UPDATER
+        gitHubUpdater = GitHubUpdater(this)
+
         // AUTO UPDATE CHECK
         val autoUpdateMenuItem = binding.toolbar.menu.findItem(R.id.action_update_check)
         autoUpdateMenuItem.isChecked = preferences.getBoolean("autoUpdateCheck", true)
