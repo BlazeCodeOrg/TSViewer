@@ -56,6 +56,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
             clientNotificationManager.removeNotification()
             tileManager.init()
             tileManager.noNetwork()
+            saveToDatabase(null)
         }
 
         return Result.success()
@@ -87,10 +88,17 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         else latestEntry.id!!
     }
 
-    private fun saveToDatabase(list: MutableList<String>) {
-        run {
-            val userCount = UserCount(null, System.currentTimeMillis(), list.size, list.joinToString())
-            userCountDAO.insertUserCount(userCount)
+    private fun saveToDatabase(list: MutableList<String>?) {
+        if(list == null){
+            run {
+                val userCount = UserCount(null, System.currentTimeMillis(), 0, context.getString(R.string.no_network))
+                userCountDAO.insertUserCount(userCount)
+            }
+        } else {
+            run {
+                val userCount = UserCount(null, System.currentTimeMillis(), list.size, list.joinToString())
+                userCountDAO.insertUserCount(userCount)
+            }
         }
     }
 
