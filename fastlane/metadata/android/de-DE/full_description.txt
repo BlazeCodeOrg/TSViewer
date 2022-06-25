@@ -6,7 +6,9 @@ Die App verwendet die neuen Android 12 adaptiven Farben, ist aber auch rückwär
   <li>Automatisierte Abfragen (Einstellbar zwischen 15 und 120 Minuten)</li>
   <li>Menge und Namen der verbunden Clients sind in einer Benachrichtigung zu lesen</li>
   <li>Menge und Namen der verbunden Clients werden in einer qs tile angezeigt (Android 10+)</li>
+  <li>Namen und Uhrzeit werden in einer Datenbank hinterlegt und können im Diagramm angezeigt werden</li>
   <li>Unterstützung für Android 12 adaptive Farben</li>
+  <li>Unterstützung für Android 13 adaptive Icons</li>
   <li>Lokal und verschlüsselt gespeicherte IP und Login Daten</li>
   <li>Keine Tracker wie Firebase und Crashlytics</li>
 </ul>
