@@ -8,7 +8,7 @@
     <string name="start">Start</string>
     <string name="graph">Graph</string>
 
-    <string name="ip_adress">IP Adress</string>
+    <string name="ip_address">IP Address</string>
     <string name="query_username">Query Username</string>
     <string name="query_password">Query Password</string>
     <string name="nickname">Nickname</string>
@@ -24,6 +24,7 @@
     <string name="connection_attempts">Connection Attempts</string>
 
     <string name="yes">Yes</string>
+    <string name="download">Download</string>
     <string name="cancel">Cancel</string>
 
     <!-- TOOLTIPS -->
@@ -43,6 +44,11 @@
     <string name="client_connected">Client connected</string>
     <string name="clients_connected">Clients connected</string>
 
+    <string name="notificationChannelUpdate">Update Channel</string>
+    <string name="notificationChannelUpdateID">UPDATE_CHANNEL</string>
+    <string name="update_available">Update %1$s available!</string>
+    <string name="downloading">Downloading</string>
+
     <!-- QS TILE -->
     <string name="client">Client</string>
     <string name="clients">Clients</string>
@@ -52,6 +58,7 @@
     <string name="source">Source</string>
     <string name="licenses">Open Source Licenses</string>
     <string name="send_email">Send E-Mail</string>
+    <string name="check_updates">Auto check for updates</string>
 
     <!-- GRAPH -->
     <string name="not_enough_data">Not enough data collected</string>
