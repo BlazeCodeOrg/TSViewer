@@ -6,19 +6,24 @@
 
 package com.blazecode.tsviewer
 
+import android.Manifest.permission.POST_NOTIFICATIONS
+import android.annotation.SuppressLint
 import android.app.StatusBarManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -143,6 +148,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //CHECK FOR NOTIFICATION PERMISSION
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            val requestPermissionLauncher =
+                registerForActivityResult(
+                    ActivityResultContracts.RequestPermission()
+                ) { isGranted: Boolean ->
+                    if (!isGranted) {
+                        Snackbar.make(binding.appBarLayout, R.string.permissionInSettings, Snackbar.LENGTH_INDEFINITE)
+                            .show()
+                    }
+                }
+
+            when {
+                ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED -> {
+                    requestPermissionLauncher.launch(POST_NOTIFICATIONS)
+                }
+            }
+        }
+
         //CREATE NOTIFICATION CHANNEL IF FIRST START
         if (isFirstStart()) {
             val clientNotificationManager = ClientNotificationManager(this)
@@ -249,6 +273,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NewApi")
     private fun placeQsTile(){
         val statusBarManager = getSystemService(STATUS_BAR_SERVICE) as StatusBarManager
         statusBarManager.requestAddTileService(

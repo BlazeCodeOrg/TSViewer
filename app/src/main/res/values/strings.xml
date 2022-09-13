@@ -51,6 +51,8 @@
     <string name="update_available">Update %1$s available!</string>
     <string name="downloading">Downloading</string>
 
+    <string name="permissionInSettings">Please grant the permission in the settings if this was not intended.</string>
+
     <!-- QS TILE -->
     <string name="client">Client</string>
     <string name="clients">Clients</string>
