@@ -29,6 +29,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.work.*
+import com.blazecode.scrapguidev2.util.LinkUtil
+import com.blazecode.scrapguidev2.util.MailUtil
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.ui.GraphFragment
 import com.blazecode.tsviewer.ui.MainFragment
@@ -39,7 +41,6 @@ import com.blazecode.tsviewer.util.updater.UpdateCheckWorker
 import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.aboutlibraries.LibsBuilder
 import timber.log.Timber
-import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -91,7 +92,10 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_source -> {
-                    openLink(getString(R.string.github_source_url))
+                    LinkUtil.Builder(this)
+                        .context(this)
+                        .link(getString(R.string.github_source_url))
+                        .open()
                     return@setOnMenuItemClickListener true
                 }
 
@@ -108,7 +112,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.action_send_email -> {
-                    sendMail("Report")
+                    MailUtil.Builder(this)
+                        .subject("Report")
+                        .includeDeviceInfo(true)
+                        .send()
                     return@setOnMenuItemClickListener true
                 }
 
@@ -221,30 +228,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             workManager.cancelUniqueWork(TAG)
         }
-    }
-
-    private fun sendMail(subject: String) {
-        val intent = Intent(Intent.ACTION_SENDTO)
-        intent.data = Uri.parse("mailto:")
-        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.email_address)))
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject + " - " + getString(R.string.app_name))
-
-        intent.putExtra(
-            Intent.EXTRA_TEXT,
-            "App Version: ${BuildConfig.VERSION_NAME}" +
-                    "\nAndroid Version: ${Build.VERSION.SDK_INT}" +
-                    "\nDeviceInfo: ${Build.MANUFACTURER} ${Build.MODEL}" +
-                    "\nDeviceLanguage: ${Locale.getDefault().language}" +
-                    "\n\nPlease consider attaching a screenshot or recording." +
-                    "\nPlease describe your issue below this line.\n\n"
-        )
-
-        startActivity(Intent.createChooser(intent, getString(R.string.send_email)))
-    }
-
-    private fun openLink (url: String) {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        startActivity(browserIntent)
     }
 
     private fun isFirstStart() : Boolean {
