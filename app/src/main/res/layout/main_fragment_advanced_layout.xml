@@ -57,17 +57,15 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
+    <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/switchIncludeQueryClients"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/include_query_clients"
         app:layout_constraintEnd_toStartOf="@+id/buttonInfoIncludeQueryClients"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"
-        app:thumbTint="@color/switch_thumb"
-        app:trackTint="@color/switch_material_track_color" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
+    <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/switchOnlyWiFi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,9 +73,7 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonInfoIncludeQueryClients"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/switchIncludeQueryClients"
-        app:layout_constraintTop_toBottomOf="@+id/switchIncludeQueryClients"
-        app:thumbTint="@color/switch_thumb"
-        app:trackTint="@color/switch_material_track_color" />
+        app:layout_constraintTop_toBottomOf="@+id/switchIncludeQueryClients" />
 
     <Button
         android:id="@+id/buttonInfoIncludeQueryClients"
