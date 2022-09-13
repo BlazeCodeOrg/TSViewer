@@ -13,14 +13,17 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginTop="@dimen/mediumMargin"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutNickname"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/mediumMargin"
+            android:layout_marginStart="@dimen/mediumMargin"
+            android:layout_marginEnd="@dimen/smallMargin"
             android:layout_weight="1"
             android:backgroundTint="@color/background_tint"
             android:hint="@string/nickname"
@@ -31,6 +34,25 @@
                 android:id="@+id/inputEditTextNickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutQueryPort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/smallMargin"
+            android:layout_marginEnd="@dimen/mediumMargin"
+            android:layout_weight="1"
+            android:backgroundTint="@color/background_tint"
+            android:hint="@string/query_port"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEditTextPort"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

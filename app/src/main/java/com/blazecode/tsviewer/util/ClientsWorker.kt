@@ -43,6 +43,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     private var PASSWORD : String = ""
     private var NICKNAME : String = "TSViewer"
     private var INCLUDE_QUERY_CLIENTS : Boolean = false
+    private var PORT : Int = 0
     private var RUN_ONLY_WIFI : Boolean = true
     private var DEMO_MODE : Boolean = false
 
@@ -69,7 +70,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     }
 
     private fun getClients(){
-        clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, getLatestId(), INCLUDE_QUERY_CLIENTS)
+        clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, getLatestId(), INCLUDE_QUERY_CLIENTS, PORT)
         if(DEMO_MODE)
             clientListNames = mutableListOf("Cocktail", "Cosmo", "Commando", "Dangle", "SnoopWoot")
         else
@@ -136,6 +137,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         IP_ADRESS = encryptedSharedPreferences.getString("ip", "").toString()
         USERNAME = encryptedSharedPreferences.getString("user", "").toString()
         PASSWORD = encryptedSharedPreferences.getString("pass", "").toString()
+        PORT = encryptedSharedPreferences.getInt("queryport", context.getString(R.string.default_query_port).toInt())
     }
 
     private fun getMasterKey() : MasterKey {
