@@ -93,7 +93,6 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.action_source -> {
                     LinkUtil.Builder(this)
-                        .context(this)
                         .link(getString(R.string.github_source_url))
                         .open()
                     return@setOnMenuItemClickListener true
