@@ -1,3 +1,9 @@
+/*
+ *
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *
+ */
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'

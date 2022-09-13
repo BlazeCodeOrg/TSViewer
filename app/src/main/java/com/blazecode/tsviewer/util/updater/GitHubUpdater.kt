@@ -1,3 +1,9 @@
+/*
+ *
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *
+ */
+
 package com.blazecode.tsviewer.util.updater
 
 import android.app.NotificationChannel

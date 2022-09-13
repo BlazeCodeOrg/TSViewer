@@ -1,3 +1,9 @@
+<!--
+  ~ /*
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  */
+  -->
+
 <resources>
     <string name="app_name">TSViewer</string>
     <string name="action_settings">Settings</string>
