@@ -1,3 +1,9 @@
+/*
+ *
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *
+ */
+
 package com.blazecode.tsviewer.util
 
 import android.content.Context
@@ -16,7 +22,7 @@ class ConnectionManager(val context: Context) {
 
     val errorHandler = ErrorHandler(context)
 
-    fun getClients(ip : String, username : String, password : String, nickname : String, id: Int, includeQueryClients: Boolean) : MutableList<Client> {
+    fun getClients(ip : String, username : String, password : String, nickname : String, id: Int, includeQueryClients: Boolean, port: Int) : MutableList<Client> {
         var clientList = mutableListOf<Client>()
 
         runBlocking {
@@ -26,6 +32,7 @@ class ConnectionManager(val context: Context) {
                 config.setHost(ip)
                 config.setFloodRate(TS3Query.FloodRate.UNLIMITED)
                 config.setEnableCommunicationsLogging(true)
+                config.setQueryPort(port)
 
                 //CONNECT QUERY
                 val query = TS3Query(config)

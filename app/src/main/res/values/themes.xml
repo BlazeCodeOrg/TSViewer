@@ -1,4 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<!--
+  ~ /*
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  */
+  -->
+
+<resources>
 
     <!--BASE THEME-->
     <style name="Theme.TSViewer" parent="Theme.Material3.DayNight.NoActionBar">
@@ -8,7 +14,7 @@
         <item name="colorOnPrimary">@color/onPrimary</item>
         <item name="android:colorBackground">@color/background</item>
         <!--STATUS BAR-->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/background</item>
+        <item name="android:statusBarColor" >@color/background</item>
         <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
         <!--TEXT-->
         <item name="fontFamily">@font/inter_regular</item>

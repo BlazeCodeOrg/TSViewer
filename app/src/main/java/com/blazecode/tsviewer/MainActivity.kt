@@ -1,23 +1,36 @@
+/*
+ *
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *
+ */
+
 package com.blazecode.tsviewer
 
+import android.Manifest.permission.POST_NOTIFICATIONS
+import android.annotation.SuppressLint
 import android.app.StatusBarManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.work.*
+import com.blazecode.scrapguidev2.util.LinkUtil
+import com.blazecode.scrapguidev2.util.MailUtil
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.ui.GraphFragment
 import com.blazecode.tsviewer.ui.MainFragment
@@ -28,7 +41,6 @@ import com.blazecode.tsviewer.util.updater.UpdateCheckWorker
 import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.aboutlibraries.LibsBuilder
 import timber.log.Timber
-import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -80,7 +92,9 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_source -> {
-                    openLink(getString(R.string.github_source_url))
+                    LinkUtil.Builder(this)
+                        .link(getString(R.string.github_source_url))
+                        .open()
                     return@setOnMenuItemClickListener true
                 }
 
@@ -97,7 +111,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.action_send_email -> {
-                    sendMail("Report")
+                    MailUtil.Builder(this)
+                        .subject("Report")
+                        .includeDeviceInfo(true)
+                        .send()
                     return@setOnMenuItemClickListener true
                 }
 
@@ -134,6 +151,25 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 else -> false
+            }
+        }
+
+        //CHECK FOR NOTIFICATION PERMISSION
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            val requestPermissionLauncher =
+                registerForActivityResult(
+                    ActivityResultContracts.RequestPermission()
+                ) { isGranted: Boolean ->
+                    if (!isGranted) {
+                        Snackbar.make(binding.appBarLayout, R.string.permissionInSettings, Snackbar.LENGTH_INDEFINITE)
+                            .show()
+                    }
+                }
+
+            when {
+                ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED -> {
+                    requestPermissionLauncher.launch(POST_NOTIFICATIONS)
+                }
             }
         }
 
@@ -193,30 +229,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendMail(subject: String) {
-        val intent = Intent(Intent.ACTION_SENDTO)
-        intent.data = Uri.parse("mailto:")
-        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.email_address)))
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject + " - " + getString(R.string.app_name))
-
-        intent.putExtra(
-            Intent.EXTRA_TEXT,
-            "App Version: ${BuildConfig.VERSION_NAME}" +
-                    "\nAndroid Version: ${Build.VERSION.SDK_INT}" +
-                    "\nDeviceInfo: ${Build.MANUFACTURER} ${Build.MODEL}" +
-                    "\nDeviceLanguage: ${Locale.getDefault().language}" +
-                    "\n\nPlease consider attaching a screenshot or recording." +
-                    "\nPlease describe your issue below this line.\n\n"
-        )
-
-        startActivity(Intent.createChooser(intent, getString(R.string.send_email)))
-    }
-
-    private fun openLink (url: String) {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        startActivity(browserIntent)
-    }
-
     private fun isFirstStart() : Boolean {
         val preferences = getSharedPreferences("preferences", MODE_PRIVATE)!!
         return if(preferences.getBoolean("isFirstStart", true)){
@@ -233,7 +245,7 @@ class MainActivity : AppCompatActivity() {
         val powerManager : PowerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
         if(!powerManager.isIgnoringBatteryOptimizations(packageName)){
             Snackbar.make(binding.appBarLayout, R.string.batt_optimization, Snackbar.LENGTH_INDEFINITE)
-                .setActionTextColor(getColor(R.color.text))
+                .setActionTextColor(getColor(R.color.text_dark_background))
                 .setAction(R.string.batt_disable){
                     intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
                     intent.data = Uri.parse("package:$packageName")
@@ -243,6 +255,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NewApi")
     private fun placeQsTile(){
         val statusBarManager = getSystemService(STATUS_BAR_SERVICE) as StatusBarManager
         statusBarManager.requestAddTileService(

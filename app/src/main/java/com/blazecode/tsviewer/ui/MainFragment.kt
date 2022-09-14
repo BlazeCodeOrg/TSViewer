@@ -1,3 +1,9 @@
+/*
+ *
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *
+ */
+
 package com.blazecode.tsviewer.ui
 
 import android.content.SharedPreferences
@@ -45,6 +51,7 @@ class MainFragment : Fragment() {
     private var PASSWORD : String = ""
     private var NICKNAME : String = "TSViewer"
     private var INCLUDE_QUERY_CLIENTS : Boolean = false
+    private var QUERYPORT : Int = 0
     private var SCHEDULE_TIME : Float = 15f
     private var RUN_ONLY_WIFI : Boolean = true
 
@@ -86,6 +93,12 @@ class MainFragment : Fragment() {
 
         advancedLayoutBinding.inputEditTextNickname.addTextChangedListener(){
             NICKNAME = it.toString()
+            savePreferences()
+        }
+
+        advancedLayoutBinding.inputEditTextPort.addTextChangedListener {
+            QUERYPORT = if(it.toString().isNotEmpty()) Integer.parseInt(it.toString())
+            else 0
             savePreferences()
         }
 
@@ -222,6 +235,7 @@ class MainFragment : Fragment() {
             this.putString("ip", IP_ADRESS)
             this.putString("user", USERNAME)
             this.putString("pass", PASSWORD)
+            this.putInt("queryport", QUERYPORT)
             apply()
         }
     }
@@ -248,6 +262,7 @@ class MainFragment : Fragment() {
         IP_ADRESS = encryptedSharedPreferences.getString("ip", "").toString()
         USERNAME = encryptedSharedPreferences.getString("user", "").toString()
         PASSWORD = encryptedSharedPreferences.getString("pass", "").toString()
+        QUERYPORT = encryptedSharedPreferences.getInt("queryport", getString(R.string.default_query_port).toInt())
     }
 
     private fun getMasterKey() : MasterKey {
@@ -271,6 +286,7 @@ class MainFragment : Fragment() {
         advancedLayoutBinding.inputEditTextNickname.setText(NICKNAME)
         if(isWorkScheduled(TAG)) scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.stop_schedule)
         if(!isWorkScheduled(TAG)) scheduleLayoutBinding.buttonStartSchedule.text = getString(R.string.start_schedule)
+        advancedLayoutBinding.inputEditTextPort.setText(QUERYPORT.toString())
         advancedLayoutBinding.switchIncludeQueryClients.isChecked = INCLUDE_QUERY_CLIENTS
         advancedLayoutBinding.switchOnlyWiFi.isChecked = RUN_ONLY_WIFI
         scheduleLayoutBinding.timeSlider.value = SCHEDULE_TIME

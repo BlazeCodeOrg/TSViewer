@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /*
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  */
+  -->
+
 <resources>
 
     <!-- BASIC COLORS -->
@@ -6,6 +12,7 @@
     <color name="text_on_primary">#F2F4FF</color>
     <color name="text">#161B43</color>
     <color name="text_secondary">#242A5A</color>
+    <color name="text_dark_background">#CAD0FD</color>
     <color name="primary">#6169AC</color>
     <color name="primaryVariant">#4E569A</color>
     <color name="primaryLight">#CAD0FD</color>
