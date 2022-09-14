@@ -57,6 +57,8 @@
     <string name="client">Client</string>
     <string name="clients">Clients</string>
     <string name="no_network">No Network</string>
+    <string name="no_wifi">No WiFi</string>
+    <string name="airplane_mode">Airplane Mode</string>
 
     <!-- MENU -->
     <string name="source">Source</string>

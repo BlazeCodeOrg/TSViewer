@@ -33,9 +33,9 @@ class TileManager(val context: Context) {
         editor.commit()
     }
 
-    fun noNetwork(){
+    fun error (message : String){
         setState(false)
-        setSubtitle("${context.getString(R.string.no_network)}")
+        setSubtitle(message)
     }
 
     fun setSubtitle(subtitle: String){

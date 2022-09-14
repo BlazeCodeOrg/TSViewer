@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.provider.Settings
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ import com.blazecode.tsviewer.util.database.UserCountDatabase
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.tile.TileManager
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
+
 
 class ClientsWorker(private val context: Context, workerParameters: WorkerParameters) :
     Worker(context, workerParameters) {
@@ -61,9 +63,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) getClients()
         else {
             clientNotificationManager.removeNotification()
-            tileManager.init()
-            tileManager.noNetwork()
-            saveToDatabase(null)
+            writeClients(null)
         }
 
         return Result.success()
@@ -77,9 +77,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
             extractNames()
 
         clientNotificationManager.post(clientListNames)
-        tileManager.init()
-        tileManager.post(clientListNames)
-        saveToDatabase(clientListNames)
+        writeClients(clientListNames)
     }
 
     private fun extractNames(){
@@ -95,14 +93,33 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         else latestEntry.id!!
     }
 
-    private fun saveToDatabase(list: MutableList<String>?) {
+    private fun writeClients(list: MutableList<String>?) {
+        tileManager.init()
         if(list == null){
             run {
-                val userCount = UserCount(null, System.currentTimeMillis(), 0, context.getString(R.string.no_network))
+                var message : String = ""
+
+                if(!isWifi() && RUN_ONLY_WIFI && hasCellReception()){
+                    // ONLY WIFI ALLOWED, NO WIFI CONNECTION
+                    message = context.getString(R.string.no_wifi)
+                } else if (isAirplaneMode(context)){
+                    // AIRPLANE MODE IS ACTIVE
+                    message = context.getString(R.string.airplane_mode)
+                } else {
+                    // NO INTERNET CONNECTION
+                    message = context.getString(R.string.no_network)
+                }
+                // QS TILE
+                tileManager.error(message)
+                // DATABASE
+                val userCount = UserCount(null, System.currentTimeMillis(), 0, message)
                 userCountDAO.insertUserCount(userCount)
             }
         } else {
             run {
+                // QS TILE
+                tileManager.post(clientListNames)
+                // DATABASE
                 val userCount = UserCount(null, System.currentTimeMillis(), list.size, list.joinToString())
                 userCountDAO.insertUserCount(userCount)
             }
@@ -114,6 +131,20 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         val network = connectivityManager.activeNetwork ?: return false
         val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
         return activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+    }
+
+    private fun hasCellReception() : Boolean{
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+    }
+
+    fun isAirplaneMode(context: Context): Boolean {
+        return Settings.Global.getInt(
+            context.contentResolver,
+            Settings.Global.AIRPLANE_MODE_ON, 0
+        ) != 0
     }
 
     private fun loadPreferences(){
