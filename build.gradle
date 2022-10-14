@@ -21,7 +21,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.3.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20"
 
         //ABOUT LIBRARIES
         classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:$ABOUT_LIBRARIES_VERSION"
