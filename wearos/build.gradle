@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.blazecode.tsviewer'
-    compileSdkPreview "TiramisuPrivacySandbox"
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.blazecode.tsviewer"
-        minSdkVersion 30
-        targetSdkPreview "TiramisuPrivacySandbox"
+        minSdkVersion 25
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         vectorDrawables {
