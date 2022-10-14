@@ -1,4 +1,4 @@
-package com.blazecode.tsviewer.presentation.theme
+package com.blazecode.tsviewer.wear.theme
 
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.material.MaterialTheme

@@ -1,4 +1,4 @@
-package com.blazecode.tsviewer.presentation.theme
+package com.blazecode.tsviewer.wear.theme
 
 import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.material.Colors

@@ -4,7 +4,7 @@
  * changes to the libraries and their usages.
  */
 
-package com.blazecode.tsviewer.presentation
+package com.blazecode.tsviewer.wear
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.blazecode.tsviewer.R
-import com.blazecode.tsviewer.presentation.theme.TSViewerTheme
+import com.blazecode.tsviewer.wear.theme.TSViewerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
