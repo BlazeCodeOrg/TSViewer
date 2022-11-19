@@ -68,4 +68,8 @@ dependencies {
 
     //DATA STORE
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // NAVIGATION
+    implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation "com.google.accompanist:accompanist-navigation-animation:0.27.0"
 }

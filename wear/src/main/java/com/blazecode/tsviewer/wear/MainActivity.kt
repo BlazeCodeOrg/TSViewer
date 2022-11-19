@@ -4,41 +4,31 @@
  *
  */
 
-/* While this template provides a good starting point for using Wear Compose, you can always
- * take a look at https://github.com/android/wear-os-samples/tree/main/ComposeStarter and
- * https://github.com/android/wear-os-samples/tree/main/ComposeAdvanced to find the most up to date
- * changes to the libraries and their usages.
- */
-
 package com.blazecode.tsviewer.wear
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
-import androidx.wear.compose.material.MaterialTheme
+import androidx.compose.animation.ExperimentalAnimationApi
+import com.blazecode.tsviewer.wear.navigation.NavRoutes
+import com.blazecode.tsviewer.wear.screens.ClientList
 import com.blazecode.tsviewer.wear.screens.Home
-import com.blazecode.tsviewer.wear.theme.TSViewerTheme
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
 
-            TSViewerTheme {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colors.surface),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Home()
-                }
+            val navController = rememberAnimatedNavController()
+            AnimatedNavHost(navController = navController, startDestination = NavRoutes.Home.route){
+                composable(NavRoutes.Home.route) { Home() }
+                composable(NavRoutes.ClientList.route) { ClientList() }
             }
+
         }
     }
 }
