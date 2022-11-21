@@ -7,6 +7,7 @@
 package com.blazecode.tsviewer.wear.complication
 
 import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -16,9 +17,7 @@ import androidx.wear.watchface.complications.datasource.ComplicationDataSourceSe
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import com.blazecode.tsviewer.R
-
-
-// https://github.com/android/wear-os-samples/blob/main/WearComplicationDataSourcesTestSuite/Wearable/src/main/java/com/example/android/wearable/wear/wearcomplicationproviderstestsuite/LongTextDataSourceService.kt
+import com.blazecode.tsviewer.wear.MainActivity
 
 class ComplicationProvider: ComplicationDataSourceService() {
 
@@ -29,12 +28,15 @@ class ComplicationProvider: ComplicationDataSourceService() {
     }
 
     override fun onComplicationRequest(request: ComplicationRequest, listener: ComplicationRequestListener) {
-        val intent = Intent(this, ComplicationReceiver::class.java).apply {
-            putExtra("amount", dataHolder.amount)
-        }
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
-        listener.onComplicationData(getComplicationData(pendingIntent))
+        val tapIntent = Intent(this, MainActivity::class.java)
+            .putExtra("openClientScreen", true)
+        val tapPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+            addNextIntentWithParentStack(tapIntent)
+            getPendingIntent(dataHolder.amount, PendingIntent.FLAG_IMMUTABLE)
+        }
+
+        listener.onComplicationData(getComplicationData(tapPendingIntent))
     }
 
     private fun getComplicationData(tapAction: PendingIntent?): ComplicationData{
@@ -42,7 +44,7 @@ class ComplicationProvider: ComplicationDataSourceService() {
 
         return ShortTextComplicationData.Builder(
             text = PlainComplicationText.Builder(
-                text = dataHolder.amount.toString()
+                text = dataHolder.list.size.toString()
             ).build(),
 
             contentDescription = PlainComplicationText.Builder(

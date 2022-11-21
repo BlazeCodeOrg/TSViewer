@@ -94,4 +94,8 @@ dependencies {
 
     //KLAXON FOR PARSING JSON
     implementation 'com.beust:klaxon:5.6'
+
+    //WEAR INTEGRATION
+    wearApp project(':wear')
+    implementation 'com.google.android.gms:play-services-wearable:18.0.0'
 }

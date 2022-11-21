@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /*
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  */
+  -->
+
+<resources>
+    <string-array name="android_wear_capabilities">
+        <item>client_sharing</item>
+    </string-array>
+</resources>

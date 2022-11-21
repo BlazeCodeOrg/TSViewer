@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.navigation.NavController
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.Text
 import com.blazecode.tsviewer.wear.complication.ComplicationDataHolder
@@ -24,7 +25,7 @@ import com.blazecode.tsviewer.wear.complication.ComplicationProvider
 import com.blazecode.tsviewer.wear.theme.TSViewerTheme
 
 @Composable
-fun Home() {
+fun Home(navController: NavController) {
     TSViewerTheme {
         MainLayout()
     }
