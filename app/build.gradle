@@ -12,6 +12,7 @@ plugins {
 }
 
 android {
+    namespace 'com.blazecode.tsviewer'
     compileSdk 33
 
     defaultConfig {
@@ -29,6 +30,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.debug
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
@@ -40,7 +44,6 @@ android {
     buildFeatures {
         viewBinding true
     }
-    namespace 'com.blazecode.tsviewer'
 }
 
 dependencies {
@@ -61,6 +64,7 @@ dependencies {
 
     //COROUTINES
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
 
     //WORK MANAGER
     implementation 'androidx.work:work-runtime-ktx:2.7.1'

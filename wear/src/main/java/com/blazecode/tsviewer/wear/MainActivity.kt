@@ -10,21 +10,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import com.blazecode.tsviewer.wear.communication.MessageReceivedListener
 import com.blazecode.tsviewer.wear.navigation.NavRoutes
 import com.blazecode.tsviewer.wear.screens.ClientList
 import com.blazecode.tsviewer.wear.screens.Home
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.google.android.gms.wearable.Wearable
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Wearable.getMessageClient(this).addListener(MessageReceivedListener(this))
 
         setContent {
             // CHECK IF COMPLICATION WAS TAPPED
@@ -36,7 +32,6 @@ class MainActivity : ComponentActivity() {
                 composable(NavRoutes.Home.route) { Home(navController) }
                 composable(NavRoutes.ClientList.route) { ClientList(navController) }
             }
-
         }
     }
 }
