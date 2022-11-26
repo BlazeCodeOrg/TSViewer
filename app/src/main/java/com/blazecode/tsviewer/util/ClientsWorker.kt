@@ -24,7 +24,7 @@ import com.blazecode.tsviewer.util.database.UserCountDAO
 import com.blazecode.tsviewer.util.database.UserCountDatabase
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.tile.TileManager
-import com.blazecode.tsviewer.util.wear.WearMessageManager
+import com.blazecode.tsviewer.util.wear.WearDataManager
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client
 
 
@@ -36,7 +36,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     val connectionManager = ConnectionManager(context)
     val clientNotificationManager = ClientNotificationManager(context)
     val tileManager = TileManager(context)
-    val wearMessageManager = WearMessageManager(context)
+    val wearDataManager = WearDataManager(context)
     val errorHandler = ErrorHandler(context)
 
     lateinit var db: UserCountDatabase
@@ -79,7 +79,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
             extractNames()
 
         clientNotificationManager.post(clientListNames)
-        wearMessageManager.sendMessage(clientListNames)
+        wearDataManager.sendClientList(clientListNames)
         writeClients(clientListNames)
     }
 
