@@ -42,7 +42,7 @@ fun ClientList(){
     else stringResource(R.string.clients_connected, ComplicationDataHolder.list.size)
 
     var timeAgo: String = ((System.currentTimeMillis() - ComplicationDataHolder.time) / 1000 / 60).toString()
-    if(ComplicationDataHolder.time == 0L) timeAgo = "N/A"
+    if(ComplicationDataHolder.time == 0L) timeAgo = "-"
 
     val scrollState = rememberScalingLazyListState()
     val scope = rememberCoroutineScope()
