@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.rotary.onPreRotaryScrollEvent
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -28,8 +29,10 @@ import androidx.navigation.NavController
 import androidx.wear.compose.material.*
 import com.blazecode.tsviewer.BuildConfig
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.wear.communication.WearDataManager
 import com.blazecode.tsviewer.wear.navigation.NavRoutes
 import com.blazecode.tsviewer.wear.theme.TSViewerTheme
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
@@ -43,6 +46,7 @@ fun Home(navController: NavController) {
 @Composable
 private fun MainLayout(navController: NavController){
 
+    val context = LocalContext.current
     val scrollState = rememberScalingLazyListState()
     val scope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
@@ -77,7 +81,7 @@ private fun MainLayout(navController: NavController){
                 icon = { Icon(painterResource(R.drawable.ic_clients), contentDescription = null) },
                 colors = ChipDefaults.chipColors(backgroundColor = colorResource(R.color.background), iconColor = colorResource(R.color.primary))) }
         item {
-            Chip(onClick = { launchAppOnPhone() },
+            Chip(onClick = { scope.launch(Dispatchers.IO) { WearDataManager(context).launchAppOnPhone(System.currentTimeMillis()) }},
                 label = { Text(stringResource(R.string.launch_app_on_phone)) },
                 icon = { Icon(painterResource(R.drawable.ic_open), contentDescription = null) },
                 colors = ChipDefaults.chipColors(backgroundColor = colorResource(R.color.background), iconColor = colorResource(R.color.primary))) }
@@ -85,8 +89,4 @@ private fun MainLayout(navController: NavController){
         item { Spacer(modifier = Modifier.size(8.dp)) }
         item { Text(text = "Version: ${BuildConfig.VERSION_NAME}", textAlign = TextAlign.Center, modifier = Modifier.alpha(.7f)) }
     }
-}
-
-private fun launchAppOnPhone(){
-
 }

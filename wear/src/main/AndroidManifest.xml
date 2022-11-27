@@ -7,10 +7,13 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- PERMISSSIONS -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <!-- FEATURES -->
     <uses-feature android:name="android.hardware.type.watch" />
 
+    <!-- APPLICATION -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,6 +29,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <!-- COMPLICATION -->
         <service
             android:name=".wear.complication.ComplicationProvider"
             android:exported="true"
@@ -43,6 +47,7 @@
                 android:value="0"/>
         </service>
 
+        <!-- DATA CHANGED -->
         <service android:name=".wear.communication.WearableListenerService"
             android:exported="true">
             <intent-filter>
@@ -54,6 +59,7 @@
             </intent-filter>
         </service>
 
+        <!-- ACTIVITY -->
         <activity
             android:name=".wear.MainActivity"
             android:exported="true"

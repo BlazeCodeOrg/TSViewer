@@ -11,10 +11,6 @@ import com.blazecode.tsviewer.wear.complication.ComplicationProvider
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
 import com.google.android.gms.wearable.WearableListenerService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
 
 class WearableListenerService: WearableListenerService() {
 
@@ -23,8 +19,6 @@ class WearableListenerService: WearableListenerService() {
         private const val CLIENT_LIST_KEY = "clientlist"
         private const val TIME_MILLIS = "timeMillis"
     }
-
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     override fun onDataChanged(dataEvents: DataEventBuffer) {
         super.onDataChanged(dataEvents)
@@ -52,10 +46,5 @@ class WearableListenerService: WearableListenerService() {
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        scope.cancel()
     }
 }
