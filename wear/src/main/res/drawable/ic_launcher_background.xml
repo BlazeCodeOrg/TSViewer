@@ -1,0 +1,26 @@
+<!--
+  ~ /*
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  */
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M0,0h24v24h-24z">
+    <aapt:attr name="android:fillColor">
+      <gradient 
+          android:centerX="12"
+          android:centerY="12"
+          android:gradientRadius="12"
+          android:type="radial">
+        <item android:offset="0" android:color="#FF282D57"/>
+        <item android:offset="1" android:color="#FF282A3E"/>
+      </gradient>
+    </aapt:attr>
+  </path>
+</vector>
