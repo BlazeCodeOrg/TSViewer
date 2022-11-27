@@ -50,6 +50,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     private var PORT : Int = 0
     private var RUN_ONLY_WIFI : Boolean = true
     private var DEMO_MODE : Boolean = false
+    private var SYNC_WEARABLE : Boolean = false
 
     private var clientList = mutableListOf<Client>()
     private var clientListNames = mutableListOf<String>()
@@ -78,8 +79,8 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         else
             extractNames()
 
+        if(SYNC_WEARABLE) wearDataManager.sendClientList(clientListNames)
         clientNotificationManager.post(clientListNames)
-        wearDataManager.sendClientList(clientListNames)
         writeClients(clientListNames)
     }
 
@@ -157,6 +158,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
         RUN_ONLY_WIFI = preferences.getBoolean("run_only_wifi", true)
         DEMO_MODE = preferences.getBoolean("demoMode", false)
+        SYNC_WEARABLE = preferences.getBoolean("syncWearable", false)
         loadEncryptedPreferences()
     }
 

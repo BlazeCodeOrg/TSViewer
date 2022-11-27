@@ -80,6 +80,10 @@ class MainActivity : AppCompatActivity() {
         val autoUpdateMenuItem = binding.toolbar.menu.findItem(R.id.action_update_check)
         autoUpdateMenuItem.isChecked = preferences.getBoolean("autoUpdateCheck", true)
 
+        // SYNC WITH WEARABLE
+        val syncWearableMenuItem = binding.toolbar.menu.findItem(R.id.action_sync_wearable)
+        syncWearableMenuItem.isChecked = preferences.getBoolean("syncWearable", false)
+
         // DEBUG AUTO UPDATE CHECK
         val debugAutoUpdateMenuItem = binding.toolbar.menu.findItem(R.id.action_update_check_debug)
         debugAutoUpdateMenuItem.isChecked = preferences.getBoolean("debugUpdateCheck", false)
@@ -123,6 +127,12 @@ class MainActivity : AppCompatActivity() {
                     autoUpdateMenuItem.isChecked = !autoUpdateMenuItem.isChecked
                     setAutoUpdateCheck(autoUpdateMenuItem.isChecked)
                     startUpdateCheckSchedule(autoUpdateMenuItem.isChecked)
+                    return@setOnMenuItemClickListener true
+                }
+
+                R.id.action_sync_wearable -> {
+                    syncWearableMenuItem.isChecked = !syncWearableMenuItem.isChecked
+                    setSyncWearable(syncWearableMenuItem.isChecked)
                     return@setOnMenuItemClickListener true
                 }
 
@@ -274,6 +284,12 @@ class MainActivity : AppCompatActivity() {
     private fun setAutoUpdateCheck(isEnabled: Boolean){
         val editor : SharedPreferences.Editor = preferences.edit()
         editor.putBoolean("autoUpdateCheck", isEnabled)
+        editor.commit()
+    }
+
+    private fun setSyncWearable(isEnabled: Boolean){
+        val editor : SharedPreferences.Editor = preferences.edit()
+        editor.putBoolean("syncWearable", isEnabled)
         editor.commit()
     }
 

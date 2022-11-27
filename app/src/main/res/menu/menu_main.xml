@@ -26,6 +26,11 @@
         android:checkable="true"/>
 
     <item
+        android:id="@+id/action_sync_wearable"
+        android:title="@string/sync_wearable"
+        android:checkable="true"/>
+
+    <item
         android:id="@+id/action_update_check_debug"
         android:visible="false"
         android:title="DebugUpdateCheck"
