@@ -1,0 +1,19 @@
+<!--
+  ~ /*
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  */
+  -->
+
+<resources>
+    <string name="app_name">TSViewer</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="client_connected">%s Client connected</string>
+    <string name="clients_connected">%s Clients connected</string>
+    <string name="time_ago">%s min ago</string>
+
+    <string name="open_client_screen">Clients</string>
+    <string name="launch_app_on_phone">Launch app</string>
+</resources>

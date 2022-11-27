@@ -65,6 +65,7 @@
     <string name="licenses">Open Source Licenses</string>
     <string name="send_email">Send E-Mail</string>
     <string name="check_updates">Auto check for updates</string>
+    <string name="sync_wearable">Sync with Wearable</string>
 
     <!-- GRAPH -->
     <string name="not_enough_data">Not enough data collected</string>
