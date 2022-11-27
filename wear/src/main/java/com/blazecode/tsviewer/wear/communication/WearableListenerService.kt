@@ -33,6 +33,7 @@ class WearableListenerService: WearableListenerService() {
                 if (item.uri.path!!.compareTo(CLIENTS_PATH) == 0) {
                     DataMapItem.fromDataItem(item).dataMap.apply {
                         val clientList = getStringArray(CLIENT_LIST_KEY)
+                        ComplicationDataHolder.time = System.currentTimeMillis()
 
                         if(!clientList.isNullOrEmpty()){
                             ComplicationDataHolder.list = clientList.toMutableList()

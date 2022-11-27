@@ -33,7 +33,7 @@ class ComplicationProvider: ComplicationDataSourceService() {
             .putExtra("openClientScreen", true)
         val tapPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
             addNextIntentWithParentStack(tapIntent)
-            getPendingIntent(dataHolder.amount, PendingIntent.FLAG_IMMUTABLE)
+            getPendingIntent(dataHolder.list.size, PendingIntent.FLAG_IMMUTABLE)
         }
 
         listener.onComplicationData(getComplicationData(tapPendingIntent))

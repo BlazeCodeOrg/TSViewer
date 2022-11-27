@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberAnimatedNavController()
             AnimatedNavHost(navController = navController, startDestination = startDestination){
                 composable(NavRoutes.Home.route) { Home(navController) }
-                composable(NavRoutes.ClientList.route) { ClientList(navController) }
+                composable(NavRoutes.ClientList.route) { ClientList() }
             }
         }
     }

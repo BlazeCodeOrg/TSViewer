@@ -7,6 +7,6 @@
 package com.blazecode.tsviewer.wear.complication
 
 object ComplicationDataHolder {
-    var amount: Int = 0
     var list: MutableList<String> = mutableListOf()
+    var time: Long = 0
 }
