@@ -1,3 +1,9 @@
+/*
+ *
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *
+ */
+
 package com.blazecode.tsviewer.wear.theme
 
 import androidx.compose.ui.text.TextStyle
@@ -12,7 +18,13 @@ val Typography = Typography(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
+    ),
+    body2 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp
     )
+
     /* Other default text styles to override
     button = TextStyle(
         fontFamily = FontFamily.Default,
