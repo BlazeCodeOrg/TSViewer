@@ -17,6 +17,7 @@ class WearDataManager(val context: Context) {
     companion object {
         private const val CLIENTS_PATH = "/clients"
         private const val CLIENT_LIST_KEY = "clientlist"
+        private const val TIME_MILLIS = "timeMillis"
     }
 
     fun sendClientList(clientList: MutableList<String>) {
@@ -27,6 +28,7 @@ class WearDataManager(val context: Context) {
 
         val request = PutDataMapRequest.create(CLIENTS_PATH).apply {
             dataMap.putStringArray(CLIENT_LIST_KEY, clientArray)
+            dataMap.putLong(TIME_MILLIS, System.currentTimeMillis())
         }
             .asPutDataRequest()
             .setUrgent()

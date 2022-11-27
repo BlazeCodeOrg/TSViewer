@@ -21,6 +21,7 @@ class WearableListenerService: WearableListenerService() {
     companion object {
         const val CLIENTS_PATH = "/clients"
         private const val CLIENT_LIST_KEY = "clientlist"
+        private const val TIME_MILLIS = "timeMillis"
     }
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
@@ -32,8 +33,9 @@ class WearableListenerService: WearableListenerService() {
             event.dataItem.also { item ->
                 if (item.uri.path!!.compareTo(CLIENTS_PATH) == 0) {
                     DataMapItem.fromDataItem(item).dataMap.apply {
+
+                        // CLIENT LIST
                         val clientList = getStringArray(CLIENT_LIST_KEY)
-                        ComplicationDataHolder.time = System.currentTimeMillis()
 
                         if(!clientList.isNullOrEmpty()){
                             ComplicationDataHolder.list = clientList.toMutableList()
@@ -43,6 +45,9 @@ class WearableListenerService: WearableListenerService() {
                             ComplicationProvider().update(this@WearableListenerService)
                         }
 
+                        // TIME STAMP
+                        val timeMillis = getLong(TIME_MILLIS)
+                        ComplicationDataHolder.time = timeMillis
                     }
                 }
             }
