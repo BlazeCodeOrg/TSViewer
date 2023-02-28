@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
  *
  */
 
@@ -20,30 +20,38 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
+import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.commit
+import androidx.navigation.compose.composable
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.work.*
-import com.blazecode.scrapguidev2.util.LinkUtil
-import com.blazecode.scrapguidev2.util.MailUtil
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
+import com.blazecode.tsviewer.navigation.NavRoutes
+import com.blazecode.tsviewer.screens.Settings
 import com.blazecode.tsviewer.ui.GraphFragment
 import com.blazecode.tsviewer.ui.MainFragment
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.tile.ClientTileService
 import com.blazecode.tsviewer.util.updater.GitHubUpdater
 import com.blazecode.tsviewer.util.updater.UpdateCheckWorker
+import com.blazecode.tsviewer.viewmodels.SettingsViewModel
+import com.blazecode.tsviewer.views.BottomNavBar
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.android.material.snackbar.Snackbar
-import com.mikepenz.aboutlibraries.LibsBuilder
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.EmptyCoroutineContext
 
 
 class MainActivity : AppCompatActivity() {
@@ -57,12 +65,29 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var preferences : SharedPreferences
 
+    @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        supportFragmentManager.commit { replace(R.id.fragment_container, MainFragment()) }
+        setContent {
+            val navController = rememberAnimatedNavController()
+            val context = rememberCoroutineScope()
+
+            Scaffold (
+                bottomBar = {
+                    BottomNavBar(navController)
+                },
+                content = { paddingValues ->
+                    AnimatedNavHost(navController = navController, startDestination = NavRoutes.Home.route, modifier = Modifier.padding(paddingValues)){
+                        composable(NavRoutes.Home.route) { MainFragment() }
+                        composable(NavRoutes.Data.route) { GraphFragment(context.coroutineContext) }
+                        composable(NavRoutes.Settings.route) { Settings(SettingsViewModel(application)) }
+                    }
+                }
+            )
+
+
+        }
 
         // START LOGGING
         Timber.plant(Timber.DebugTree())
@@ -76,6 +101,7 @@ class MainActivity : AppCompatActivity() {
         // INITIALIZE UPDATER
         gitHubUpdater = GitHubUpdater(this)
 
+        /*
         // AUTO UPDATE CHECK
         val autoUpdateMenuItem = binding.toolbar.menu.findItem(R.id.action_update_check)
         autoUpdateMenuItem.isChecked = preferences.getBoolean("autoUpdateCheck", true)
@@ -165,6 +191,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+         */
+
         //CHECK FOR NOTIFICATION PERMISSION
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
             val requestPermissionLauncher =
@@ -195,6 +223,7 @@ class MainActivity : AppCompatActivity() {
                 placeQsTile()
         }
 
+        /*
         //OPTIMIZE TOOLBAR HEIGHT
         val layoutParams = binding.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
         layoutParams.height = resources.configuration.densityDpi
@@ -218,8 +247,11 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+
+         */
         checkBatteryOptimization()
     }
+
 
     private fun checkForUpdate(){
         val updateCheckWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<UpdateCheckWorker>().build()

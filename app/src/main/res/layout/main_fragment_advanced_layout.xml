@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /*
-  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
   ~  */
   -->
 
@@ -14,7 +14,7 @@
         android:id="@+id/linearLayoutCompat"
         android:layout_width="match_parent"
         android:gravity="center"
-        android:layout_marginTop="@dimen/mediumMargin"
+        android:layout_marginTop="@dimen/medium_padding"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
 
@@ -22,8 +22,8 @@
             android:id="@+id/textInputLayoutNickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/mediumMargin"
-            android:layout_marginEnd="@dimen/smallMargin"
+            android:layout_marginStart="@dimen/medium_padding"
+            android:layout_marginEnd="@dimen/small_padding"
             android:layout_weight="1"
             android:backgroundTint="@color/background_tint"
             android:hint="@string/nickname"
@@ -40,8 +40,8 @@
             android:id="@+id/textInputLayoutQueryPort"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/smallMargin"
-            android:layout_marginEnd="@dimen/mediumMargin"
+            android:layout_marginStart="@dimen/small_padding"
+            android:layout_marginEnd="@dimen/medium_padding"
             android:layout_weight="1"
             android:backgroundTint="@color/background_tint"
             android:hint="@string/query_port"

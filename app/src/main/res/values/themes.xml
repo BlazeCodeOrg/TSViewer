@@ -1,6 +1,6 @@
 <!--
   ~ /*
-  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
   ~  */
   -->
 
@@ -62,13 +62,13 @@
     <!-- BUTTONS -->
     <style name="tsButton" parent="@style/Widget.MaterialComponents.Button">
         <item name="textAllCaps">false</item>
-        <item name="cornerRadius">@dimen/buttonRadius</item>
+        <item name="cornerRadius">@dimen/icon_button_size</item>
         <item name="android:textColor">@color/text_on_primary</item>
     </style>
 
     <style name="tsTextButton" parent="@style/Widget.MaterialComponents.Button.TextButton">
         <item name="textAllCaps">false</item>
-        <item name="cornerRadius">@dimen/buttonRadius</item>
+        <item name="cornerRadius">@dimen/icon_button_size</item>
     </style>
 
     <style name="tsWarningTextButton" parent="@style/tsButton">

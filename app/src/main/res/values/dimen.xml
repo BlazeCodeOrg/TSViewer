@@ -1,6 +1,6 @@
 <!--
   ~ /*
-  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
   ~  */
   -->
 
@@ -11,11 +11,11 @@
     <dimen name="silk_toolbar_scrim_visible_height">174dp</dimen>
     <dimen name="silk_toolbar_expanded_title_margin">24dp</dimen>
 
-    <dimen name="buttonRadius">50dp</dimen>
+    <dimen name="icon_button_size">50dp</dimen>
 
     <!--MARGINS-->
-    <dimen name="smallMargin">8dp</dimen>
-    <dimen name="mediumMargin">16dp</dimen>
-    <dimen name="largeMargin">32dp</dimen>
+    <dimen name="small_padding">8dp</dimen>
+    <dimen name="medium_padding">16dp</dimen>
+    <dimen name="large_padding">32dp</dimen>
 
 </resources>

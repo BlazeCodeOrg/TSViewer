@@ -1,6 +1,6 @@
 <!--
   ~ /*
-  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
   ~  */
   -->
 
@@ -8,6 +8,6 @@
     <solid android:color="?attr/colorSurface" />
     <corners
         android:radius="24dp" />
-    <padding android:top="@dimen/smallMargin"
-        android:bottom="@dimen/smallMargin"/>
+    <padding android:top="@dimen/small_padding"
+        android:bottom="@dimen/small_padding"/>
 </shape>

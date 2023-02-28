@@ -1,6 +1,6 @@
 <!--
   ~ /*
-  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
   ~  */
   -->
 
@@ -69,5 +69,8 @@
 
     <!-- GRAPH -->
     <string name="not_enough_data">Not enough data collected</string>
+
+    <!-- Settings -->
+    <string name="connection">Connection</string>
 
 </resources>

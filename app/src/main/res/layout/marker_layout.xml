@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /*
-  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
   ~  */
   -->
 
@@ -17,9 +17,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/smallMargin"
-        android:layout_marginRight="@dimen/smallMargin"
-        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginLeft="@dimen/small_padding"
+        android:layout_marginRight="@dimen/small_padding"
+        android:layout_marginTop="@dimen/small_padding"
         android:text="dd.MM - HH:mm"
         android:fontFamily="@font/inter_regular"
         android:textSize="14sp"
@@ -32,7 +32,7 @@
         android:hyphenationFrequency="none"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_margin="@dimen/smallMargin"
+        android:layout_margin="@dimen/small_padding"
         android:text="Cocktail, Cosmo"
         android:breakStrategy="balanced"
         android:fontFamily="@font/inter_regular"
