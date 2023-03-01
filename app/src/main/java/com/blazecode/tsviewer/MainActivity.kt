@@ -40,11 +40,13 @@ import androidx.navigation.ui.navigateUp
 import androidx.work.*
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.navigation.NavRoutes
+import com.blazecode.tsviewer.screens.Settings
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.tile.ClientTileService
 import com.blazecode.tsviewer.util.updater.GitHubUpdater
 import com.blazecode.tsviewer.util.updater.UpdateCheckWorker
+import com.blazecode.tsviewer.viewmodels.SettingsViewModel
 import com.blazecode.tsviewer.views.BottomNavBar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
@@ -80,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                         NavHost(navController = navController, startDestination = NavRoutes.Home.route, modifier = Modifier.padding(paddingValues).fillMaxSize()){
                             composable(NavRoutes.Home.route) { Text("home", modifier = Modifier.fillMaxSize()) }
                             composable(NavRoutes.Data.route) { Text("data", modifier = Modifier.fillMaxSize()) }
-                            composable(NavRoutes.Settings.route) { Text("settings", modifier = Modifier.fillMaxSize()) }
+                            composable(NavRoutes.Settings.route) { Settings(SettingsViewModel(application), navController) }
                         }
                     }
                 )

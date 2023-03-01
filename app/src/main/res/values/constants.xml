@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ /*
-  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
   ~  */
   -->
 
@@ -10,5 +10,8 @@
     <string name="email_address">info@blazecodeapps.com</string>
     <string name="github_source_url">https://github.com/BlazeCodeDev/TSViewer</string>
 
+    <string name="default_ip_address">ts.youripaddress.com</string>
+    <string name="default_query_user">QueryUser</string>
+    <string name="default_query_password">password</string>
     <string name="default_query_port">10011</string>
 </resources>
