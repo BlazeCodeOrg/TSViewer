@@ -41,7 +41,7 @@ fun EditTextPreference(
     val isDialogVisible = remember { mutableStateOf(false) }
     val prefilledText = text ?: ""
 
-    Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding), 0.dp).clickable(onClick = {isDialogVisible.value = true} )){
+    Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.small_padding), dimensionResource(R.dimen.medium_padding), 0.dp).clickable(onClick = {isDialogVisible.value = true} )){
         Row (modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.small_padding)), verticalAlignment = Alignment.CenterVertically){
             if(icon != null){
                 Box (modifier = Modifier.size(dimensionResource(R.dimen.icon_button_size)).weight(1f), contentAlignment = Alignment.Center){
