@@ -8,6 +8,7 @@ package com.blazecode.eventtool.views
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -18,6 +19,9 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,7 +29,15 @@ import com.blazecode.tsviewer.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditTextPreference(icon: Painter?, title: String, useSimpleSummaryProvider: Boolean, text: String?, onTextChange: (String) -> Unit){
+fun EditTextPreference(
+    title: String,
+    text: String? = null,
+    icon: Painter? = null,
+    useSimpleSummaryProvider: Boolean? = true,
+    isPassword: Boolean? = false,
+    singleLine: Boolean = false,
+    onTextChange: (String) -> Unit){
+
     val isDialogVisible = remember { mutableStateOf(false) }
     val prefilledText = text ?: ""
 
@@ -38,20 +50,42 @@ fun EditTextPreference(icon: Painter?, title: String, useSimpleSummaryProvider: 
             }
             Column (modifier = Modifier.weight(6f, true)){
                 Text(title, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp)
-                if(useSimpleSummaryProvider) Text(prefilledText, fontSize = 15.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                if(useSimpleSummaryProvider == true)
+                    Text(
+                        text = if(isPassword == true) prefilledText.replace(Regex("."), "\u2022") else prefilledText,
+                        fontSize = 15.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
     }
 
     if (isDialogVisible.value) {
         val tempText = remember { mutableStateOf(prefilledText) }
+        val passwordVisible = remember { mutableStateOf(false) }
+        val keyboardType = if (isPassword == true) KeyboardOptions(keyboardType = KeyboardType.Password) else KeyboardOptions(keyboardType = KeyboardType.Text)
+
         AlertDialog(
             onDismissRequest = { isDialogVisible.value = false },
             title = { Text(title) },
             text = {
                    OutlinedTextField(
                        value = tempText.value,
-                       onValueChange = { tempText.value = it }
+                       singleLine = singleLine,
+                       keyboardOptions = keyboardType,
+                       visualTransformation = if (passwordVisible.value || isPassword == false) VisualTransformation.None else PasswordVisualTransformation(),
+                       onValueChange = { tempText.value = it },
+                       trailingIcon = {
+                           if(isPassword == true){
+                               val image = if (passwordVisible.value) painterResource(R.drawable.ic_visibility)
+                               else painterResource(R.drawable.ic_visibility_off)
+
+                               val description = if (passwordVisible.value) "Hide password" else "Show password"
+
+                               IconButton(onClick = {passwordVisible.value = !passwordVisible.value}){
+                                   Icon(painter = image, description)
+                               }
+                           }
+                       }
                    )
            },
             confirmButton = { TextButton(onClick = { isDialogVisible.value = false; tempText.value.also(onTextChange) }) { Text(stringResource(R.string.confirm)) } },
@@ -64,7 +98,7 @@ fun EditTextPreference(icon: Painter?, title: String, useSimpleSummaryProvider: 
 @Composable
 private fun Preview(){
     Column{
-        EditTextPreference(painterResource(R.drawable.ic_settings), "title", true, "test"){}
-        EditTextPreference(painterResource(R.drawable.ic_settings), "title", false, "test"){}
+        EditTextPreference(icon = painterResource(R.drawable.ic_settings), title = "title", useSimpleSummaryProvider = true, text = "test"){}
+        EditTextPreference(icon = painterResource(R.drawable.ic_settings), title = "title", useSimpleSummaryProvider = false, text = "test"){}
     }
 }
