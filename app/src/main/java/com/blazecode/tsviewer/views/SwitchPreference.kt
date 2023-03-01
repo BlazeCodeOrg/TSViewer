@@ -20,8 +20,13 @@ import androidx.compose.ui.unit.sp
 import com.blazecode.tsviewer.R
 
 @Composable
-fun SwitchPreference(icon: Painter?, title: String, summary: String?, checked: Boolean, onCheckChanged: (Boolean) -> Unit){
-    Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding), 0.dp)){
+fun SwitchPreference(
+    title: String,
+    checked: Boolean,
+    icon: Painter? = null,
+    summary: String? = null,
+    onCheckChanged: (Boolean) -> Unit){
+    Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.small_padding), dimensionResource(R.dimen.medium_padding), 0.dp)){
         Row (modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.small_padding)), verticalAlignment = Alignment.CenterVertically){
             if(icon != null){
                 Box (modifier = Modifier.size(dimensionResource(R.dimen.icon_button_size)).weight(1f), contentAlignment = Alignment.Center){
@@ -43,7 +48,7 @@ fun SwitchPreference(icon: Painter?, title: String, summary: String?, checked: B
 @Composable
 private fun Preview(){
     Column{
-        SwitchPreference(painterResource(R.drawable.ic_settings), "title", null, true){}
-        SwitchPreference(painterResource(R.drawable.ic_settings), "title", "summary", false){}
+        SwitchPreference(icon = painterResource(R.drawable.ic_settings), title = "title", checked = true){}
+        SwitchPreference(icon = painterResource(R.drawable.ic_settings), title = "title", checked = false, summary = "summary"){}
     }
 }

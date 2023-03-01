@@ -24,8 +24,12 @@ import androidx.compose.ui.unit.sp
 import com.blazecode.tsviewer.R
 
 @Composable
-fun DefaultPreference(icon: Painter?, title: String, summary: String?, onClick: () -> Unit){
-    Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding), 0.dp).clickable(onClick = onClick)){
+fun DefaultPreference(
+    title: String,
+    icon: Painter? = null,
+    summary: String? = null,
+    onClick: () -> Unit){
+    Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.small_padding), dimensionResource(R.dimen.medium_padding), 0.dp).clickable(onClick = onClick)){
         Row (modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.small_padding)), verticalAlignment = Alignment.CenterVertically){
             if(icon != null){
                 Box (modifier = Modifier.size(dimensionResource(R.dimen.icon_button_size)).weight(1f), contentAlignment = Alignment.Center){
@@ -44,7 +48,7 @@ fun DefaultPreference(icon: Painter?, title: String, summary: String?, onClick: 
 @Composable
 private fun Preview(){
     Column{
-        DefaultPreference(painterResource(R.drawable.ic_settings), "title", null){}
-        DefaultPreference(painterResource(R.drawable.ic_settings), "title", "summary"){}
+        DefaultPreference(icon = painterResource(R.drawable.ic_settings), title = "title"){}
+        DefaultPreference(icon = painterResource(R.drawable.ic_settings), title = "title", summary = "summary"){}
     }
 }

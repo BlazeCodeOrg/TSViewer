@@ -23,10 +23,12 @@ import androidx.compose.ui.unit.sp
 import com.blazecode.tsviewer.R
 
 @Composable
-fun PreferenceGroup(name: String, content: @Composable () -> Unit){
+fun PreferenceGroup(
+    title: String,
+    content: @Composable () -> Unit){
     Column {
-        Box(modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.large_padding), 0.dp, 0.dp)){
-            Text(text = name, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
+        Box(modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding), 0.dp, 0.dp)){
+            Text(text = title, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
         }
         content()
     }
@@ -37,7 +39,7 @@ fun PreferenceGroup(name: String, content: @Composable () -> Unit){
 private fun Preview(){
     Surface {
         PreferenceGroup("GroupName"){
-            DefaultPreference(painterResource(R.drawable.ic_settings), "tile", null) {}
+            DefaultPreference(icon = painterResource(R.drawable.ic_settings), title = "title") {}
         }
     }
 }
