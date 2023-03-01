@@ -25,7 +25,7 @@ import com.blazecode.tsviewer.R
 @Composable
 fun PreferenceGroup(name: String, content: @Composable () -> Unit){
     Column {
-        Box(modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.large_padding), dimensionResource(R.dimen.large_padding), 0.dp, 0.dp)){
+        Box(modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.large_padding), 0.dp, 0.dp)){
             Text(text = name, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
         }
         content()
