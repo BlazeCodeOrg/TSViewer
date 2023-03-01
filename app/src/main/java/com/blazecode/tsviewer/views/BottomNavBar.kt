@@ -28,19 +28,18 @@ val items = listOf(
 fun BottomNavBar(navController: NavController){
     NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentDestination = navBackStackEntry?.destination
-        var selectedItem: Int = 0
+        val currentRoute = navBackStackEntry?.destination
         items.forEach { screen ->
-            NavigationBar {
-                items.forEachIndexed { index, item ->
-                    NavigationBarItem(
-                        icon = { Icon(painterResource(item.icon), item.title) },
-                        label = { Text(item.title) },
-                        selected = selectedItem == index,
-                        onClick = { selectedItem = index }
-                    )
+            NavigationBarItem(
+                icon = { Icon(painterResource(screen.icon), screen.title) },
+                label = { Text(screen.title) },
+                selected = currentRoute?.route == screen.route,
+                onClick = {
+                    if (currentRoute?.route != screen.route) {
+                        navController.navigate(screen.route)
+                    }
                 }
-            }
+            )
         }
     }
 }

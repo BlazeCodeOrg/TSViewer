@@ -23,31 +23,29 @@ import android.provider.Settings
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.work.*
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.navigation.NavRoutes
-import com.blazecode.tsviewer.screens.Settings
-import com.blazecode.tsviewer.ui.GraphFragment
-import com.blazecode.tsviewer.ui.MainFragment
+import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.tile.ClientTileService
 import com.blazecode.tsviewer.util.updater.GitHubUpdater
 import com.blazecode.tsviewer.util.updater.UpdateCheckWorker
-import com.blazecode.tsviewer.viewmodels.SettingsViewModel
 import com.blazecode.tsviewer.views.BottomNavBar
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -65,28 +63,28 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var preferences : SharedPreferences
 
-    @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val navController = rememberAnimatedNavController()
+            val navController = rememberNavController()
             val context = rememberCoroutineScope()
 
-            Scaffold (
-                bottomBar = {
-                    BottomNavBar(navController)
-                },
-                content = { paddingValues ->
-                    AnimatedNavHost(navController = navController, startDestination = NavRoutes.Home.route, modifier = Modifier.padding(paddingValues)){
-                        composable(NavRoutes.Home.route) { MainFragment() }
-                        composable(NavRoutes.Data.route) { GraphFragment(context.coroutineContext) }
-                        composable(NavRoutes.Settings.route) { Settings(SettingsViewModel(application)) }
+            TSViewerTheme {
+                Scaffold (
+                    bottomBar = {
+                        BottomNavBar(navController)
+                    },
+                    content = { paddingValues ->
+                        NavHost(navController = navController, startDestination = NavRoutes.Home.route, modifier = Modifier.padding(paddingValues).fillMaxSize()){
+                            composable(NavRoutes.Home.route) { Text("home", modifier = Modifier.fillMaxSize()) }
+                            composable(NavRoutes.Data.route) { Text("data", modifier = Modifier.fillMaxSize()) }
+                            composable(NavRoutes.Settings.route) { Text("settings", modifier = Modifier.fillMaxSize()) }
+                        }
                     }
-                }
-            )
-
-
+                )
+            }
         }
 
         // START LOGGING
