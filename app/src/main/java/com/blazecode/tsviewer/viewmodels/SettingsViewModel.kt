@@ -9,6 +9,7 @@ package com.blazecode.tsviewer.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.blazecode.tsviewer.uistate.SettingsUiState
+import com.blazecode.tsviewer.util.ConnectionManager
 import com.blazecode.tsviewer.util.SettingsManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +21,18 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
+    // NETWORK
+    fun testConnection(){
+        val connectionManager = ConnectionManager(app)
+        val connectionResult = connectionManager.testConnection(
+            ip = uiState.value.ip,
+            username = uiState.value.username,
+            password = uiState.value.password,
+            queryPort = uiState.value.queryPort)
+
+        _uiState.value = _uiState.value.copy(connectionSuccessful = connectionResult)
+    }
+
     // SETTERS
     fun setScheduleTime(scheduleTime: Float){
         _uiState.value = _uiState.value.copy(scheduleTime = scheduleTime)
@@ -27,22 +40,22 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
     }
 
     fun setIp(ip: String){
-        _uiState.value = _uiState.value.copy(ip = ip)
+        _uiState.value = _uiState.value.copy(ip = ip, connectionSuccessful = false)
         saveSettings()
     }
 
     fun setUsername(username: String){
-        _uiState.value = _uiState.value.copy(username = username)
+        _uiState.value = _uiState.value.copy(username = username, connectionSuccessful = false)
         saveSettings()
     }
 
     fun setPassword(password: String){
-        _uiState.value = _uiState.value.copy(password = password)
+        _uiState.value = _uiState.value.copy(password = password, connectionSuccessful = false)
         saveSettings()
     }
 
     fun setQueryPort(queryPort: Int){
-        _uiState.value = _uiState.value.copy(queryPort = queryPort)
+        _uiState.value = _uiState.value.copy(queryPort = queryPort, connectionSuccessful = false)
         saveSettings()
     }
 

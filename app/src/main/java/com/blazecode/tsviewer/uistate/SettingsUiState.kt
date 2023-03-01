@@ -13,5 +13,7 @@ data class SettingsUiState (
     val password: String = "password",
     val queryPort: Int = 10011,
     val includeQueryClients: Boolean = false,
-    val executeOnlyOnWifi: Boolean = false
+    val executeOnlyOnWifi: Boolean = false,
+
+    val connectionSuccessful: Boolean = false,
 )

@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
  *
  */
 
@@ -52,6 +52,34 @@ class ConnectionManager(val context: Context) {
             apiCall.join()
         }
         return clientList
+    }
+
+    fun testConnection(ip : String, username : String, password : String, queryPort : Int): Boolean {
+        var connectionSuccessful = false
+
+        runBlocking {
+            val apiCall = GlobalScope.launch(exceptionHandler){
+                //CONFIGURE
+                var config = TS3Config()
+                config.setHost(ip)
+                config.setFloodRate(TS3Query.FloodRate.UNLIMITED)
+                config.setEnableCommunicationsLogging(true)
+                config.setQueryPort(queryPort)
+
+                //CONNECT QUERY
+                val query = TS3Query(config)
+                query.connect()
+                val api = query.api
+                api.login(username, password)
+                api.selectVirtualServerById(1)
+
+                //DISCONNECT AFTER TASK
+                query.exit()
+                connectionSuccessful = true
+            }
+            apiCall.join()
+        }
+        return connectionSuccessful
     }
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->

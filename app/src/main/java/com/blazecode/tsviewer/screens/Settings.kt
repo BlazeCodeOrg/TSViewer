@@ -96,6 +96,16 @@ private fun MainLayout(viewModel: SettingsViewModel) {
                 checked = uiState.value.executeOnlyOnWifi,
                 onCheckChanged = { viewModel.setExecuteOnlyOnWifi(it) }
             )
+            Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                OutlinedButton(
+                    onClick = { if(!uiState.value.connectionSuccessful) viewModel.testConnection() },
+                    modifier = Modifier.padding(dimensionResource(R.dimen.small_padding)),
+                    content = {
+                        val text = if(uiState.value.connectionSuccessful) stringResource(R.string.connection_successful) else stringResource(R.string.test_connection)
+                        Text(text = text)
+                    }
+                )
+            }
         }
     }
 }
