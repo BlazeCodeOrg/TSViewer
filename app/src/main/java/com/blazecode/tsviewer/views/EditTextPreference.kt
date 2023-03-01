@@ -35,6 +35,7 @@ fun EditTextPreference(
     icon: Painter? = null,
     useSimpleSummaryProvider: Boolean? = true,
     isPassword: Boolean? = false,
+    isNumber: Boolean? = false,
     singleLine: Boolean = false,
     onTextChange: (String) -> Unit){
 
@@ -62,7 +63,12 @@ fun EditTextPreference(
     if (isDialogVisible.value) {
         val tempText = remember { mutableStateOf(prefilledText) }
         val passwordVisible = remember { mutableStateOf(false) }
-        val keyboardType = if (isPassword == true) KeyboardOptions(keyboardType = KeyboardType.Password) else KeyboardOptions(keyboardType = KeyboardType.Text)
+        val keyboardType =
+            if (isPassword == true)
+                KeyboardOptions(keyboardType = KeyboardType.Password)
+            else if (isNumber == true)
+                KeyboardOptions(keyboardType = KeyboardType.Number)
+            else KeyboardOptions(keyboardType = KeyboardType.Text)
 
         AlertDialog(
             onDismissRequest = { isDialogVisible.value = false },
