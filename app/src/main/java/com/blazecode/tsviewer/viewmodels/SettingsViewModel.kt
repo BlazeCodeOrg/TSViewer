@@ -40,22 +40,22 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
     }
 
     fun setIp(ip: String){
-        _uiState.value = _uiState.value.copy(ip = ip, connectionSuccessful = false)
+        _uiState.value = _uiState.value.copy(ip = ip, connectionSuccessful = null)
         saveSettings()
     }
 
     fun setUsername(username: String){
-        _uiState.value = _uiState.value.copy(username = username, connectionSuccessful = false)
+        _uiState.value = _uiState.value.copy(username = username, connectionSuccessful = null)
         saveSettings()
     }
 
     fun setPassword(password: String){
-        _uiState.value = _uiState.value.copy(password = password, connectionSuccessful = false)
+        _uiState.value = _uiState.value.copy(password = password, connectionSuccessful = null)
         saveSettings()
     }
 
     fun setQueryPort(queryPort: Int){
-        _uiState.value = _uiState.value.copy(queryPort = queryPort, connectionSuccessful = false)
+        _uiState.value = _uiState.value.copy(queryPort = queryPort, connectionSuccessful = null)
         saveSettings()
     }
 

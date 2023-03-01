@@ -6,6 +6,7 @@
 
 package com.blazecode.tsviewer.screens
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -48,6 +49,7 @@ fun Settings(viewModel: SettingsViewModel = viewModel(), navController: NavContr
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun MainLayout(viewModel: SettingsViewModel) {
     val uiState = viewModel.uiState.collectAsState()
@@ -98,11 +100,19 @@ private fun MainLayout(viewModel: SettingsViewModel) {
             )
             Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 OutlinedButton(
-                    onClick = { if(!uiState.value.connectionSuccessful) viewModel.testConnection() },
+                    onClick = { if(uiState.value.connectionSuccessful == null) viewModel.testConnection() },
                     modifier = Modifier.padding(dimensionResource(R.dimen.small_padding)),
                     content = {
-                        val text = if(uiState.value.connectionSuccessful) stringResource(R.string.connection_successful) else stringResource(R.string.test_connection)
-                        Text(text = text)
+                        val text = if(uiState.value.connectionSuccessful == null) stringResource(R.string.test_connection)
+                                        else if (uiState.value.connectionSuccessful!!) stringResource(R.string.connection_successful)
+                                        else stringResource(R.string.connection_failed)
+
+                        AnimatedContent (
+                            targetState = text,
+                            transitionSpec = { fadeIn() with fadeOut()
+                            }){ targetText ->
+                            Text(text = targetText)
+                        }
                     }
                 )
             }

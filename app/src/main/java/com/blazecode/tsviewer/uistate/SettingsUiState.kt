@@ -15,5 +15,5 @@ data class SettingsUiState (
     val includeQueryClients: Boolean = false,
     val executeOnlyOnWifi: Boolean = false,
 
-    val connectionSuccessful: Boolean = false,
+    val connectionSuccessful: Boolean? = null,
 )
