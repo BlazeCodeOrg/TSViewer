@@ -29,7 +29,14 @@ fun BigSwitchPreference(
                 Text(title, color = MaterialTheme.colorScheme.inverseOnSurface, fontSize = 18.sp)
             }
             Box (modifier = Modifier.fillMaxWidth().padding(0.dp, 0.dp, dimensionResource(R.dimen.medium_padding), 0.dp).weight(1.5f), contentAlignment = Alignment.CenterEnd){
-                Switch(checked = checked, onCheckedChange = onCheckChanged)
+                Switch(
+                    checked = checked,
+                    onCheckedChange = onCheckChanged,
+                    colors = SwitchDefaults.colors(
+                        checkedTrackColor = MaterialTheme.colorScheme.secondaryContainer,
+                        checkedThumbColor = MaterialTheme.colorScheme.primary,
+                    )
+                )
             }
         }
     }
