@@ -24,6 +24,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.blazecode.eventtool.views.EditTextPreference
 import com.blazecode.eventtool.views.PreferenceGroup
+import com.blazecode.eventtool.views.SliderPreference
 import com.blazecode.eventtool.views.SwitchPreference
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
@@ -55,6 +56,23 @@ private fun MainLayout(viewModel: SettingsViewModel) {
     val uiState = viewModel.uiState.collectAsState()
 
     Column {
+        PreferenceGroup(title = stringResource(R.string.general)) {
+            SliderPreference(
+                title = stringResource(R.string.update_interval),
+                icon = painterResource(R.drawable.ic_update),
+                value = uiState.value.scheduleTime,
+                steps = 20,
+                valueRange = 15f..120f,
+                unitSuffix = "min",
+                onValueChange = { viewModel.setScheduleTime(it) }
+            )
+            SwitchPreference(
+                title = stringResource(R.string.only_wifi),
+                icon = painterResource(R.drawable.ic_wifi),
+                checked = uiState.value.executeOnlyOnWifi,
+                onCheckChanged = { viewModel.setExecuteOnlyOnWifi(it) }
+            )
+        }
         PreferenceGroup(title = stringResource(R.string.connection)) {
             EditTextPreference(
                 title = stringResource(R.string.ip_address),
@@ -91,12 +109,6 @@ private fun MainLayout(viewModel: SettingsViewModel) {
                 icon = painterResource(R.drawable.ic_query_client),
                 checked = uiState.value.includeQueryClients,
                 onCheckChanged = { viewModel.setIncludeQueryClients(it) }
-            )
-            SwitchPreference(
-                title = stringResource(R.string.only_wifi),
-                icon = painterResource(R.drawable.ic_wifi),
-                checked = uiState.value.executeOnlyOnWifi,
-                onCheckChanged = { viewModel.setExecuteOnlyOnWifi(it) }
             )
             Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 OutlinedButton(
