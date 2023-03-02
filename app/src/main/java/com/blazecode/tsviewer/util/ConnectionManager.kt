@@ -22,7 +22,7 @@ class ConnectionManager(val context: Context) {
 
     val errorHandler = ErrorHandler(context)
 
-    fun getClients(ip : String, username : String, password : String, nickname : String, id: Int, includeQueryClients: Boolean, port: Int) : MutableList<Client> {
+    fun getClients(ip : String, username : String, password : String, nickname : String, id: Int, includeQueryClients: Boolean, port: Int, virtualServerId: Int) : MutableList<Client> {
         var clientList = mutableListOf<Client>()
 
         runBlocking {
@@ -39,7 +39,7 @@ class ConnectionManager(val context: Context) {
                 query.connect()
                 val api = query.api
                 api.login(username, password)
-                api.selectVirtualServerById(1)
+                api.selectVirtualServerById(virtualServerId)
                 api.setNickname("$nickname$id")
 
                 //GET CLIENTS
@@ -54,7 +54,7 @@ class ConnectionManager(val context: Context) {
         return clientList
     }
 
-    fun testConnection(ip : String, username : String, password : String, queryPort : Int): Boolean {
+    fun testConnection(ip : String, username : String, password : String, queryPort : Int, virtualServerId: Int): Boolean {
         var connectionSuccessful = false
 
         runBlocking {
@@ -71,7 +71,7 @@ class ConnectionManager(val context: Context) {
                 query.connect()
                 val api = query.api
                 api.login(username, password)
-                api.selectVirtualServerById(1)
+                api.selectVirtualServerById(virtualServerId)
 
                 //DISCONNECT AFTER TASK
                 query.exit()

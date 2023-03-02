@@ -28,7 +28,8 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
             ip = uiState.value.ip,
             username = uiState.value.username,
             password = uiState.value.password,
-            queryPort = uiState.value.queryPort)
+            queryPort = uiState.value.queryPort,
+            virtualServerId = uiState.value.virtualServerId)
 
         _uiState.value = _uiState.value.copy(connectionSuccessful = connectionResult)
     }
@@ -56,6 +57,11 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
 
     fun setQueryPort(queryPort: Int){
         _uiState.value = _uiState.value.copy(queryPort = queryPort, connectionSuccessful = null)
+        saveSettings()
+    }
+
+    fun setVirtualServerId(virtualServerId: Int){
+        _uiState.value = _uiState.value.copy(virtualServerId = virtualServerId, connectionSuccessful = null)
         saveSettings()
     }
 

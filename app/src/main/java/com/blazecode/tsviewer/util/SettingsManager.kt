@@ -49,6 +49,7 @@ class SettingsManager(val context: Context) {
             this.putString("user", uiState.username)
             this.putString("pass", uiState.password)
             this.putInt("queryport", uiState.queryPort)
+            this.putInt("virtualServerId", uiState.virtualServerId)
             apply()
         }
     }
@@ -63,6 +64,7 @@ class SettingsManager(val context: Context) {
             username = encryptedSharedPreferences.getString("user", context.resources.getString(R.string.default_query_user)).toString(),
             password = encryptedSharedPreferences.getString("pass", context.resources.getString(R.string.default_query_password)).toString(),
             queryPort = encryptedSharedPreferences.getInt("queryport", context.resources.getString(R.string.default_query_port).toInt()),
+            virtualServerId = encryptedSharedPreferences.getInt("virtualServerId", context.resources.getString(R.string.default_virtual_server_id).toInt()),
             includeQueryClients = preferences.getBoolean("includeQuery", false),
             executeOnlyOnWifi = preferences.getBoolean("run_only_wifi", false)
         )

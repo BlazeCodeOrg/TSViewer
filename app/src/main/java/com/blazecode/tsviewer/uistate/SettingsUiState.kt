@@ -12,6 +12,7 @@ data class SettingsUiState (
     val username: String = "queryuser",
     val password: String = "password",
     val queryPort: Int = 10011,
+    val virtualServerId: Int = 1,
     val includeQueryClients: Boolean = false,
     val executeOnlyOnWifi: Boolean = false,
 

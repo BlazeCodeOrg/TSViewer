@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
  *
  */
 
@@ -48,6 +48,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     private var NICKNAME : String = "TSViewer"
     private var INCLUDE_QUERY_CLIENTS : Boolean = false
     private var PORT : Int = 0
+    private var SERVER_ID : Int = 0
     private var RUN_ONLY_WIFI : Boolean = true
     private var DEMO_MODE : Boolean = false
     private var SYNC_WEARABLE : Boolean = false
@@ -73,7 +74,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     }
 
     private fun getClients(){
-        clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, getLatestId(), INCLUDE_QUERY_CLIENTS, PORT)
+        clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, getLatestId(), INCLUDE_QUERY_CLIENTS, PORT, SERVER_ID)
         if(DEMO_MODE)
             clientListNames = mutableListOf("Cocktail", "Cosmo", "Commando", "Dangle", "SnoopWoot")
         else
@@ -174,6 +175,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         USERNAME = encryptedSharedPreferences.getString("user", "").toString()
         PASSWORD = encryptedSharedPreferences.getString("pass", "").toString()
         PORT = encryptedSharedPreferences.getInt("queryport", context.getString(R.string.default_query_port).toInt())
+        SERVER_ID = encryptedSharedPreferences.getInt("virtualServerId", context.getString(R.string.default_virtual_server_id).toInt())
     }
 
     private fun getMasterKey() : MasterKey {

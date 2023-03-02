@@ -104,6 +104,14 @@ private fun MainLayout(viewModel: SettingsViewModel) {
                 isNumber = true,
                 onTextChange = { viewModel.setQueryPort(it.toInt()) }
             )
+            EditTextPreference(
+                title = stringResource(R.string.virtual_server_id),
+                text = uiState.value.virtualServerId.toString(),
+                icon = painterResource(R.drawable.ic_virtual_server_id),
+                singleLine = true,
+                isNumber = true,
+                onTextChange = { viewModel.setVirtualServerId(it.toInt()) }
+            )
             SwitchPreference(
                 title = stringResource(R.string.include_query_clients),
                 icon = painterResource(R.drawable.ic_query_client),

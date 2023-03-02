@@ -14,6 +14,7 @@
     <string name="query_password">Query Password</string>
     <string name="nickname">Nickname</string>
     <string name="query_port">Query Port</string>
+    <string name="virtual_server_id">Virtual Server ID</string>
     <string name="default_nickname">TSViewer</string>
     <string name="include_query_clients">Include Query Clients</string>
     <string name="only_wifi">Execute only on WiFi</string>
