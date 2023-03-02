@@ -21,6 +21,11 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
+    // INIT
+    init {
+        loadSettings()
+    }
+
     // NETWORK
     fun testConnection(){
         val connectionManager = ConnectionManager(app)
@@ -76,12 +81,12 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
     }
 
     // SETTINGS
-    fun loadSettings(){
+    private fun loadSettings(){
         val settingsManager = SettingsManager(app)
         _uiState.value = settingsManager.getSettingsUiState()
     }
 
-    fun saveSettings(){
+    private fun saveSettings(){
         val settingsManager = SettingsManager(app)
         settingsManager.saveSettingsUiState(_uiState.value)
     }

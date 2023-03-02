@@ -37,6 +37,10 @@ class SettingsManager(val context: Context) {
         return loadSettings()
     }
 
+    fun getScheduleTime(): Float {
+        return preferences.getFloat("scheduleTime", 15f)
+    }
+
     fun saveSettingsUiState(uiState: SettingsUiState){
         val editor : SharedPreferences.Editor = preferences.edit()
         editor.putFloat("scheduleTime", uiState.scheduleTime)

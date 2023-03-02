@@ -33,9 +33,6 @@ import com.blazecode.tsviewer.viewmodels.SettingsViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Settings(viewModel: SettingsViewModel = viewModel(), navController: NavController) {
-
-    viewModel.loadSettings()
-
     TSViewerTheme {
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
         Scaffold (

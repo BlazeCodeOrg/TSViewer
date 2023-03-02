@@ -9,6 +9,7 @@
     <string name="start">Start</string>
     <string name="graph">Graph</string>
 
+    <string name="run_service">Run Service</string>
     <string name="ip_address">IP Address</string>
     <string name="query_username">Query Username</string>
     <string name="query_password">Query Password</string>
