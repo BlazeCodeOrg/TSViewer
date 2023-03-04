@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.blazecode.eventtool.views.BigSwitchPreference
+import com.blazecode.eventtool.views.SwitchBar
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.ui.theme.Typography
@@ -41,7 +41,7 @@ fun Home(viewModel: HomeViewModel = viewModel()) {
 private fun MainLayout(viewModel: HomeViewModel) {
     val uiState = viewModel.uiState.collectAsState()
     Column {
-        BigSwitchPreference(
+        SwitchBar(
             title = stringResource(R.string.run_service),
             checked = uiState.value.serviceRunning,
             onCheckChanged = { viewModel.setRunService(it) }
