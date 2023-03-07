@@ -19,6 +19,7 @@ import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.ui.theme.Typography
 import com.blazecode.tsviewer.viewmodels.HomeViewModel
+import com.blazecode.tsviewer.views.TsChannelList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,7 +30,7 @@ fun Home(viewModel: HomeViewModel = viewModel()) {
             topBar = { TopAppBar(scrollBehavior) },
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             content = { paddingValues ->
-                Column(modifier = Modifier.padding(paddingValues).fillMaxSize()){
+                Box(modifier = Modifier.padding(paddingValues).fillMaxSize()){
                     MainLayout(viewModel)
                 }
             }
@@ -40,12 +41,14 @@ fun Home(viewModel: HomeViewModel = viewModel()) {
 @Composable
 private fun MainLayout(viewModel: HomeViewModel) {
     val uiState = viewModel.uiState.collectAsState()
+
     Column {
         SwitchBar(
             title = stringResource(R.string.run_service),
             checked = uiState.value.serviceRunning,
             onCheckChanged = { viewModel.setRunService(it) }
         )
+        TsChannelList(channels = uiState.value.channels)
     }
 }
 

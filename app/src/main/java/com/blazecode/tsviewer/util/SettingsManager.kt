@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.data.ConnectionDetails
 import com.blazecode.tsviewer.uistate.SettingsUiState
 
 class SettingsManager(val context: Context) {
@@ -39,6 +40,10 @@ class SettingsManager(val context: Context) {
 
     fun getScheduleTime(): Float {
         return preferences.getFloat("scheduleTime", 15f)
+    }
+
+    fun getConnectionDetails(): ConnectionDetails {
+        return loadConnectionDetails()
     }
 
     fun saveSettingsUiState(uiState: SettingsUiState){
@@ -74,6 +79,17 @@ class SettingsManager(val context: Context) {
         )
 
         return tempUiState
+    }
+
+    private fun loadConnectionDetails(): ConnectionDetails {
+        return ConnectionDetails(
+            ip = encryptedSharedPreferences.getString("ip", context.resources.getString(R.string.default_ip_address)).toString(),
+            username = encryptedSharedPreferences.getString("user", context.resources.getString(R.string.default_query_user)).toString(),
+            password = encryptedSharedPreferences.getString("pass", context.resources.getString(R.string.default_query_password)).toString(),
+            includeQueryClients = preferences.getBoolean("includeQuery", false),
+            port = encryptedSharedPreferences.getInt("queryport", context.resources.getString(R.string.default_query_port).toInt()),
+            virtualServerId = encryptedSharedPreferences.getInt("virtualServerId", context.resources.getString(R.string.default_virtual_server_id).toInt())
+        )
     }
 
     private fun getMasterKey(context: Context) : MasterKey {

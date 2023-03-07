@@ -6,6 +6,9 @@
 
 package com.blazecode.tsviewer.uistate
 
+import com.blazecode.tsviewer.data.TsChannel
+
 data class HomeUiState (
-     val serviceRunning: Boolean = false
+     val serviceRunning: Boolean = false,
+     val channels: List<TsChannel> = listOf()
 )

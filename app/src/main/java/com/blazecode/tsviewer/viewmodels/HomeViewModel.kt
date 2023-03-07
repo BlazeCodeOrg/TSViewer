@@ -8,14 +8,18 @@ package com.blazecode.tsviewer.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.work.*
+import com.blazecode.tsviewer.data.TsChannel
 import com.blazecode.tsviewer.uistate.HomeUiState
 import com.blazecode.tsviewer.util.ClientsWorker
+import com.blazecode.tsviewer.util.ConnectionManager
 import com.blazecode.tsviewer.util.SettingsManager
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 
@@ -31,6 +35,10 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
 
     init {
         _uiState.value = _uiState.value.copy(serviceRunning = isRunning())
+
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(channels = getChannels())
+        }
     }
 
     // SETTERS
@@ -42,6 +50,16 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
         } else {
             stopService()
         }
+    }
+
+    private suspend fun getChannels(): MutableList<TsChannel> {
+        var tempChannels = mutableListOf<TsChannel>()
+        val job = viewModelScope.launch {
+            val connectionmanager = ConnectionManager(app)
+            tempChannels = connectionmanager.getChannels(settingsManager.getConnectionDetails())
+        }
+        job.join()
+        return tempChannels
     }
 
     private fun startService(){
