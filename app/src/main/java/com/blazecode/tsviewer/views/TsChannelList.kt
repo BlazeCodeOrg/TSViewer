@@ -7,6 +7,7 @@
 package com.blazecode.tsviewer.views
 
 import android.graphics.Paint
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.data.TsChannel
 import com.blazecode.tsviewer.data.TsClient
@@ -59,6 +61,14 @@ private fun ChannelView(
                 }
             })
         }
+    } else if (isCSpacer(title)){
+        val regex = Regex("\\w{1,}\$")
+        val regexTitle = regex.find(title)!!.value
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+            Card {
+                Text(text = regexTitle, modifier = Modifier.padding(2.dp, 0.dp, 2.dp, 0.dp))
+            }
+        }
     } else {
         Card(modifier = Modifier.fillMaxWidth()) {
             Text(text = title)
@@ -77,8 +87,12 @@ private fun MemberView(
 
 private fun isSpacer(name: String): Boolean {
     val pattern = Regex("^\\[\\*spacer\\d\\]")
-    val result = pattern.containsMatchIn(name)
-    return result
+    return pattern.containsMatchIn(name)
+}
+
+private fun isCSpacer(name: String): Boolean {
+    val pattern = Regex("^\\[cspacer\\](\\w{1,})")
+    return pattern.containsMatchIn(name)
 }
 
 @Preview
