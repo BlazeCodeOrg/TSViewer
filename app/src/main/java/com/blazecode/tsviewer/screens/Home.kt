@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.blazecode.eventtool.views.SwitchBar
@@ -48,7 +49,9 @@ private fun MainLayout(viewModel: HomeViewModel) {
             checked = uiState.value.serviceRunning,
             onCheckChanged = { viewModel.setRunService(it) }
         )
-        TsChannelList(channels = uiState.value.channels)
+        Box(modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding))){
+            TsChannelList(channels = uiState.value.channels)
+        }
     }
 }
 
