@@ -7,17 +7,20 @@
 package com.blazecode.tsviewer.views
 
 import android.graphics.Paint
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.blazecode.tsviewer.R
@@ -26,17 +29,25 @@ import com.blazecode.tsviewer.data.TsClient
 
 @Composable
 fun TsChannelList(
-    channels: List<TsChannel>
+    channels: List<TsChannel>,
+    onClickChannel: (TsChannel) -> Unit = {},
+    onClickMember: (TsClient) -> Unit = {}
     ) {
     LazyColumn {
         for(channel in channels) {
             item {
-                ChannelView(title = channel.name)
+                ChannelView(
+                    title = channel.name,
+                    onClick = { onClickChannel(channel) }
+                )
             }
             if(!channel.isEmpty()){
                 for(member in channel.members){
                     item {
-                        MemberView(title = member.nickname)
+                        MemberView(
+                            member = member,
+                            onClick = { onClickMember(member) }
+                        )
                     }
                 }
             }
@@ -46,14 +57,15 @@ fun TsChannelList(
 
 @Composable
 private fun ChannelView(
-    title: String
+    title: String,
+    onClick: () -> Unit = {}
 ){
     if (isSpacer(title)){
         val regex = Regex(".\$")
         val char = regex.find(title)!!.value
         val charWidth = Paint().measureText(char)
 
-        BoxWithConstraints(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        BoxWithConstraints(modifier = Modifier.fillMaxWidth().clickable { onClick() }, contentAlignment = Alignment.Center) {
             val n = (maxWidth / charWidth).value.toInt() / 6 * 4
             Text(text = buildString {
                 for (i in 1..n) {
@@ -65,23 +77,36 @@ private fun ChannelView(
         val regex = Regex("\\w{1,}\$")
         val regexTitle = regex.find(title)!!.value
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Card {
-                Text(text = regexTitle, modifier = Modifier.padding(2.dp, 0.dp, 2.dp, 0.dp))
+            Card(modifier = Modifier.clickable { onClick() }) {
+                Text(text = regexTitle, modifier = Modifier.padding(4.dp, 0.dp, 4.dp, 0.dp))
             }
         }
     } else {
-        Card(modifier = Modifier.fillMaxWidth()) {
-            Text(text = title)
+        Card(modifier = Modifier.fillMaxWidth().clickable { onClick() }) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.horizontalGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            MaterialTheme.colorScheme.background)))) {
+                Text(text = title)
+            }
         }
     }
 }
 
 @Composable
 private fun MemberView(
-    title: String
+    member: TsClient,
+    onClick: () -> Unit = {}
 ){
-    Card(modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(R.dimen.large_padding))) {
-        Text(text = title)
+    Card(modifier = Modifier.padding(start = dimensionResource(R.dimen.large_padding)).clickable { onClick() }) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            if(member.isInputMuted && !member.isOutputMuted) Icon(painter = painterResource(id = R.drawable.ic_mic_muted), contentDescription = null)
+            if(member.isOutputMuted) Icon(painter = painterResource(id = R.drawable.ic_speaker_muted), contentDescription = null)
+            Text(text = member.nickname, modifier = Modifier.padding(4.dp))
+        }
     }
 }
 

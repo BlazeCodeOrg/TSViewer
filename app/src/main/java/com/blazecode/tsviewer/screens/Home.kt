@@ -50,7 +50,11 @@ private fun MainLayout(viewModel: HomeViewModel) {
             onCheckChanged = { viewModel.setRunService(it) }
         )
         Box(modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding))){
-            TsChannelList(channels = uiState.value.channels)
+            TsChannelList(
+                channels = uiState.value.channels,
+                onClickChannel = { channel -> println(channel.toString()) },
+                onClickMember = { member -> println(member.toString()) }
+            )
         }
     }
 }
