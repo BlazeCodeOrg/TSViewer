@@ -90,7 +90,7 @@ private fun ChannelView(
                         colors = listOf(
                             MaterialTheme.colorScheme.surfaceVariant,
                             MaterialTheme.colorScheme.background)))) {
-                Text(text = title)
+                Text(text = title, modifier = Modifier.padding(4.dp))
             }
         }
     }
@@ -103,8 +103,14 @@ private fun MemberView(
 ){
     Card(modifier = Modifier.padding(start = dimensionResource(R.dimen.large_padding)).clickable { onClick() }) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            if(member.isInputMuted && !member.isOutputMuted) Icon(painter = painterResource(id = R.drawable.ic_mic_muted), contentDescription = null)
-            if(member.isOutputMuted) Icon(painter = painterResource(id = R.drawable.ic_speaker_muted), contentDescription = null)
+            if(member.isInputMuted && !member.isOutputMuted)
+                Icon(painter = painterResource(id = R.drawable.ic_mic_muted),
+                    modifier = Modifier.size(20.dp).padding(start = 4.dp),
+                    contentDescription = null)
+            if(member.isOutputMuted)
+                Icon(painter = painterResource(id = R.drawable.ic_speaker_muted),
+                    modifier = Modifier.size(20.dp).padding(start = 4.dp),
+                    contentDescription = null)
             Text(text = member.nickname, modifier = Modifier.padding(4.dp))
         }
     }
@@ -125,6 +131,7 @@ private fun isCSpacer(name: String): Boolean {
 private fun Preview(){
     val demoList = mutableListOf<TsChannel>(
         TsChannel(name = "Channel 1", members = mutableListOf(TsClient(nickname = "Member 1"), TsClient(nickname = "Member 2"))),
+        TsChannel(name = "Channel 1", members = mutableListOf(TsClient(nickname = "Member 1", isInputMuted = true))),
         TsChannel(name = "[*spacer1]_"),
         )
     TsChannelList(channels = demoList)
