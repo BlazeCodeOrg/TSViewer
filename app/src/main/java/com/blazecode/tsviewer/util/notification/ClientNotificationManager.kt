@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
  *
  */
 
@@ -15,10 +15,12 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.blazecode.tsviewer.MainActivity
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.data.TsClient
 
 class ClientNotificationManager(private val context: Context) {
 
-    fun post(clientListNames: MutableList<String>){
+    fun post(clientListNames: MutableList<TsClient>){
+        val names = clientListNames.map { it.nickname }
 
         val notificationIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -28,18 +30,18 @@ class ClientNotificationManager(private val context: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        if (clientListNames.size > 0) {
+        if (names.isNotEmpty()) {
             val builder = NotificationCompat.Builder(context, context.getString(R.string.notificationChannelClientID))
                 .setGroup(context.getString(R.string.notificationChannelClientID))
                 .setSmallIcon(R.drawable.ic_notification_icon)
-                .setContentText(clientListNames.joinToString())
+                .setContentText(names.joinToString())
                 .setStyle(NotificationCompat.BigTextStyle()
-                    .bigText(clientListNames.joinToString()))
+                    .bigText(names.joinToString()))
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setContentIntent(notificationPendingIntent)
 
-            if (clientListNames.size == 1) builder.setContentTitle("${clientListNames.size} ${context.resources.getString(R.string.client_connected)}")
-            else builder.setContentTitle("${clientListNames.size} ${context.resources.getString(R.string.clients_connected)}")
+            if (names.size == 1) builder.setContentTitle("${names.size} ${context.resources.getString(R.string.client_connected)}")
+            else builder.setContentTitle("${names.size} ${context.resources.getString(R.string.clients_connected)}")
 
             with(NotificationManagerCompat.from(context)) {
                 notify(1, builder.build())

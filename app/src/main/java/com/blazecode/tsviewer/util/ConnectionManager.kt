@@ -26,29 +26,39 @@ class ConnectionManager(val context: Context) {
 
     val errorHandler = ErrorHandler(context)
 
-    fun getClients(ip : String, username : String, password : String, nickname : String, id: Int, includeQueryClients: Boolean, port: Int, virtualServerId: Int) : MutableList<Client> {
-        var clientList = mutableListOf<Client>()
+    fun getClients(connectionDetails: ConnectionDetails) : MutableList<TsClient> {
+        var clientList = mutableListOf<TsClient>()
 
         runBlocking {
             val apiCall = GlobalScope.launch(exceptionHandler){
                 //CONFIGURE
                 var config = TS3Config()
-                config.setHost(ip)
+                config.setHost(connectionDetails.ip)
                 config.setFloodRate(TS3Query.FloodRate.UNLIMITED)
                 config.setEnableCommunicationsLogging(true)
-                config.setQueryPort(port)
+                config.setQueryPort(connectionDetails.port)
 
                 //CONNECT QUERY
                 val query = TS3Query(config)
                 query.connect()
                 val api = query.api
-                api.login(username, password)
-                api.selectVirtualServerById(virtualServerId)
-                api.setNickname("$nickname$id")
+                api.login(connectionDetails.username, connectionDetails.password)
+                api.selectVirtualServerById(connectionDetails.virtualServerId)
+                api.setNickname("TSViewer-${System.currentTimeMillis()}")
 
                 //GET CLIENTS
-                clientList = api.clients
-                clientList = filterClients(clientList, includeQueryClients, apiNickname)
+                var tempList = api.clients
+                tempList = filterClients(tempList, connectionDetails.includeQueryClients, apiNickname)
+
+                for (client in tempList) {
+                    clientList.add(
+                        TsClient(
+                            id = client.id,
+                            nickname = client.nickname,
+                            lastSeen = client.lastConnectedDate
+                        )
+                    )
+                }
 
                 //DISCONNECT AFTER TASK
                 query.exit()
@@ -95,6 +105,7 @@ class ConnectionManager(val context: Context) {
                     channelList.forEach {
                         if(it.name == channel!!.name) it.members.add(
                             TsClient(
+                                id = client.id,
                                 nickname = client.nickname,
                                 isInputMuted = client.isInputMuted,
                                 isOutputMuted = client.isOutputMuted)

@@ -130,8 +130,8 @@ private fun isCSpacer(name: String): Boolean {
 @Composable
 private fun Preview(){
     val demoList = mutableListOf<TsChannel>(
-        TsChannel(name = "Channel 1", members = mutableListOf(TsClient(nickname = "Member 1"), TsClient(nickname = "Member 2"))),
-        TsChannel(name = "Channel 1", members = mutableListOf(TsClient(nickname = "Member 1", isInputMuted = true))),
+        TsChannel(name = "Channel 1", members = mutableListOf(TsClient(id = 0, nickname = "Member 1"), TsClient(id = 0, nickname = "Member 2"))),
+        TsChannel(name = "Channel 1", members = mutableListOf(TsClient(id = 0, nickname = "Member 1", isInputMuted = true))),
         TsChannel(name = "[*spacer1]_"),
         )
     TsChannelList(channels = demoList)

@@ -16,20 +16,24 @@ import android.security.keystore.KeyProperties
 import androidx.appcompat.app.AppCompatActivity
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import androidx.work.Worker
+import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.data.ConnectionDetails
+import com.blazecode.tsviewer.data.TsClient
+import com.blazecode.tsviewer.database.DatabaseManager
 import com.blazecode.tsviewer.util.database.UserCount
 import com.blazecode.tsviewer.util.database.UserCountDAO
 import com.blazecode.tsviewer.util.database.UserCountDatabase
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.tile.TileManager
 import com.blazecode.tsviewer.util.wear.WearDataManager
-import com.github.theholywaffle.teamspeak3.api.wrapper.Client
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 class ClientsWorker(private val context: Context, workerParameters: WorkerParameters) :
-    Worker(context, workerParameters) {
+    CoroutineWorker(context, workerParameters) {
 
     val mContext = context
 
@@ -53,36 +57,30 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     private var DEMO_MODE : Boolean = false
     private var SYNC_WEARABLE : Boolean = false
 
-    private var clientList = mutableListOf<Client>()
+    private var clientList = mutableListOf<TsClient>()
     private var clientListNames = mutableListOf<String>()
 
 
-    override fun doWork() : Result {
+    override suspend fun doWork() : Result {
         loadPreferences()
 
-        // OPEN DB
-        db = UserCountDatabase.build(mContext)
-        userCountDAO = db.userCountDao()
-
-        if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) getClients()
-        else {
-            clientNotificationManager.removeNotification()
-            writeClients(null)
+        withContext(Dispatchers.IO){
+            if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) getClients()
+            else {
+                clientNotificationManager.removeNotification()
+                writeClients(null)
+            }
         }
 
         return Result.success()
     }
 
     private fun getClients(){
-        clientList = connectionManager.getClients(IP_ADRESS, USERNAME, PASSWORD, NICKNAME, getLatestId(), INCLUDE_QUERY_CLIENTS, PORT, SERVER_ID)
-        if(DEMO_MODE)
-            clientListNames = mutableListOf("Cocktail", "Cosmo", "Commando", "Dangle", "SnoopWoot")
-        else
-            extractNames()
+        clientList = connectionManager.getClients(ConnectionDetails(IP_ADRESS, USERNAME, PASSWORD, INCLUDE_QUERY_CLIENTS, PORT, SERVER_ID))
 
-        if(SYNC_WEARABLE) wearDataManager.sendClientList(clientListNames)
-        clientNotificationManager.post(clientListNames)
-        writeClients(clientListNames)
+        if(SYNC_WEARABLE) wearDataManager.sendClientList(clientList)
+        clientNotificationManager.post(clientList)
+        writeClients(clientList)
     }
 
     private fun extractNames(){
@@ -98,7 +96,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         else latestEntry.id!!
     }
 
-    private fun writeClients(list: MutableList<String>?) {
+    private fun writeClients(list: MutableList<TsClient>?) {
         tileManager.init()
         if(list == null){
             run {
@@ -117,16 +115,16 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
                 // QS TILE
                 tileManager.error(message)
                 // DATABASE
-                val userCount = UserCount(null, System.currentTimeMillis(), 0, message)
-                userCountDAO.insertUserCount(userCount)
+                val databaseManager = DatabaseManager(context)
+                databaseManager.writeClients(mutableListOf())
             }
         } else {
             run {
                 // QS TILE
                 tileManager.post(clientListNames)
                 // DATABASE
-                val userCount = UserCount(null, System.currentTimeMillis(), list.size, list.joinToString())
-                userCountDAO.insertUserCount(userCount)
+                val databaseManager = DatabaseManager(context)
+                databaseManager.writeClients(list)
             }
         }
     }
