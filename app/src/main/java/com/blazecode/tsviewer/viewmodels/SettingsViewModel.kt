@@ -45,6 +45,21 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
         saveSettings()
     }
 
+    fun setExecuteOnlyOnWifi(executeOnlyOnWifi: Boolean){
+        _uiState.value = _uiState.value.copy(executeOnlyOnWifi = executeOnlyOnWifi)
+        saveSettings()
+    }
+
+    fun setIncludeQueryClients(includeQueryClients: Boolean){
+        _uiState.value = _uiState.value.copy(includeQueryClients = includeQueryClients)
+        saveSettings()
+    }
+
+    fun setSyncWearable(syncWearable: Boolean){
+        _uiState.value = _uiState.value.copy(syncWearable = syncWearable)
+        saveSettings()
+    }
+
     fun setIp(ip: String){
         _uiState.value = _uiState.value.copy(ip = ip, connectionSuccessful = null)
         saveSettings()
@@ -67,16 +82,6 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
 
     fun setVirtualServerId(virtualServerId: Int){
         _uiState.value = _uiState.value.copy(virtualServerId = virtualServerId, connectionSuccessful = null)
-        saveSettings()
-    }
-
-    fun setIncludeQueryClients(includeQueryClients: Boolean){
-        _uiState.value = _uiState.value.copy(includeQueryClients = includeQueryClients)
-        saveSettings()
-    }
-
-    fun setExecuteOnlyOnWifi(executeOnlyOnWifi: Boolean){
-        _uiState.value = _uiState.value.copy(executeOnlyOnWifi = executeOnlyOnWifi)
         saveSettings()
     }
 

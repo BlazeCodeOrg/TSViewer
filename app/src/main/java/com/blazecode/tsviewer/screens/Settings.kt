@@ -69,6 +69,18 @@ private fun MainLayout(viewModel: SettingsViewModel) {
                 checked = uiState.value.executeOnlyOnWifi,
                 onCheckChanged = { viewModel.setExecuteOnlyOnWifi(it) }
             )
+            SwitchPreference(
+                title = stringResource(R.string.include_query_clients),
+                icon = painterResource(R.drawable.ic_query_client),
+                checked = uiState.value.includeQueryClients,
+                onCheckChanged = { viewModel.setIncludeQueryClients(it) }
+            )
+            SwitchPreference(
+                title = stringResource(R.string.sync_wearable),
+                icon = painterResource(R.drawable.ic_wearable),
+                checked = uiState.value.syncWearable,
+                onCheckChanged = { viewModel.setSyncWearable(it) }
+            )
         }
         PreferenceGroup(title = stringResource(R.string.connection)) {
             EditTextPreference(
@@ -108,12 +120,6 @@ private fun MainLayout(viewModel: SettingsViewModel) {
                 singleLine = true,
                 isNumber = true,
                 onTextChange = { viewModel.setVirtualServerId(it.toInt()) }
-            )
-            SwitchPreference(
-                title = stringResource(R.string.include_query_clients),
-                icon = painterResource(R.drawable.ic_query_client),
-                checked = uiState.value.includeQueryClients,
-                onCheckChanged = { viewModel.setIncludeQueryClients(it) }
             )
             Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 OutlinedButton(

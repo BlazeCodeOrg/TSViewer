@@ -49,8 +49,9 @@ class SettingsManager(val context: Context) {
     fun saveSettingsUiState(uiState: SettingsUiState){
         val editor : SharedPreferences.Editor = preferences.edit()
         editor.putFloat("scheduleTime", uiState.scheduleTime)
-        editor.putBoolean("includeQuery", uiState.includeQueryClients)
         editor.putBoolean("run_only_wifi", uiState.executeOnlyOnWifi)
+        editor.putBoolean("includeQuery", uiState.includeQueryClients)
+        editor.putBoolean("syncWearable", uiState.syncWearable)
         editor.apply()
 
         with (encryptedSharedPreferences.edit()) {
@@ -69,13 +70,14 @@ class SettingsManager(val context: Context) {
 
         tempUiState = tempUiState.copy(
             scheduleTime = preferences.getFloat("scheduleTime", 15f),
+            executeOnlyOnWifi = preferences.getBoolean("run_only_wifi", false),
+            includeQueryClients = preferences.getBoolean("includeQuery", false),
+            syncWearable = preferences.getBoolean("syncWearable", false),
             ip = encryptedSharedPreferences.getString("ip", context.resources.getString(R.string.default_ip_address)).toString(),
             username = encryptedSharedPreferences.getString("user", context.resources.getString(R.string.default_query_user)).toString(),
             password = encryptedSharedPreferences.getString("pass", context.resources.getString(R.string.default_query_password)).toString(),
             queryPort = encryptedSharedPreferences.getInt("queryport", context.resources.getString(R.string.default_query_port).toInt()),
-            virtualServerId = encryptedSharedPreferences.getInt("virtualServerId", context.resources.getString(R.string.default_virtual_server_id).toInt()),
-            includeQueryClients = preferences.getBoolean("includeQuery", false),
-            executeOnlyOnWifi = preferences.getBoolean("run_only_wifi", false)
+            virtualServerId = encryptedSharedPreferences.getInt("virtualServerId", context.resources.getString(R.string.default_virtual_server_id).toInt())
         )
 
         return tempUiState
@@ -83,10 +85,10 @@ class SettingsManager(val context: Context) {
 
     private fun loadConnectionDetails(): ConnectionDetails {
         return ConnectionDetails(
+            includeQueryClients = preferences.getBoolean("includeQuery", false),
             ip = encryptedSharedPreferences.getString("ip", context.resources.getString(R.string.default_ip_address)).toString(),
             username = encryptedSharedPreferences.getString("user", context.resources.getString(R.string.default_query_user)).toString(),
             password = encryptedSharedPreferences.getString("pass", context.resources.getString(R.string.default_query_password)).toString(),
-            includeQueryClients = preferences.getBoolean("includeQuery", false),
             port = encryptedSharedPreferences.getInt("queryport", context.resources.getString(R.string.default_query_port).toInt()),
             virtualServerId = encryptedSharedPreferences.getInt("virtualServerId", context.resources.getString(R.string.default_virtual_server_id).toInt())
         )
