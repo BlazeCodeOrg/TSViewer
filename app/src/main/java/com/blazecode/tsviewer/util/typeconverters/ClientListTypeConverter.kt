@@ -8,31 +8,25 @@ package com.blazecode.tsviewer.util.typeconverters
 
 import androidx.room.TypeConverter
 import com.blazecode.tsviewer.data.TsClient
+import com.google.gson.GsonBuilder
 import java.util.*
 
 class ClientListTypeConverter {
 
     @TypeConverter
     fun fromList(list: MutableList<TsClient>): String {
-        var string = ""
-        for (client in list) {
-            string += "$client;"
-        }
-        return string
+        val jsonParser = GsonBuilder().create()
+        return jsonParser.toJson(list)
     }
 
     @TypeConverter
     fun toList(string: String): MutableList<TsClient> {
+        val jsonParser = GsonBuilder().create()
+        val array = jsonParser.fromJson(string, Array<TsClient>::class.java)
+
         val list = mutableListOf<TsClient>()
-        val split = string.split(";")
-        for (client in split) {
-            val subsplit = client.split(",")
-            list.add(TsClient(
-                id = subsplit[0].toInt(),
-                nickname = subsplit[1],
-                lastSeen = Date(subsplit[4].toLong()),
-                activeConnectionTime = subsplit[5].toLong(),
-            ))
+        for (item in array){
+            list.add(item)
         }
         return list
     }
