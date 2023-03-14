@@ -125,6 +125,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
                 // DATABASE
                 val databaseManager = DatabaseManager(context)
                 databaseManager.writeClients(list)
+                databaseManager.writeServerInfo(list)
             }
         }
     }

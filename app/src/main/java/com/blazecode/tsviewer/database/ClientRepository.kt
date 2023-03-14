@@ -14,7 +14,7 @@ class ClientRepository(context: Context) {
     val database = ClientDatabase.build(context)
     val clientDao = database.clientDao()
 
-    suspend fun getAllClients(): MutableList<TsClient> {
+    fun getAllClients(): MutableList<TsClient> {
         return clientDao.getAll()
     }
 
