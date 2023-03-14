@@ -8,6 +8,7 @@
     <!-- UI ELEMENTS -->
     <string name="start">Start</string>
     <string name="graph">Graph</string>
+    <string name="data">Data</string>
 
     <string name="run_service">Run Service</string>
     <string name="ip_address">IP Address</string>

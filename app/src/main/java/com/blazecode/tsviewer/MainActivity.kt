@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
@@ -40,6 +39,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.work.*
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.navigation.NavRoutes
+import com.blazecode.tsviewer.screens.Data
 import com.blazecode.tsviewer.screens.Home
 import com.blazecode.tsviewer.screens.Settings
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
@@ -47,6 +47,7 @@ import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.tile.ClientTileService
 import com.blazecode.tsviewer.util.updater.GitHubUpdater
 import com.blazecode.tsviewer.util.updater.UpdateCheckWorker
+import com.blazecode.tsviewer.viewmodels.DataViewModel
 import com.blazecode.tsviewer.viewmodels.HomeViewModel
 import com.blazecode.tsviewer.viewmodels.SettingsViewModel
 import com.blazecode.tsviewer.views.BottomNavBar
@@ -83,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                     content = { paddingValues ->
                         NavHost(navController = navController, startDestination = NavRoutes.Home.route, modifier = Modifier.padding(paddingValues).fillMaxSize()){
                             composable(NavRoutes.Home.route) { Home(HomeViewModel(application)) }
-                            composable(NavRoutes.Data.route) { Text("data", modifier = Modifier.fillMaxSize()) }
+                            composable(NavRoutes.Data.route) { Data(DataViewModel(application), navController) }
                             composable(NavRoutes.Settings.route) { Settings(SettingsViewModel(application), navController) }
                         }
                     }

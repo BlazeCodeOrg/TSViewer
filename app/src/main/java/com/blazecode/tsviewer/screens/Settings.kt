@@ -27,6 +27,7 @@ import com.blazecode.eventtool.views.PreferenceGroup
 import com.blazecode.eventtool.views.SliderPreference
 import com.blazecode.eventtool.views.SwitchPreference
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.viewmodels.SettingsViewModel
 
@@ -149,7 +150,7 @@ private fun TopAppBar(scrollBehavior: TopAppBarScrollBehavior, navController: Na
     LargeTopAppBar(
         title = { Text(text = stringResource(R.string.settings)) },
         navigationIcon = {
-            Box (modifier = Modifier.size(dimensionResource(R.dimen.icon_button_size)).clickable { navController.popBackStack() },
+            Box (modifier = Modifier.size(dimensionResource(R.dimen.icon_button_size)).clickable { navController.navigate(NavRoutes.Home.route) },
                 contentAlignment = Alignment.Center){
                 Icon(painterResource(R.drawable.ic_back), "back")
             }
