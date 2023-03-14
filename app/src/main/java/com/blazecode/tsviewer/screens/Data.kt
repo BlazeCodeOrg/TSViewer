@@ -23,7 +23,14 @@ import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.ui.theme.Typography
+import com.blazecode.tsviewer.util.graphmarker.rememberMarker
 import com.blazecode.tsviewer.viewmodels.DataViewModel
+import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
+import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
+import com.patrykandpatrick.vico.compose.chart.Chart
+import com.patrykandpatrick.vico.compose.chart.line.lineChart
+import com.patrykandpatrick.vico.core.entry.FloatEntry
+import com.patrykandpatrick.vico.core.entry.entryModelOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,10 +52,21 @@ fun Data(viewModel: DataViewModel = viewModel(), navController: NavController) {
 @Composable
 private fun MainLayout(viewModel: DataViewModel) {
     val uiState = viewModel.uiState.collectAsState()
-
-    Column {
-        Text(text = "Data")
+    val infoList = uiState.value.serverInfoList
+    var floatArray: List<FloatEntry> = listOf()
+    for(info in infoList){
+        floatArray += FloatEntry(info.timestamp.toFloat(), info.clients.size.toFloat())
     }
+
+    val marker = rememberMarker()
+    val chartEntryModel = entryModelOf(floatArray)
+    Chart(
+        chart = lineChart(),
+        model = chartEntryModel,
+        marker = marker,
+        startAxis = startAxis(),
+        bottomAxis = bottomAxis(),
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
