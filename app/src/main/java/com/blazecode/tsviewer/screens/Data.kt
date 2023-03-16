@@ -20,6 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.data.Entry
+import com.blazecode.tsviewer.data.TsServerInfo
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.ui.theme.Typography
@@ -29,8 +31,11 @@ import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
-import com.patrykandpatrick.vico.core.entry.FloatEntry
-import com.patrykandpatrick.vico.core.entry.entryModelOf
+import com.patrykandpatrick.vico.core.axis.AxisPosition
+import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
+import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
+import java.text.SimpleDateFormat
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,20 +57,38 @@ fun Data(viewModel: DataViewModel = viewModel(), navController: NavController) {
 @Composable
 private fun MainLayout(viewModel: DataViewModel) {
     val uiState = viewModel.uiState.collectAsState()
-    val infoList = uiState.value.serverInfoList
-    var floatArray: List<FloatEntry> = listOf()
-    for(info in infoList){
-        floatArray += FloatEntry(info.timestamp.toFloat(), info.clients.size.toFloat())
+
+    Column {
+        ChartView(uiState.value.serverInfoList)
+    }
+}
+
+@Composable
+private fun ChartView(list: List<TsServerInfo>){
+    val chartEntryModelProducer = list.mapIndexed { index, tsServerInfo ->
+        Entry(index.toFloat(), tsServerInfo.clients.size.toFloat(), tsServerInfo) }
+        .let { ChartEntryModelProducer(it) }
+
+    val xAxisValueFormatter = AxisValueFormatter<AxisPosition.Horizontal.Bottom> { value, chartValues ->
+        chartValues.chartEntryModel.entries.firstOrNull()?.getOrNull(value.toInt())?.let { entry ->
+
+            val date = Date((entry as Entry).tsServerInfo.timestamp)
+            val simpleDateFormat = SimpleDateFormat("HH")
+            simpleDateFormat.timeZone = TimeZone.getDefault()
+            simpleDateFormat.format(date)
+
+        }.toString()
     }
 
-    val marker = rememberMarker()
-    val chartEntryModel = entryModelOf(floatArray)
     Chart(
         chart = lineChart(),
-        model = chartEntryModel,
-        marker = marker,
+        model = chartEntryModelProducer.getModel(),
+        marker = rememberMarker(),
         startAxis = startAxis(),
-        bottomAxis = bottomAxis(),
+        bottomAxis = bottomAxis(
+            valueFormatter = xAxisValueFormatter,
+            guideline = null
+        ),
     )
 }
 
