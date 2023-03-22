@@ -29,9 +29,12 @@ import com.patrykandpatrick.vico.core.component.shape.cornered.MarkerCorneredSha
 import com.patrykandpatrick.vico.core.context.MeasureContext
 import com.patrykandpatrick.vico.core.extension.copyColor
 import com.patrykandpatrick.vico.core.marker.Marker
+import com.patrykandpatrick.vico.core.marker.MarkerLabelFormatter
 
 @Composable
-internal fun rememberMarker(): Marker {
+internal fun rememberMarker(
+    formatter: MarkerLabelFormatter? = null
+): Marker {
     val labelBackgroundColor = MaterialTheme.colorScheme.surface
     val labelBackground = remember(labelBackgroundColor) {
         ShapeComponent(labelBackgroundShape, labelBackgroundColor.toArgb()).setShadow(
@@ -74,6 +77,8 @@ internal fun rememberMarker(): Marker {
                         setShadow(radius = INDICATOR_CENTER_COMPONENT_SHADOW_RADIUS, color = entryColor)
                     }
                 }
+                if(formatter != null)
+                    labelFormatter = formatter
             }
 
             override fun getInsets(context: MeasureContext, outInsets: Insets, segmentProperties: SegmentProperties) =
