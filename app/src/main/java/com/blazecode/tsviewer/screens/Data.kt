@@ -17,6 +17,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.blazecode.tsviewer.R
@@ -33,6 +34,7 @@ import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.core.axis.AxisPosition
 import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
+import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import java.text.SimpleDateFormat
 import java.util.*
@@ -58,8 +60,7 @@ fun Data(viewModel: DataViewModel = viewModel(), navController: NavController) {
 @Composable
 private fun MainLayout(viewModel: DataViewModel) {
     val uiState = viewModel.uiState.collectAsState()
-
-    Column {
+    Column(modifier = Modifier.padding(16.dp)) {
         ChartView(uiState.value.serverInfoList)
     }
 }
@@ -87,7 +88,14 @@ private fun ChartView(inputList: List<TsServerInfo>){
     }
 
     Chart(
-        chart = lineChart(),
+        chart = lineChart(
+            spacing = 1.dp,
+            lines = listOf(
+                LineChart.LineSpec(
+                    pointSizeDp = 22f,
+                )
+            )
+        ),
         model = chartEntryModelProducer.getModel(),
         marker = rememberMarker(),
         startAxis = startAxis(
@@ -95,7 +103,7 @@ private fun ChartView(inputList: List<TsServerInfo>){
         ),
         bottomAxis = bottomAxis(
             valueFormatter = xAxisValueFormatter,
-            guideline = null
+            guideline = null,
         ),
     )
 }
