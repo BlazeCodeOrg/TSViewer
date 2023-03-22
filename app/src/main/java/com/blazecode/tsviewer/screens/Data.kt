@@ -61,6 +61,7 @@ fun Data(viewModel: DataViewModel = viewModel(), navController: NavController) {
 private fun MainLayout(viewModel: DataViewModel) {
     val uiState = viewModel.uiState.collectAsState()
     Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = stringResource(R.string.utilization), style = Typography.titleMedium)
         ChartView(uiState.value.serverInfoList)
     }
 }

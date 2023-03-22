@@ -8,18 +8,8 @@
     <!-- UI ELEMENTS -->
     <string name="start">Start</string>
     <string name="graph">Graph</string>
-    <string name="data">Data</string>
 
     <string name="run_service">Run Service</string>
-    <string name="ip_address">IP Address</string>
-    <string name="query_username">Query Username</string>
-    <string name="query_password">Query Password</string>
-    <string name="nickname">Nickname</string>
-    <string name="query_port">Query Port</string>
-    <string name="virtual_server_id">Virtual Server ID</string>
-    <string name="default_nickname">TSViewer</string>
-    <string name="include_query_clients">Include Query Clients</string>
-    <string name="only_wifi">Execute only on WiFi</string>
 
     <string name="more">More</string>
     <string name="less">Less</string>
@@ -33,6 +23,10 @@
     <string name="yes">Yes</string>
     <string name="download">Download</string>
     <string name="cancel">Cancel</string>
+
+    <!-- DATA TAB -->
+    <string name="data">Data</string>
+    <string name="utilization">Utilization</string>
 
     <!-- TOOLTIPS -->
     <string name="tooltip_include_query_clients">Turn this on to include any connected query clients such as bots. (The client used by the app will always be excluded)</string>
@@ -82,5 +76,14 @@
     <string name="connection">Connection</string>
     <string name="connection_successful">Connection Successful</string>
     <string name="connection_failed">Connection Failed</string>
+    <string name="ip_address">IP Address</string>
+    <string name="query_username">Query Username</string>
+    <string name="query_password">Query Password</string>
+    <string name="nickname">Nickname</string>
+    <string name="query_port">Query Port</string>
+    <string name="virtual_server_id">Virtual Server ID</string>
+    <string name="default_nickname">TSViewer</string>
+    <string name="include_query_clients">Include Query Clients</string>
+    <string name="only_wifi">Execute only on WiFi</string>
 
 </resources>
