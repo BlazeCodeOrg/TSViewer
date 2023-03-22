@@ -36,6 +36,7 @@ import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,7 +65,8 @@ private fun MainLayout(viewModel: DataViewModel) {
 }
 
 @Composable
-private fun ChartView(list: List<TsServerInfo>){
+private fun ChartView(inputList: List<TsServerInfo>){
+    val list = inputList.reversed()
     val chartEntryModelProducer = list.mapIndexed { index, tsServerInfo ->
         Entry(index.toFloat(), tsServerInfo.clients.size.toFloat(), tsServerInfo) }
         .let { ChartEntryModelProducer(it) }
@@ -80,11 +82,17 @@ private fun ChartView(list: List<TsServerInfo>){
         }.toString()
     }
 
+    val yAxisValueFormatter = AxisValueFormatter<AxisPosition.Vertical.Start> { value, _ ->
+        value.roundToInt().toString()
+    }
+
     Chart(
         chart = lineChart(),
         model = chartEntryModelProducer.getModel(),
         marker = rememberMarker(),
-        startAxis = startAxis(),
+        startAxis = startAxis(
+            valueFormatter = yAxisValueFormatter,
+        ),
         bottomAxis = bottomAxis(
             valueFormatter = xAxisValueFormatter,
             guideline = null
