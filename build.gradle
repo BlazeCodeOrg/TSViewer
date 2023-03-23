@@ -8,8 +8,8 @@
 buildscript {
     ext {
         ABOUT_LIBRARIES_VERSION = '10.6.1'
-        compose_version = '1.4.0-beta02'
-        wear_compose_version = '1.2.0-alpha05'
+        compose_version = '1.5.0-alpha01'
+        wear_compose_version = '1.2.0-alpha07'
     }
     repositories {
         google()
@@ -25,9 +25,6 @@ buildscript {
 
         //ABOUT LIBRARIES
         classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:$ABOUT_LIBRARIES_VERSION"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
