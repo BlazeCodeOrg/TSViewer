@@ -9,7 +9,9 @@ package com.blazecode.tsviewer.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.blazecode.tsviewer.data.TsClient
 import com.blazecode.tsviewer.data.TsServerInfo
+import com.blazecode.tsviewer.database.ClientRepository
 import com.blazecode.tsviewer.database.ServerRepository
 import com.blazecode.tsviewer.uistate.DataUiState
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +29,8 @@ class DataViewModel(val app: Application): AndroidViewModel(app){
     init {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
-                serverInfoList = getServerInfoList()
+                serverInfoList = getServerInfoList(),
+                clientList = getClientList()
             )
         }
     }
@@ -37,6 +40,16 @@ class DataViewModel(val app: Application): AndroidViewModel(app){
         val job = viewModelScope.launch(Dispatchers.IO) {
             val repository = ServerRepository(app)
             list = repository.getServerInfo()
+        }
+        job.join()
+        return list
+    }
+
+    private suspend fun getClientList(): MutableList<TsClient> {
+        var list = mutableListOf<TsClient>()
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            val repository = ClientRepository(app)
+            list = repository.getAllClients()
         }
         job.join()
         return list

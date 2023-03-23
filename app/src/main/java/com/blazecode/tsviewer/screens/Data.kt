@@ -8,6 +8,7 @@ package com.blazecode.tsviewer.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,6 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.data.Entry
+import com.blazecode.tsviewer.data.TsClient
 import com.blazecode.tsviewer.data.TsServerInfo
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
@@ -60,9 +62,15 @@ fun Data(viewModel: DataViewModel = viewModel(), navController: NavController) {
 @Composable
 private fun MainLayout(viewModel: DataViewModel) {
     val uiState = viewModel.uiState.collectAsState()
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(modifier = Modifier.padding(horizontal = 8.dp)) {
         Text(text = stringResource(R.string.utilization), style = Typography.titleMedium)
         ChartView(uiState.value.serverInfoList)
+        Spacer(modifier = Modifier.size(16.dp))
+        Text(text = stringResource(R.string.clients), style = Typography.titleMedium)
+        ClientListView(
+            inputList = uiState.value.clientList,
+            onClick = {}
+        )
     }
 }
 
@@ -107,6 +115,28 @@ private fun ChartView(inputList: List<TsServerInfo>){
             guideline = null,
         ),
     )
+}
+
+@Composable
+private fun ClientListView(inputList: List<TsClient>, onClick: () -> Unit){
+    val list = inputList.sortedBy { it.activeConnectionTime }.reversed()
+    LazyColumn {
+        items(list.size) { index ->
+            ClientItemView(list[index], onClick = onClick)
+        }
+    }
+}
+
+@Composable
+private fun ClientItemView(client: TsClient, onClick: () -> Unit){
+    Card(modifier = Modifier.padding(vertical = 4.dp, horizontal = 2.dp).clickable(onClick = { onClick() })) {
+        Row(modifier = Modifier.fillMaxWidth().padding(4.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+            Text(text = client.nickname)
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd){
+                Text(text = client.activeConnectionTime.toString())
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
