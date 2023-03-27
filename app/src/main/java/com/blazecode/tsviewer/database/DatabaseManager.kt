@@ -18,20 +18,20 @@ class DatabaseManager(context: Context) {
     val settingsManager = SettingsManager(context)
 
     fun writeClients(list: MutableList<TsClient>){
-           for (client in list) {
-                val dbClient = clientRepository.getClientById(client.id)
-                println(client.nickname)
+        for (client in list) {
+            val dbClient = clientRepository.getClientById(client.id)
+            println(client.nickname)
 
-                if (dbClient != null) {
-                    clientRepository.insertClient(
-                        client.copy(
-                            activeConnectionTime = dbClient.activeConnectionTime + getScheduleTime().toInt()
-                        )
+            if (dbClient != null) {
+                clientRepository.insertClient(
+                    client.copy(
+                        activeConnectionTime = dbClient.activeConnectionTime + getScheduleTime().toInt()
                     )
-                } else {
-                    clientRepository.insertClient(client)
-                }
-           }
+                )
+            } else {
+                clientRepository.insertClient(client)
+            }
+       }
     }
 
     fun writeServerInfo(list: MutableList<TsClient>) {

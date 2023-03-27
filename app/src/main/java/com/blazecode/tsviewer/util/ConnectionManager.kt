@@ -53,7 +53,6 @@ class ConnectionManager(val context: Context) {
                 for (client in tempList) {
                     clientList.add(
                         TsClient(
-                            id = client.id,
                             nickname = client.nickname,
                             lastSeen = client.lastConnectedDate
                         )

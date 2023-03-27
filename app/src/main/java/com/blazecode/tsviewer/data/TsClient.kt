@@ -12,7 +12,7 @@ import java.util.*
 
 @Entity
 data class TsClient(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val nickname: String,
     val isInputMuted: Boolean = false,
     val isOutputMuted: Boolean = false,
