@@ -18,8 +18,8 @@ class ClientRepository(context: Context) {
         return clientDao.getAll()
     }
 
-    fun getClientById(id: Int): TsClient? {
-        return clientDao.getClientById(id)
+    fun getClientByName(nickname: String): TsClient? {
+        return clientDao.getClientByName(nickname)
     }
 
     fun insertClient(client: TsClient) {

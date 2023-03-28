@@ -19,12 +19,13 @@ class DatabaseManager(context: Context) {
 
     fun writeClients(list: MutableList<TsClient>){
         for (client in list) {
-            val dbClient = clientRepository.getClientById(client.id)
+            val dbClient = clientRepository.getClientByName(client.nickname)
             println(client.nickname)
 
             if (dbClient != null) {
                 clientRepository.insertClient(
                     client.copy(
+                        id = dbClient.id,
                         activeConnectionTime = dbClient.activeConnectionTime + getScheduleTime().toInt()
                     )
                 )

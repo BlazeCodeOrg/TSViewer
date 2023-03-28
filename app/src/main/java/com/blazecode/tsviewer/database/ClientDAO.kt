@@ -17,8 +17,8 @@ interface ClientDAO{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertClientData(vararg client: TsClient)
 
-    @Query("SELECT * FROM tsclient WHERE id = :id")
-    fun getClientById(id: Int): TsClient?
+    @Query("SELECT * FROM tsclient WHERE nickname = :nickname")
+    fun getClientByName(nickname: String): TsClient?
 
     @Delete
     fun delete(client: TsClient)
