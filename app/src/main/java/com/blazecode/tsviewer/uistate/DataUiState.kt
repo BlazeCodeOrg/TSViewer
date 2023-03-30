@@ -11,5 +11,8 @@ import com.blazecode.tsviewer.data.TsServerInfo
 
 data class DataUiState(
     val serverInfoList: MutableList<TsServerInfo> = mutableListOf(),
-    val clientList: MutableList<TsClient> = mutableListOf()
+    val clientList: MutableList<TsClient> = mutableListOf(),
+
+    var isClientInfoSheetVisible: Boolean = false,
+    var clientInfoSheetClient: TsClient? = null,
 )

@@ -35,6 +35,20 @@ class DataViewModel(val app: Application): AndroidViewModel(app){
         }
     }
 
+    fun openClientInfoSheet(client: TsClient) {
+        _uiState.value = _uiState.value.copy(
+            clientInfoSheetClient = client,
+            isClientInfoSheetVisible = true
+        )
+    }
+
+    fun closeClientInfoSheet() {
+        _uiState.value = _uiState.value.copy(
+            isClientInfoSheetVisible = false,
+            clientInfoSheetClient = null
+        )
+    }
+
     private suspend fun getServerInfoList(): MutableList<TsServerInfo> {
         var list = mutableListOf<TsServerInfo>()
         val job = viewModelScope.launch(Dispatchers.IO) {

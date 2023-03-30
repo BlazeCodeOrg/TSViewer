@@ -18,6 +18,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -39,6 +40,10 @@ import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
 import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -69,7 +74,16 @@ private fun MainLayout(viewModel: DataViewModel) {
         Text(text = stringResource(R.string.clients), style = Typography.titleMedium)
         ClientListView(
             inputList = uiState.value.clientList,
-            onClick = {}
+            onClick = { client ->
+                viewModel.openClientInfoSheet(client)
+            }
+        )
+    }
+
+    if (uiState.value.isClientInfoSheetVisible) {
+        ClientInfoDialog(
+            viewModel = viewModel,
+            client = uiState.value.clientInfoSheetClient!!
         )
     }
 }
@@ -118,7 +132,7 @@ private fun ChartView(inputList: List<TsServerInfo>){
 }
 
 @Composable
-private fun ClientListView(inputList: List<TsClient>, onClick: () -> Unit){
+private fun ClientListView(inputList: List<TsClient>, onClick: (TsClient) -> Unit){
     val list = inputList.sortedBy { it.activeConnectionTime }.reversed()
     LazyColumn {
         items(list.size) { index ->
@@ -128,8 +142,8 @@ private fun ClientListView(inputList: List<TsClient>, onClick: () -> Unit){
 }
 
 @Composable
-private fun ClientItemView(client: TsClient, onClick: () -> Unit){
-    Card(modifier = Modifier.padding(vertical = 4.dp, horizontal = 2.dp).clickable(onClick = { onClick() })) {
+private fun ClientItemView(client: TsClient, onClick: (TsClient) -> Unit){
+    Card(modifier = Modifier.padding(vertical = 4.dp, horizontal = 2.dp).clickable(onClick = { onClick(client) })) {
         Row(modifier = Modifier.fillMaxWidth().padding(4.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
             Text(text = client.nickname)
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd){
@@ -139,6 +153,38 @@ private fun ClientItemView(client: TsClient, onClick: () -> Unit){
     }
 }
 
+@Composable
+private fun ClientInfoDialog(viewModel: DataViewModel, client: TsClient){
+    val nickname = client.nickname
+    val dateTime = LocalDateTime.ofEpochSecond(client.lastSeen.toInstant().epochSecond, 0, TimeZone.getDefault().toZoneId().rules.getOffset(LocalDateTime.now()))
+    val formatter = DateTimeFormatter.ofPattern("HH:mm, dd.MM.yyyy")
+    val lastSeen = dateTime.format(formatter).toString()
+    val activeConnectionTime = if(client.activeConnectionTime < 60) {
+        "${client.activeConnectionTime} min"
+    } else {
+        val time = LocalTime.MIN.plus(Duration.ofMinutes(client.activeConnectionTime))
+        "${time} h"
+    }
+
+    AlertDialog(
+        title = { Text(stringResource(R.string.client_info)) },
+        text = {
+            Column {
+                Text(text = stringResource(R.string.nickname), style = Typography.titleSmall, modifier = Modifier.padding(8.dp))
+                Text(text= nickname, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+
+                Text(text = stringResource(R.string.last_seen), style = Typography.titleSmall, modifier = Modifier.padding(8.dp))
+                Text(text= lastSeen, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+
+                Text(text = stringResource(R.string.active_connection_time), style = Typography.titleSmall, modifier = Modifier.padding(8.dp))
+                Text(text= activeConnectionTime.toString(), modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+            }
+        },
+        confirmButton = {},
+        dismissButton = { OutlinedButton(onClick = { viewModel.closeClientInfoSheet() }) { Text(stringResource(R.string.close)) } },
+        onDismissRequest = { viewModel.closeClientInfoSheet() }
+    )
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopAppBar(scrollBehavior: TopAppBarScrollBehavior, navController: NavController){

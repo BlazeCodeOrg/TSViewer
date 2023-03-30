@@ -23,10 +23,18 @@
     <string name="yes">Yes</string>
     <string name="download">Download</string>
     <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
 
     <!-- DATA TAB -->
     <string name="data">Data</string>
     <string name="utilization">Utilization</string>
+
+    <string name="client_info">Client Info</string>
+    <string name="last_seen">Last seen</string>
+    <string name="active_connection_time">Active connection time</string>
+
+    <string name="hours_short">h</string>
+    <string name="minutes_short">min</string>
 
     <!-- TOOLTIPS -->
     <string name="tooltip_include_query_clients">Turn this on to include any connected query clients such as bots. (The client used by the app will always be excluded)</string>
