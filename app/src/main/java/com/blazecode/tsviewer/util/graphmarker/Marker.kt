@@ -6,6 +6,7 @@
 
 package com.blazecode.tsviewer.util.graphmarker
 
+import android.graphics.Paint
 import android.graphics.Typeface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -27,6 +28,7 @@ import com.patrykandpatrick.vico.core.component.shape.Shapes
 import com.patrykandpatrick.vico.core.component.shape.cornered.Corner
 import com.patrykandpatrick.vico.core.component.shape.cornered.MarkerCorneredShape
 import com.patrykandpatrick.vico.core.context.MeasureContext
+import com.patrykandpatrick.vico.core.dimensions.MutableDimensions
 import com.patrykandpatrick.vico.core.extension.copyColor
 import com.patrykandpatrick.vico.core.marker.Marker
 import com.patrykandpatrick.vico.core.marker.MarkerLabelFormatter
@@ -45,8 +47,11 @@ internal fun rememberMarker(
     }
     val label = textComponent(
         background = labelBackground,
+        color = MaterialTheme.colorScheme.onSurface,
         lineCount = LABEL_LINE_COUNT,
         padding = labelPadding,
+        margins = MutableDimensions(0f, 32f, 0f, 0f),
+        textAlign = Paint.Align.CENTER,
         typeface = Typeface.MONOSPACE,
     )
     val indicatorInnerComponent = shapeComponent(Shapes.pillShape, MaterialTheme.colorScheme.surface)
@@ -93,7 +98,7 @@ internal fun rememberMarker(
 
 private const val LABEL_BACKGROUND_SHADOW_RADIUS = 4f
 private const val LABEL_BACKGROUND_SHADOW_DY = 2f
-private const val LABEL_LINE_COUNT = 1
+private const val LABEL_LINE_COUNT = 4
 private const val GUIDELINE_ALPHA = .2f
 private const val INDICATOR_SIZE_DP = 36f
 private const val INDICATOR_OUTER_COMPONENT_ALPHA = 32

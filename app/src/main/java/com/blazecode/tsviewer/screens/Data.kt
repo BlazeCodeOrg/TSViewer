@@ -41,6 +41,7 @@ import com.patrykandpatrick.vico.core.axis.AxisPosition
 import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
 import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
+import com.patrykandpatrick.vico.core.marker.MarkerLabelFormatter
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.LocalDateTime
@@ -112,6 +113,25 @@ private fun ChartView(inputList: List<TsServerInfo>){
         value.roundToInt().toString()
     }
 
+    val markerLabelFormatter = MarkerLabelFormatter { value ->
+        val index = value[0].entry.x.toInt()
+        val builder: StringBuilder = StringBuilder()
+
+        val date = Date(list[index].timestamp)
+        val simpleDateFormat = SimpleDateFormat("dd.MM.yy, HH:mm")
+        simpleDateFormat.timeZone = TimeZone.getDefault()
+        val dateString = simpleDateFormat.format(date)
+
+        builder.append("$dateString\n")
+        list[index].clients.forEachIndexed { index, it ->
+            builder.append("${it.nickname}, ")
+            if(index % 3 == 0){
+                builder.append("\n")
+            }
+        }
+        builder.toString()
+    }
+
     Chart(
         chart = lineChart(
             spacing = 1.dp,
@@ -122,7 +142,9 @@ private fun ChartView(inputList: List<TsServerInfo>){
             )
         ),
         model = chartEntryModelProducer.getModel(),
-        marker = rememberMarker(),
+        marker = rememberMarker(
+            formatter = markerLabelFormatter
+        ),
         startAxis = startAxis(
             valueFormatter = yAxisValueFormatter,
         ),
