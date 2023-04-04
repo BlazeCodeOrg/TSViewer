@@ -59,7 +59,7 @@ private fun MainLayout(viewModel: SettingsViewModel) {
                 title = stringResource(R.string.update_interval),
                 icon = painterResource(R.drawable.ic_update),
                 value = uiState.value.scheduleTime,
-                steps = 20,
+                steps = 6,
                 valueRange = 15f..120f,
                 unitSuffix = "min",
                 onValueChange = { viewModel.setScheduleTime(it) }
