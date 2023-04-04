@@ -43,9 +43,7 @@ import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.marker.MarkerLabelFormatter
 import java.text.SimpleDateFormat
-import java.time.Duration
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.math.roundToInt
@@ -189,7 +187,7 @@ private fun ClientInfoDialog(viewModel: DataViewModel, client: TsClient){
     val activeConnectionTime = if(client.activeConnectionTime < 60) {
         "${client.activeConnectionTime} min"
     } else {
-        val time = LocalTime.MIN.plus(Duration.ofMinutes(client.activeConnectionTime))
+        val time = client.activeConnectionTime / 60 + if(client.activeConnectionTime % 60 > 0) 1 else 0
         "${time} h"
     }
 
