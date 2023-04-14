@@ -9,7 +9,13 @@ package com.blazecode.tsviewer.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.work.*
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.blazecode.tsviewer.data.TsChannel
 import com.blazecode.tsviewer.uistate.HomeUiState
 import com.blazecode.tsviewer.util.ClientsWorker
@@ -36,8 +42,11 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
     init {
         _uiState.value = _uiState.value.copy(serviceRunning = isRunning())
 
-        viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(channels = getChannels())
+        if(areCredentialsSet()){
+            viewModelScope.launch {
+                _uiState.value = _uiState.value.copy(channels = getChannels())
+            }
+            _uiState.value = _uiState.value.copy(areCredentialsSet = true)
         }
     }
 
@@ -76,6 +85,10 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
 
     private fun stopService(){
         workManager.cancelUniqueWork(TAG)
+    }
+
+    private fun areCredentialsSet(): Boolean {
+        return settingsManager.areCredentialsSet()
     }
 
     private fun isRunning() : Boolean {

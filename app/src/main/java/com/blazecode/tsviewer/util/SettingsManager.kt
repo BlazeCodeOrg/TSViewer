@@ -46,6 +46,10 @@ class SettingsManager(val context: Context) {
         return loadConnectionDetails()
     }
 
+    fun areCredentialsSet(): Boolean {
+        return encryptedSharedPreferences.getString("ip", context.resources.getString(R.string.default_ip_address)).toString() != context.resources.getString(R.string.default_ip_address)
+    }
+
     fun saveSettingsUiState(uiState: SettingsUiState){
         val editor : SharedPreferences.Editor = preferences.edit()
         editor.putFloat("scheduleTime", uiState.scheduleTime)

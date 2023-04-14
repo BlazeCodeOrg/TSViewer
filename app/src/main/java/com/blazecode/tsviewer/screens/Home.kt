@@ -10,11 +10,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.blazecode.eventtool.views.SwitchBar
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
@@ -47,14 +54,31 @@ private fun MainLayout(viewModel: HomeViewModel) {
         SwitchBar(
             title = stringResource(R.string.run_service),
             checked = uiState.value.serviceRunning,
-            onCheckChanged = { viewModel.setRunService(it) }
+            onCheckChanged = {
+                if(uiState.value.areCredentialsSet){
+                    viewModel.setRunService(it)
+                } else {
+                    viewModel.setRunService(false)
+                }
+            }
         )
         Box(modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding))){
-            TsChannelList(
-                channels = uiState.value.channels,
-                onClickChannel = { channel -> println(channel.toString()) },
-                onClickMember = { member -> println(member.toString()) }
-            )
+            if(!uiState.value.areCredentialsSet){
+                Column (modifier = Modifier.fillMaxSize().padding(100.dp)) {
+                    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_no_connection))
+                    val progress by animateLottieCompositionAsState(composition = composition, iterations = LottieConstants.IterateForever)
+                    LottieAnimation(
+                        composition = composition,
+                        progress = { progress },
+                    )
+                }
+            } else {
+                TsChannelList(
+                    channels = uiState.value.channels,
+                    onClickChannel = { channel -> println(channel.toString()) },
+                    onClickMember = { member -> println(member.toString()) }
+                )
+            }
         }
     }
 }
