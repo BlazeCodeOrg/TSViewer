@@ -113,7 +113,7 @@ dependencies {
     implementation 'com.patrykandpatrick.vico:compose-m3:1.6.5'
 
     //LOTTIE ANIMATIONS
-    implementation 'com.airbnb.android:lottie:6.0.0'
+    implementation 'com.airbnb.android:lottie-compose:6.0.0'
 
     //VOLLEY FOR HTTP REQUESTS TO GITHUB FOR UPDATING
     implementation 'com.android.volley:volley:1.2.1'
