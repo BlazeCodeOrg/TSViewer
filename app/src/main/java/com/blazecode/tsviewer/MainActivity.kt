@@ -251,7 +251,7 @@ class MainActivity : AppCompatActivity() {
         }
 
          */
-        checkBatteryOptimization()
+        //checkBatteryOptimization()
     }
 
 
