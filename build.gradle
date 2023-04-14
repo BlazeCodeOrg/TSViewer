@@ -7,9 +7,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        ABOUT_LIBRARIES_VERSION = '10.6.1'
-        compose_version = '1.5.0-alpha01'
-        wear_compose_version = '1.2.0-alpha07'
+        ABOUT_LIBRARIES_VERSION = '10.6.2'
+        compose_version = '1.5.0-alpha02'
+        wear_compose_version = '1.2.0-alpha08'
     }
     repositories {
         google()
