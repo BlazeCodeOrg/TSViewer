@@ -109,6 +109,13 @@ private fun MainLayout(viewModel: HomeViewModel, navController: NavController) {
                         }
                     )
                 }
+            } else if (uiState.value.channels.isEmpty()) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(dimensionResource(R.dimen.medium_padding))
+                        .height(4.dp)
+                )
             } else {
                 println("Done Loading")
                 TsChannelList(
