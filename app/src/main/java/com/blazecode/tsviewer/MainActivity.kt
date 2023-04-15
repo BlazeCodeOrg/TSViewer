@@ -24,15 +24,26 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.work.*
+import com.blazecode.eventtool.views.SwitchPreference
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.screens.Data
@@ -67,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var preferences : SharedPreferences
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+    @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -75,16 +86,30 @@ class MainActivity : AppCompatActivity() {
             val navController = rememberAnimatedNavController()
             val context = rememberCoroutineScope()
 
+            var isDebugMenuOpen = remember { mutableStateOf(false) }
+
             TSViewerTheme {
                 Scaffold (
                     bottomBar = {
-                        BottomNavBar(navController)
+                        BottomNavBar(
+                            navController = navController,
+                            openDebugMenu = {
+                                isDebugMenuOpen.value = true
+                            }
+                        )
                     },
                     content = { paddingValues ->
                         AnimatedNavHost(navController = navController, startDestination = NavRoutes.Home.route, modifier = Modifier.padding(paddingValues).fillMaxSize()){
                             composable(NavRoutes.Home.route) { Home(HomeViewModel(application)) }
                             composable(NavRoutes.Data.route) { Data(DataViewModel(application), navController) }
                             composable(NavRoutes.Settings.route) { Settings(SettingsViewModel(application), navController) }
+                        }
+                        if(isDebugMenuOpen.value && BuildConfig.DEBUG) {
+                            DebugMenu(
+                                onDismiss = {
+                                    isDebugMenuOpen.value = false
+                                }
+                            )
                         }
                     }
                 )
@@ -252,6 +277,30 @@ class MainActivity : AppCompatActivity() {
 
          */
         //checkBatteryOptimization()
+    }
+
+    @Composable
+    private fun DebugMenu(onDismiss : () -> Unit){
+        val forceNoCredentials = remember { mutableStateOf(preferences.getBoolean("debug_forceNoCredentials", false)) }
+        AlertDialog(
+            title = { Text("Debug Menu") },
+            text = {
+                Column {
+                    SwitchPreference(
+                        title = "Force no credentials",
+                        checked = forceNoCredentials.value,
+                        onCheckChanged = {
+                            forceNoCredentials.value = it
+                            preferences.edit().putBoolean("debug_forceNoCredentials", it).apply() },
+                        summary = "Force loading anim"
+                    )
+                }
+            },
+            confirmButton = {},
+            dismissButton = { OutlinedButton(onClick = { onDismiss() }) { Text(stringResource(R.string.close)) } },
+            onDismissRequest = { onDismiss() },
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 
 

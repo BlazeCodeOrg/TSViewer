@@ -25,7 +25,7 @@ val items = listOf(
 )
 
 @Composable
-fun BottomNavBar(navController: NavController){
+fun BottomNavBar(navController: NavController, openDebugMenu : () -> Unit){
     NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination
@@ -37,6 +37,8 @@ fun BottomNavBar(navController: NavController){
                 onClick = {
                     if (currentRoute?.route != screen.route) {
                         navController.navigate(screen.route)
+                    } else {
+                        openDebugMenu()
                     }
                 }
             )
