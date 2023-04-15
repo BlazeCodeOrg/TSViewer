@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                     },
                     content = { paddingValues ->
                         AnimatedNavHost(navController = navController, startDestination = NavRoutes.Home.route, modifier = Modifier.padding(paddingValues).fillMaxSize()){
-                            composable(NavRoutes.Home.route) { Home(HomeViewModel(application)) }
+                            composable(NavRoutes.Home.route) { Home(HomeViewModel(application), navController) }
                             composable(NavRoutes.Data.route) { Data(DataViewModel(application), navController) }
                             composable(NavRoutes.Settings.route) { Settings(SettingsViewModel(application), navController) }
                         }

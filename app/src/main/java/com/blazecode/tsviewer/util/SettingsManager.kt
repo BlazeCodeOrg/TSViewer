@@ -47,7 +47,13 @@ class SettingsManager(val context: Context) {
     }
 
     fun areCredentialsSet(): Boolean {
-        return encryptedSharedPreferences.getString("ip", context.resources.getString(R.string.default_ip_address)).toString() != context.resources.getString(R.string.default_ip_address)
+        return if(preferences.getBoolean("debug_forceNoCredentials", false)){
+            false
+        } else {
+            encryptedSharedPreferences.getString("ip", context.resources.getString(R.string.default_ip_address)).toString() != context.resources.getString(R.string.default_ip_address) &&
+            encryptedSharedPreferences.getString("user", context.resources.getString(R.string.default_query_user)).toString() != context.resources.getString(R.string.default_query_user) &&
+            encryptedSharedPreferences.getString("pass", context.resources.getString(R.string.default_query_password)).toString() != context.resources.getString(R.string.default_query_password)
+        }
     }
 
     fun saveSettingsUiState(uiState: SettingsUiState){
