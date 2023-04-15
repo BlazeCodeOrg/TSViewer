@@ -39,6 +39,9 @@
     <string name="hours_short">h</string>
     <string name="minutes_short">min</string>
 
+    <!-- SETTINGS TAB -->
+    <string name="other">Other</string>
+
     <!-- TOOLTIPS -->
     <string name="tooltip_include_query_clients">Turn this on to include any connected query clients such as bots. (The client used by the app will always be excluded)</string>
 

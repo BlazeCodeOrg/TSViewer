@@ -48,6 +48,7 @@ import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.screens.Data
 import com.blazecode.tsviewer.screens.Home
+import com.blazecode.tsviewer.screens.OpenSourceLicenses
 import com.blazecode.tsviewer.screens.Settings
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
@@ -103,6 +104,7 @@ class MainActivity : AppCompatActivity() {
                             composable(NavRoutes.Home.route) { Home(HomeViewModel(application), navController) }
                             composable(NavRoutes.Data.route) { Data(DataViewModel(application), navController) }
                             composable(NavRoutes.Settings.route) { Settings(SettingsViewModel(application), navController) }
+                            composable(NavRoutes.Licenses.route) { OpenSourceLicenses(navController) }
                         }
                         if(isDebugMenuOpen.value && BuildConfig.DEBUG) {
                             DebugMenu(

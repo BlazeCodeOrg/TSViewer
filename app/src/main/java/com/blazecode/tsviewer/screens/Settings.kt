@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.blazecode.eventtool.views.DefaultPreference
 import com.blazecode.eventtool.views.EditTextPreference
 import com.blazecode.eventtool.views.PreferenceGroup
 import com.blazecode.eventtool.views.SliderPreference
@@ -41,7 +42,7 @@ fun Settings(viewModel: SettingsViewModel = viewModel(), navController: NavContr
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             content = { paddingValues ->
                 Column(modifier = Modifier.padding(paddingValues).fillMaxSize().verticalScroll(rememberScrollState())){
-                    MainLayout(viewModel)
+                    MainLayout(viewModel, navController)
                 }
             }
         )
@@ -50,7 +51,7 @@ fun Settings(viewModel: SettingsViewModel = viewModel(), navController: NavContr
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-private fun MainLayout(viewModel: SettingsViewModel) {
+private fun MainLayout(viewModel: SettingsViewModel, navController: NavController) {
     val uiState = viewModel.uiState.collectAsState()
 
     Column {
@@ -137,6 +138,15 @@ private fun MainLayout(viewModel: SettingsViewModel) {
                             }){ targetText ->
                             Text(text = targetText)
                         }
+                    }
+                )
+            }
+            PreferenceGroup(title = stringResource(R.string.other)){
+                DefaultPreference(
+                    title = stringResource(R.string.licenses),
+                    icon = painterResource(R.drawable.ic_licenses),
+                    onClick = {
+                        navController.navigate(NavRoutes.Licenses.route)
                     }
                 )
             }

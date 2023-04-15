@@ -99,6 +99,7 @@ dependencies {
 
     //ABOUT LIBRARIES
     implementation("com.mikepenz:aboutlibraries:$ABOUT_LIBRARIES_VERSION")
+    implementation "com.mikepenz:aboutlibraries-compose:${ABOUT_LIBRARIES_VERSION}"
 
     //ROOM DB
     def room_version = '2.5.1'
