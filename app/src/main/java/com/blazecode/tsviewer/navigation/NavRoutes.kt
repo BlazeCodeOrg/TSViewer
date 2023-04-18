@@ -10,5 +10,5 @@ sealed class NavRoutes(val route: String) {
     object Home: NavRoutes("home")
     object Data: NavRoutes("data")
     object Settings: NavRoutes("settings")
-    object Licenses: NavRoutes("licenses")
+    object About: NavRoutes("about")
 }

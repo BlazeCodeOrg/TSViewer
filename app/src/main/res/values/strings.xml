@@ -42,6 +42,13 @@
     <!-- SETTINGS TAB -->
     <string name="other">Other</string>
 
+    <!-- ABOUT TAB -->
+    <string name="about">About</string>
+    <string name="version">Version</string>
+    <string name="source">Source</string>
+    <string name="report_issue">Report issue</string>
+    <string name="suggest_feature">Suggest feature</string>
+
     <!-- TOOLTIPS -->
     <string name="tooltip_include_query_clients">Turn this on to include any connected query clients such as bots. (The client used by the app will always be excluded)</string>
 
@@ -74,7 +81,6 @@
     <string name="airplane_mode">Airplane Mode</string>
 
     <!-- MENU -->
-    <string name="source">Source</string>
     <string name="licenses">Open Source Licenses</string>
     <string name="send_email">Send E-Mail</string>
     <string name="check_updates">Auto check for updates</string>

@@ -9,6 +9,7 @@
     <string name="action_settings">Settings</string>
     <string name="email_address">info@blazecodeapps.com</string>
     <string name="github_source_url">https://github.com/BlazeCodeDev/TSViewer</string>
+    <string name="github_issues_url">https://github.com/BlazeCodeDev/TSViewer/issues/new/choose</string>
 
     <string name="default_ip_address">ts.youripaddress.com</string>
     <string name="default_query_user">QueryUser</string>

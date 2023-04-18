@@ -46,15 +46,16 @@ import androidx.work.*
 import com.blazecode.eventtool.views.SwitchPreference
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.navigation.NavRoutes
+import com.blazecode.tsviewer.screens.About
 import com.blazecode.tsviewer.screens.Data
 import com.blazecode.tsviewer.screens.Home
-import com.blazecode.tsviewer.screens.OpenSourceLicenses
 import com.blazecode.tsviewer.screens.Settings
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.tile.ClientTileService
 import com.blazecode.tsviewer.util.updater.GitHubUpdater
 import com.blazecode.tsviewer.util.updater.UpdateCheckWorker
+import com.blazecode.tsviewer.viewmodels.AboutViewModel
 import com.blazecode.tsviewer.viewmodels.DataViewModel
 import com.blazecode.tsviewer.viewmodels.HomeViewModel
 import com.blazecode.tsviewer.viewmodels.SettingsViewModel
@@ -104,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                             composable(NavRoutes.Home.route) { Home(HomeViewModel(application), navController) }
                             composable(NavRoutes.Data.route) { Data(DataViewModel(application), navController) }
                             composable(NavRoutes.Settings.route) { Settings(SettingsViewModel(application), navController) }
-                            composable(NavRoutes.Licenses.route) { OpenSourceLicenses(navController) }
+                            composable(NavRoutes.About.route) { About(AboutViewModel(application), navController) }
                         }
                         if(isDebugMenuOpen.value && BuildConfig.DEBUG) {
                             DebugMenu(

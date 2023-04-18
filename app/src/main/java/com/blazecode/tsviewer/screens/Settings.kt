@@ -143,10 +143,10 @@ private fun MainLayout(viewModel: SettingsViewModel, navController: NavControlle
             }
             PreferenceGroup(title = stringResource(R.string.other)){
                 DefaultPreference(
-                    title = stringResource(R.string.licenses),
-                    icon = painterResource(R.drawable.ic_licenses),
+                    title = stringResource(R.string.about),
+                    icon = painterResource(R.drawable.ic_info),
                     onClick = {
-                        navController.navigate(NavRoutes.Licenses.route)
+                        navController.navigate(NavRoutes.About.route)
                     }
                 )
             }
