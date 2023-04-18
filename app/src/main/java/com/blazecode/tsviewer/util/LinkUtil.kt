@@ -36,6 +36,7 @@ class LinkUtil private constructor(
     fun openLink(builder: Builder) {
         try {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(builder.link))
+            browserIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             builder.context.startActivity(browserIntent)
         } catch (e: Exception) {
             Timber.log(Log.ERROR, "LinkUtil Link Failed: $e")
