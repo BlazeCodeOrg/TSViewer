@@ -48,6 +48,7 @@
     <string name="source">Source</string>
     <string name="report_issue">Report issue</string>
     <string name="suggest_feature">Suggest feature</string>
+    <string name="copied_version">Copied version</string>
 
     <!-- TOOLTIPS -->
     <string name="tooltip_include_query_clients">Turn this on to include any connected query clients such as bots. (The client used by the app will always be excluded)</string>

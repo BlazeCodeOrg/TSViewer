@@ -74,7 +74,7 @@ private fun MainLayout(viewModel: AboutViewModel){
 
         FlowRow(modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding)).fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             AssistChip(
-                onClick = {},
+                onClick = { viewModel.copyVersion() },
                 label = { Text(text = "${stringResource(R.string.version)}: ${uiState.value.versionName} (${uiState.value.versionCode})") },
                 leadingIcon = { Icon(painterResource(R.drawable.ic_info), "version") },
                 modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.small_padding))

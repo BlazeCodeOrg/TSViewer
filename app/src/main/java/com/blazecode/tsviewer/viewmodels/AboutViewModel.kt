@@ -7,6 +7,10 @@
 package com.blazecode.tsviewer.viewmodels
 
 import android.app.Application
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import com.blazecode.scrapguidev2.util.LinkUtil
 import com.blazecode.tsviewer.BuildConfig
@@ -43,5 +47,13 @@ class AboutViewModel(val app: Application): AndroidViewModel(app) {
             context = app,
             link = sourceUrl,
         ).open()
+    }
+
+    fun copyVersion(){
+        val clipboard: ClipboardManager? = app.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
+        val clip = ClipData.newPlainText("version", "${_uiState.value.versionName} (${_uiState.value.versionCode})")
+        clipboard?.setPrimaryClip(clip)
+
+        Toast.makeText(app, app.resources.getString(R.string.copied_version), Toast.LENGTH_SHORT).show()
     }
 }
