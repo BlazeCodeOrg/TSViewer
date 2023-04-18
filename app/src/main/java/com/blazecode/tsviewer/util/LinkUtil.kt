@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
  *
  */
 
@@ -9,7 +9,9 @@ package com.blazecode.scrapguidev2.util
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
+import timber.log.Timber
 
 // TUTORIAL
 // https://www.baeldung.com/kotlin/builder-pattern
@@ -36,6 +38,7 @@ class LinkUtil private constructor(
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(builder.link))
             builder.context.startActivity(browserIntent)
         } catch (e: Exception) {
+            Timber.log(Log.ERROR, "LinkUtil Link Failed: $e")
             if (!aboutLinkFailed) {
                 Toast.makeText(
                     builder.context,
