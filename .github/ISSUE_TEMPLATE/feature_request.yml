@@ -25,7 +25,7 @@ body:
       placeholder: I'm always frustrated when...
     validations:
       required: false
-- type: textarea
+  - type: textarea
     id: solution
     attributes:
       label: Solution / Feature
@@ -33,7 +33,7 @@ body:
       placeholder: I'd like to see...
     validations:
       required: true
-- type: textarea
+  - type: textarea
     id: alternatives
     attributes:
       label: Alternative solutions
