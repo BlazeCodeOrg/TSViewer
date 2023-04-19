@@ -37,8 +37,15 @@ val Typography = Typography(
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
+        fontSize = 22.sp,
+        lineHeight = 25.sp,
+        letterSpacing = 0.15.sp
+    ),
+    headlineMedium = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
         fontSize = 35.sp,
         lineHeight = 40.sp,
         letterSpacing = 0.15.sp
-    ),
+    )
 )

@@ -232,7 +232,7 @@ private fun ClientInfoDialog(viewModel: DataViewModel, client: TsClient){
 @Composable
 private fun TopAppBar(scrollBehavior: TopAppBarScrollBehavior, navController: NavController){
     LargeTopAppBar(
-        title = { Text(text = stringResource(R.string.data), style = Typography.titleLarge) },
+        title = { Text(text = stringResource(R.string.data)) },
         navigationIcon = {
             Box (modifier = Modifier.size(dimensionResource(R.dimen.icon_button_size)).clickable { navController.navigate(NavRoutes.Home.route) },
                 contentAlignment = Alignment.Center){

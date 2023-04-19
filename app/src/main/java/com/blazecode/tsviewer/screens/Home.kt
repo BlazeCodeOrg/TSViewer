@@ -36,7 +36,6 @@ import com.blazecode.eventtool.views.SwitchBar
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
-import com.blazecode.tsviewer.ui.theme.Typography
 import com.blazecode.tsviewer.viewmodels.HomeViewModel
 import com.blazecode.tsviewer.views.TsChannelList
 
@@ -149,7 +148,7 @@ private fun MainLayout(viewModel: HomeViewModel, navController: NavController) {
 @Composable
 private fun TopAppBar(scrollBehavior: TopAppBarScrollBehavior){
     LargeTopAppBar(
-        title = { Text(text = stringResource(R.string.app_name), style = Typography.titleLarge) },
+        title = { Text(text = stringResource(R.string.app_name)) },
         scrollBehavior = scrollBehavior
     )
 }
