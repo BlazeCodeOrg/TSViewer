@@ -41,14 +41,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.work.*
+import com.blazecode.eventtool.views.DefaultPreference
 import com.blazecode.eventtool.views.SwitchPreference
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.screens.About
 import com.blazecode.tsviewer.screens.Data
 import com.blazecode.tsviewer.screens.Home
+import com.blazecode.tsviewer.screens.Introduction
 import com.blazecode.tsviewer.screens.Settings
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
@@ -58,6 +61,7 @@ import com.blazecode.tsviewer.util.updater.UpdateCheckWorker
 import com.blazecode.tsviewer.viewmodels.AboutViewModel
 import com.blazecode.tsviewer.viewmodels.DataViewModel
 import com.blazecode.tsviewer.viewmodels.HomeViewModel
+import com.blazecode.tsviewer.viewmodels.IntroductionViewModel
 import com.blazecode.tsviewer.viewmodels.SettingsViewModel
 import com.blazecode.tsviewer.views.BottomNavBar
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -89,6 +93,7 @@ class MainActivity : AppCompatActivity() {
             val context = rememberCoroutineScope()
 
             var isDebugMenuOpen = remember { mutableStateOf(false) }
+            val startDestination = if(isFirstStart()) NavRoutes.Introduction.route else NavRoutes.Home.route
 
             TSViewerTheme {
                 Scaffold (
@@ -101,17 +106,19 @@ class MainActivity : AppCompatActivity() {
                         )
                     },
                     content = { paddingValues ->
-                        AnimatedNavHost(navController = navController, startDestination = NavRoutes.Home.route, modifier = Modifier.padding(paddingValues).fillMaxSize()){
+                        AnimatedNavHost(navController = navController, startDestination = startDestination, modifier = Modifier.padding(paddingValues).fillMaxSize()){
                             composable(NavRoutes.Home.route) { Home(HomeViewModel(application), navController) }
                             composable(NavRoutes.Data.route) { Data(DataViewModel(application), navController) }
                             composable(NavRoutes.Settings.route) { Settings(SettingsViewModel(application), navController) }
                             composable(NavRoutes.About.route) { About(AboutViewModel(application), navController) }
+                            composable(NavRoutes.Introduction.route) { Introduction(IntroductionViewModel(application), navController) }
                         }
                         if(isDebugMenuOpen.value && BuildConfig.DEBUG) {
                             DebugMenu(
                                 onDismiss = {
                                     isDebugMenuOpen.value = false
-                                }
+                                },
+                                navController = navController
                             )
                         }
                     }
@@ -283,7 +290,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Composable
-    private fun DebugMenu(onDismiss : () -> Unit){
+    private fun DebugMenu(onDismiss : () -> Unit, navController: NavController){
         val forceNoCredentials = remember { mutableStateOf(preferences.getBoolean("debug_forceNoCredentials", false)) }
         AlertDialog(
             title = { Text("Debug Menu") },
@@ -296,6 +303,13 @@ class MainActivity : AppCompatActivity() {
                             forceNoCredentials.value = it
                             preferences.edit().putBoolean("debug_forceNoCredentials", it).apply() },
                         summary = "Force loading anim"
+                    )
+                    DefaultPreference(
+                        title = "Start introduction",
+                        onClick = {
+                            navController.navigate(NavRoutes.Introduction.route)
+                            onDismiss()
+                        }
                     )
                 }
             },

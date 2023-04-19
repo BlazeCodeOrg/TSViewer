@@ -25,6 +25,9 @@
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
 
+    <!-- INTRODUCTION TAB -->
+    <string name="introduction">Introduction</string>
+
     <!-- HOME TAB -->
     <string name="no_credentials_found">No credentials found, enter them in the</string>        <!-- This is followed by the "Settings" string in annotation -->
 
