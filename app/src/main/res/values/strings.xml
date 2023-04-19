@@ -27,6 +27,8 @@
 
     <!-- INTRODUCTION TAB -->
     <string name="introduction">Introduction</string>
+    <string name="turn_off_battery_optimization">Turn off battery optimization</string>
+    <string name="turn_off_battery_optimization_summary">To make sure the app runs as intended, please turn off battery optimization.</string>
 
     <!-- HOME TAB -->
     <string name="no_credentials_found">No credentials found, enter them in the</string>        <!-- This is followed by the "Settings" string in annotation -->

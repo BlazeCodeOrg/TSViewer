@@ -10,16 +10,11 @@ import android.Manifest.permission.POST_NOTIFICATIONS
 import android.annotation.SuppressLint
 import android.app.StatusBarManager
 import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.drawable.Icon
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.PowerManager
-import android.provider.Settings
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -349,21 +344,6 @@ class MainActivity : AppCompatActivity() {
             editor.commit()
             true
         } else false
-    }
-
-    private fun checkBatteryOptimization(){
-        val intent = Intent()
-        val powerManager : PowerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
-        if(!powerManager.isIgnoringBatteryOptimizations(packageName)){
-            Snackbar.make(binding.appBarLayout, R.string.batt_optimization, Snackbar.LENGTH_INDEFINITE)
-                .setActionTextColor(getColor(R.color.text_dark_background))
-                .setAction(R.string.batt_disable){
-                    intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-                    intent.data = Uri.parse("package:$packageName")
-                    startActivity(intent)
-                }
-                .show()
-        }
     }
 
     @SuppressLint("NewApi")
