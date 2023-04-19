@@ -6,6 +6,9 @@
 
 package com.blazecode.tsviewer.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -68,17 +71,32 @@ fun Data(viewModel: DataViewModel = viewModel(), navController: NavController) {
 @Composable
 private fun MainLayout(viewModel: DataViewModel) {
     val uiState = viewModel.uiState.collectAsState()
-    Column(modifier = Modifier.padding(horizontal = 8.dp)) {
-        Text(text = stringResource(R.string.utilization), style = Typography.titleMedium)
-        ChartView(uiState.value.serverInfoList)
-        Spacer(modifier = Modifier.size(16.dp))
-        Text(text = stringResource(R.string.clients), style = Typography.titleMedium)
-        ClientListView(
-            inputList = uiState.value.clientList,
-            onClick = { client ->
-                viewModel.openClientInfoSheet(client)
-            }
-        )
+
+    AnimatedVisibility(
+        visible = uiState.value.serverInfoList.isEmpty(),
+        exit = fadeOut()
+    ) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+            CircularProgressIndicator()
+        }
+    }
+
+    AnimatedVisibility(
+        visible = uiState.value.serverInfoList.isNotEmpty(),
+        enter = fadeIn()
+    ) {
+        Column(modifier = Modifier.padding(horizontal = 8.dp)) {
+            Text(text = stringResource(R.string.utilization), style = Typography.titleMedium)
+            ChartView(uiState.value.serverInfoList)
+            Spacer(modifier = Modifier.size(16.dp))
+            Text(text = stringResource(R.string.clients), style = Typography.titleMedium)
+            ClientListView(
+                inputList = uiState.value.clientList,
+                onClick = { client ->
+                    viewModel.openClientInfoSheet(client)
+                }
+            )
+        }
     }
 
     if (uiState.value.isClientInfoSheetVisible) {
