@@ -6,6 +6,9 @@
 
 package com.blazecode.tsviewer.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.*
@@ -71,34 +74,37 @@ private fun MainLayout(viewModel: HomeViewModel, navController: NavController) {
             }
         )
         Box(modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding))){
-            if(!uiState.value.areCredentialsSet || uiState.value.channels.isEmpty()){
-                println("No credentials set or loading")
-                Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_no_connection))
-                    val progress by animateLottieCompositionAsState(composition = composition, iterations = LottieConstants.IterateForever)
-                    LottieAnimation(
-                        composition = composition,
-                        progress = { progress },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp),
-                    )
-                    val annotatedText = buildAnnotatedString {
-                        append(stringResource(R.string.no_credentials_found))
-                        append(" ")
-                        pushStringAnnotation(
-                            tag = "url", annotation = NavRoutes.Settings.route
+            Column {
+                AnimatedVisibility(
+                    visible = !uiState.value.areCredentialsSet && uiState.value.channels.isEmpty(),
+                    exit = fadeOut()
+                ) {
+                    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_no_connection))
+                        val progress by animateLottieCompositionAsState(composition = composition, iterations = LottieConstants.IterateForever)
+                        LottieAnimation(
+                            composition = composition,
+                            progress = { progress },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp),
                         )
-                        withStyle(
+                        val annotatedText = buildAnnotatedString {
+                            append(stringResource(R.string.no_credentials_found))
+                            append(" ")
+                            pushStringAnnotation(
+                                tag = "url", annotation = NavRoutes.Settings.route
+                            )
+                            withStyle(
                                 style = SpanStyle(
                                     color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold
                                 )
-                        ) {
-                            append(stringResource(R.string.settings))
+                            ) {
+                                append(stringResource(R.string.settings))
+                            }
+                            pop()
                         }
-                        pop()
-                    }
-                    ClickableText( annotatedText, onClick = { offset ->
+                        ClickableText( annotatedText, onClick = { offset ->
                             annotatedText.getStringAnnotations(
                                 tag = "url",
                                 start = offset,
@@ -107,22 +113,33 @@ private fun MainLayout(viewModel: HomeViewModel, navController: NavController) {
                                 navController.navigate(annotation.item)
                             }
                         }
+                        )
+                    }
+                }
+
+                AnimatedVisibility(
+                    visible = uiState.value.channels.isEmpty(),
+                    exit = fadeOut()
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(dimensionResource(R.dimen.medium_padding))
+                            .height(4.dp)
                     )
                 }
-            } else if (uiState.value.channels.isEmpty()) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(dimensionResource(R.dimen.medium_padding))
-                        .height(4.dp)
+
+                AnimatedVisibility(
+                    visible = uiState.value.channels.isNotEmpty(),
+                    enter = fadeIn()
                 )
-            } else {
-                println("Done Loading")
-                TsChannelList(
-                    channels = uiState.value.channels,
-                    onClickChannel = { channel -> println(channel.toString()) },
-                    onClickMember = { member -> println(member.toString()) }
-                )
+                {
+                    TsChannelList(
+                        channels = uiState.value.channels,
+                        onClickChannel = { channel -> println(channel.toString()) },
+                        onClickMember = { member -> println(member.toString()) }
+                    )
+                }
             }
         }
     }
