@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /*
-  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
   ~  */
   -->
 
@@ -51,10 +51,9 @@
         <service android:name=".wear.communication.WearableListenerService"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
                 <data
                     android:host="*"
-                    android:pathPrefix="/clients"
                     android:scheme="wear" />
             </intent-filter>
         </service>

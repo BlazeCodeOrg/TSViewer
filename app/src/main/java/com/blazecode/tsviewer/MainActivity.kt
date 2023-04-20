@@ -48,6 +48,7 @@ import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.updater.GitHubUpdater
 import com.blazecode.tsviewer.util.updater.UpdateCheckWorker
+import com.blazecode.tsviewer.util.wear.WearDataManager
 import com.blazecode.tsviewer.viewmodels.AboutViewModel
 import com.blazecode.tsviewer.viewmodels.DataViewModel
 import com.blazecode.tsviewer.viewmodels.HomeViewModel
@@ -275,9 +276,18 @@ class MainActivity : AppCompatActivity() {
                     )
                     DefaultPreference(
                         title = "Start introduction",
+                        summary = "Navigate to introduction screen",
                         onClick = {
                             navController.navigate(NavRoutes.Introduction.route)
                             onDismiss()
+                        }
+                    )
+                    DefaultPreference(
+                        title = "Message Wearable",
+                        summary = "Send test message to wearable",
+                        onClick = {
+                            val wearDataManager = WearDataManager(this@MainActivity)
+                            wearDataManager.sendTestMessage()
                         }
                     )
                 }
@@ -288,7 +298,6 @@ class MainActivity : AppCompatActivity() {
             modifier = Modifier.fillMaxWidth()
         )
     }
-
 
     private fun checkForUpdate(){
         val updateCheckWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<UpdateCheckWorker>().build()

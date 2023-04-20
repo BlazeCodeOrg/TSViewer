@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
  *
  */
 
@@ -68,6 +68,6 @@ fun ClientList(){
         item { Text(text = title, fontSize = 16.sp) }
         item { Text(text = stringResource(R.string.time_ago, timeAgo), modifier = Modifier.alpha(.7f)) }
         item { Spacer(modifier = Modifier.size(16.dp)) }
-        item { Text(text = ComplicationDataHolder.list.joinToString(), textAlign = TextAlign.Center) }
+        item { Text(text = ComplicationDataHolder.list.map{ it.nickname }.joinToString(), textAlign = TextAlign.Center) }
     }
 }

@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
  *
  */
 
@@ -29,10 +29,8 @@ import androidx.navigation.NavController
 import androidx.wear.compose.material.*
 import com.blazecode.tsviewer.BuildConfig
 import com.blazecode.tsviewer.R
-import com.blazecode.tsviewer.wear.communication.WearDataManager
 import com.blazecode.tsviewer.wear.navigation.NavRoutes
 import com.blazecode.tsviewer.wear.theme.TSViewerTheme
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
@@ -80,11 +78,13 @@ private fun MainLayout(navController: NavController){
                 label = { Text(stringResource(R.string.open_client_screen)) },
                 icon = { Icon(painterResource(R.drawable.ic_clients), contentDescription = null) },
                 colors = ChipDefaults.chipColors(backgroundColor = colorResource(R.color.background), iconColor = colorResource(R.color.primary))) }
+        /*
         item {
             Chip(onClick = { scope.launch(Dispatchers.IO) { WearDataManager(context).launchAppOnPhone(System.currentTimeMillis()) }},
                 label = { Text(stringResource(R.string.launch_app_on_phone)) },
                 icon = { Icon(painterResource(R.drawable.ic_open), contentDescription = null) },
                 colors = ChipDefaults.chipColors(backgroundColor = colorResource(R.color.background), iconColor = colorResource(R.color.primary))) }
+         */
 
         item { Spacer(modifier = Modifier.size(8.dp)) }
         item { Text(text = "Version: ${BuildConfig.VERSION_NAME}", textAlign = TextAlign.Center, modifier = Modifier.alpha(.7f)) }

@@ -1,50 +1,47 @@
 /*
  *
- *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
  *
  */
 
 package com.blazecode.tsviewer.wear.communication
 
+import android.widget.Toast
 import com.blazecode.tsviewer.wear.complication.ComplicationDataHolder
 import com.blazecode.tsviewer.wear.complication.ComplicationProvider
-import com.google.android.gms.wearable.DataEventBuffer
-import com.google.android.gms.wearable.DataMapItem
+import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
+import com.google.gson.GsonBuilder
+import data.WearDataPackage
 
 class WearableListenerService: WearableListenerService() {
 
-    companion object {
-        const val CLIENTS_PATH = "/clients"
-        private const val CLIENT_LIST_KEY = "clientlist"
-        private const val TIME_MILLIS = "timeMillis"
-    }
+    override fun onMessageReceived(messageEvent: MessageEvent) {
+        super.onMessageReceived(messageEvent)
 
-    override fun onDataChanged(dataEvents: DataEventBuffer) {
-        super.onDataChanged(dataEvents)
+        when (messageEvent.path) {
+            CLIENTS_PATH -> {
+                val gson = GsonBuilder().create()
+                val data = gson.fromJson(String(messageEvent.data), WearDataPackage::class.java)
 
-        dataEvents.forEach { event ->
-            event.dataItem.also { item ->
-                if (item.uri.path!!.compareTo(CLIENTS_PATH) == 0) {
-                    DataMapItem.fromDataItem(item).dataMap.apply {
-
-                        // CLIENT LIST
-                        val clientList = getStringArray(CLIENT_LIST_KEY)
-
-                        if(!clientList.isNullOrEmpty()){
-                            ComplicationDataHolder.list = clientList.toMutableList()
-                            ComplicationProvider().update(this@WearableListenerService)
-                        } else {
-                            ComplicationDataHolder.list = mutableListOf()
-                            ComplicationProvider().update(this@WearableListenerService)
-                        }
-
-                        // TIME STAMP
-                        val timeMillis = getLong(TIME_MILLIS)
-                        ComplicationDataHolder.time = timeMillis
-                    }
+                if(!data.clients.isNullOrEmpty()){
+                    ComplicationDataHolder.list = data.clients.toMutableList()
+                    ComplicationProvider().update(this)
+                } else {
+                    ComplicationDataHolder.list = mutableListOf()
+                    ComplicationProvider().update(this)
                 }
+                ComplicationDataHolder.time = data.timestamp
+            }
+            TEST_PATH -> {
+                Toast.makeText(this, "TESTING\n${String(messageEvent.data)}", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    companion object {
+        private const val WEAR_CAPABILITY = "wear"
+        private const val CLIENTS_PATH = "/clients"
+        private const val TEST_PATH = "/test"
     }
 }

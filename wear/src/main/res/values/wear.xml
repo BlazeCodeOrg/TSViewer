@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /*
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
+  ~  */
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="android_wear_capabilities" tools:ignore="UnusedResources" translatable="false">
+        <!-- declaring the provided capabilities -->
+        <item>wear</item>
+    </string-array>
+</resources>

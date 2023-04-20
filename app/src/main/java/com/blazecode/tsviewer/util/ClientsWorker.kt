@@ -40,7 +40,6 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     val connectionManager = ConnectionManager(context)
     val clientNotificationManager = ClientNotificationManager(context)
     val tileManager = TileManager(context)
-    val wearDataManager = WearDataManager(context)
     val errorHandler = ErrorHandler(context)
 
     lateinit var db: UserCountDatabase
@@ -60,6 +59,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     private var clientList = mutableListOf<TsClient>()
     private var clientListNames = mutableListOf<String>()
 
+    private var wearDataManager = WearDataManager(context)
 
     override suspend fun doWork() : Result {
         loadPreferences()
