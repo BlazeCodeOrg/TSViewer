@@ -25,19 +25,23 @@ class IntroductionViewModel(val app: Application) : AndroidViewModel(app) {
     val uiState: StateFlow<IntroductionUiState> = _uiState.asStateFlow()
 
     init {
-        checkSetup()
+        checkPermissions()
     }
 
-    fun checkSetup(){
+    fun checkPermissions(){
         _uiState.value = _uiState.value.copy(
-            isBatteryOptimizationActive = isBatteryOptimizationActive()
+            isBatteryOptimizationActive = isBatteryOptimizationActive(),
         )
     }
+
+    // GETTERS
 
     fun isBatteryOptimizationActive(): Boolean {
         val powerManager: PowerManager = app.getSystemService(Context.POWER_SERVICE) as PowerManager
         return powerManager.isIgnoringBatteryOptimizations(app.packageName)
     }
+
+    // SETTERS
 
     fun askBatteryOptimization(){
         val intent = Intent()

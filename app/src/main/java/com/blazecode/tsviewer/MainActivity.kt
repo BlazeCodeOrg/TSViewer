@@ -6,17 +6,14 @@
 
 package com.blazecode.tsviewer
 
-import android.Manifest.permission.POST_NOTIFICATIONS
 import android.annotation.SuppressLint
 import android.app.StatusBarManager
 import android.content.ComponentName
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -35,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.work.*
@@ -62,7 +58,6 @@ import com.blazecode.tsviewer.views.BottomNavBar
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -224,25 +219,6 @@ class MainActivity : AppCompatActivity() {
         }
 
          */
-
-        //CHECK FOR NOTIFICATION PERMISSION
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-            val requestPermissionLauncher =
-                registerForActivityResult(
-                    ActivityResultContracts.RequestPermission()
-                ) { isGranted: Boolean ->
-                    if (!isGranted) {
-                        Snackbar.make(binding.appBarLayout, R.string.permissionInSettings, Snackbar.LENGTH_INDEFINITE)
-                            .show()
-                    }
-                }
-
-            when {
-                ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED -> {
-                    requestPermissionLauncher.launch(POST_NOTIFICATIONS)
-                }
-            }
-        }
 
         //CREATE NOTIFICATION CHANNEL IF FIRST START
         if (isFirstStart()) {

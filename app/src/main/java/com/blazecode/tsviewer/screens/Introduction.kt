@@ -6,6 +6,8 @@
 
 package com.blazecode.tsviewer.screens
 
+import android.Manifest
+import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -39,6 +41,9 @@ import com.blazecode.eventtool.views.DefaultPreference
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.viewmodels.IntroductionViewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,6 +62,7 @@ fun Introduction(viewModel: IntroductionViewModel = viewModel(), navController: 
     }
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 private fun MainLayout(viewModel: IntroductionViewModel, navController: NavController) {
     val uiState = viewModel.uiState.collectAsState()
@@ -77,12 +83,13 @@ private fun MainLayout(viewModel: IntroductionViewModel, navController: NavContr
 
     if(latestLifecycleEvent.value == Lifecycle.Event.ON_RESUME){
         LaunchedEffect(latestLifecycleEvent){
-            viewModel.checkSetup()
+            viewModel.checkPermissions()
         }
     }
 
     //LAYOUT
     Column {
+        // BATTERY OPTIMIZATION
         AnimatedVisibility(
             visible = !uiState.value.isBatteryOptimizationActive,
             enter = fadeIn(),
@@ -96,6 +103,26 @@ private fun MainLayout(viewModel: IntroductionViewModel, navController: NavContr
                     viewModel.askBatteryOptimization()
                 }
             )
+        }
+
+        // NOTFICATION PERMISSION
+        if(Build.VERSION.SDK_INT >= 33) {       // ANDROID 13 (API 33)
+            val hasNotificationPermission = rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS)
+
+            AnimatedVisibility(
+                visible = !hasNotificationPermission.status.isGranted,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ){
+                DefaultPreference(
+                    title = stringResource(R.string.notification_permission),
+                    summary = stringResource(R.string.notification_permission_summary),
+                    icon = painterResource(R.drawable.ic_notification),
+                    onClick = {
+                        hasNotificationPermission.launchPermissionRequest()
+                    }
+                )
+            }
         }
     }
 

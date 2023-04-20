@@ -123,6 +123,9 @@ dependencies {
     implementation 'com.beust:klaxon:5.6'
     implementation 'com.google.code.gson:gson:2.10.1'
 
+    // COMPOSE PERMISSIONS
+    implementation "com.google.accompanist:accompanist-permissions:0.30.1"
+
     //WEAR INTEGRATION
     wearApp project(':wear')
     implementation 'com.google.android.gms:play-services-wearable:18.0.0'

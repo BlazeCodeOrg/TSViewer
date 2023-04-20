@@ -7,5 +7,5 @@
 package com.blazecode.tsviewer.uistate
 
 data class IntroductionUiState(
-    val isBatteryOptimizationActive : Boolean = true,
+    val isBatteryOptimizationActive : Boolean = true
 )
