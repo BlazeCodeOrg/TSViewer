@@ -105,7 +105,7 @@ private fun MainLayout(viewModel: IntroductionViewModel, navController: NavContr
             )
         }
 
-        // NOTFICATION PERMISSION
+        // NOTFICATION PERMISSION && QS TILE
         if(Build.VERSION.SDK_INT >= 33) {       // ANDROID 13 (API 33)
             val hasNotificationPermission = rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS)
 
@@ -120,6 +120,21 @@ private fun MainLayout(viewModel: IntroductionViewModel, navController: NavContr
                     icon = painterResource(R.drawable.ic_notification),
                     onClick = {
                         hasNotificationPermission.launchPermissionRequest()
+                    }
+                )
+            }
+
+            AnimatedVisibility(
+                visible = !uiState.value.placedQsTile,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ){
+                DefaultPreference(
+                    title = stringResource(R.string.place_QS_tile),
+                    summary = stringResource(R.string.place_QS_tile_summary),
+                    icon = painterResource(R.drawable.ic_qs_tile),
+                    onClick = {
+                        viewModel.placeQsTile()
                     }
                 )
             }

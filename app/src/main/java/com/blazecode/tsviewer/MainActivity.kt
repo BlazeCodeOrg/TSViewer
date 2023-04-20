@@ -6,12 +6,7 @@
 
 package com.blazecode.tsviewer
 
-import android.annotation.SuppressLint
-import android.app.StatusBarManager
-import android.content.ComponentName
 import android.content.SharedPreferences
-import android.graphics.drawable.Icon
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -34,7 +29,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.work.*
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.blazecode.eventtool.views.DefaultPreference
 import com.blazecode.eventtool.views.SwitchPreference
 import com.blazecode.tsviewer.databinding.ActivityMainBinding
@@ -46,7 +46,6 @@ import com.blazecode.tsviewer.screens.Introduction
 import com.blazecode.tsviewer.screens.Settings
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
-import com.blazecode.tsviewer.util.tile.ClientTileService
 import com.blazecode.tsviewer.util.updater.GitHubUpdater
 import com.blazecode.tsviewer.util.updater.UpdateCheckWorker
 import com.blazecode.tsviewer.viewmodels.AboutViewModel
@@ -58,7 +57,6 @@ import com.blazecode.tsviewer.views.BottomNavBar
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -227,8 +225,8 @@ class MainActivity : AppCompatActivity() {
             gitHubUpdater.createNotificationChannel()
             startUpdateCheckSchedule(true)
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                placeQsTile()
+            //if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                //placeQsTile()
         }
 
         /*
@@ -320,21 +318,6 @@ class MainActivity : AppCompatActivity() {
             editor.commit()
             true
         } else false
-    }
-
-    @SuppressLint("NewApi")
-    private fun placeQsTile(){
-        val statusBarManager = getSystemService(STATUS_BAR_SERVICE) as StatusBarManager
-        statusBarManager.requestAddTileService(
-            ComponentName(
-                this,
-                ClientTileService::class.java
-            ),
-            getString(R.string.app_name),
-            Icon.createWithResource(this, R.drawable.ic_notification_icon),
-            {},
-            {}
-        )
     }
 
     private fun setAutoUpdateCheck(isEnabled: Boolean){
