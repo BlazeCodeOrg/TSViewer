@@ -6,15 +6,15 @@
 
 package com.blazecode.tsviewer.screens
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -34,6 +34,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.blazecode.eventtool.views.SwitchBar
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.data.TsChannel
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.viewmodels.HomeViewModel
@@ -74,73 +75,89 @@ private fun MainLayout(viewModel: HomeViewModel, navController: NavController) {
         )
         Box(modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding))){
             Column {
-                AnimatedVisibility(
-                    visible = !uiState.value.areCredentialsSet && uiState.value.channels.isEmpty(),
-                    exit = fadeOut()
-                ) {
-                    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_no_connection))
-                        val progress by animateLottieCompositionAsState(composition = composition, iterations = LottieConstants.IterateForever)
-                        LottieAnimation(
-                            composition = composition,
-                            progress = { progress },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp),
-                        )
-                        val annotatedText = buildAnnotatedString {
-                            append(stringResource(R.string.no_credentials_found))
-                            append(" ")
-                            pushStringAnnotation(
-                                tag = "url", annotation = NavRoutes.Settings.route
-                            )
-                            withStyle(
-                                style = SpanStyle(
-                                    color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold
-                                )
-                            ) {
-                                append(stringResource(R.string.settings))
-                            }
-                            pop()
-                        }
-                        ClickableText( annotatedText, onClick = { offset ->
-                            annotatedText.getStringAnnotations(
-                                tag = "url",
-                                start = offset,
-                                end = offset
-                            ).firstOrNull()?.let { annotation ->
-                                navController.navigate(annotation.item)
-                            }
-                        }
-                        )
+                val currentView = remember { mutableStateOf("loading") }
+                if(uiState.value.areCredentialsSet && uiState.value.channels.isNotEmpty()){
+                    currentView.value = "channels"
+                } else if(uiState.value.areCredentialsSet && uiState.value.channels.isEmpty()){
+                    currentView.value = "loading"
+                } else {
+                    currentView.value = "no_credentials"
+                }
+
+                Crossfade(targetState = currentView.value, modifier = Modifier.fillMaxSize()) { view ->
+                    when(view){
+                        "loading" -> LoadingView()
+                        "channels" -> ChannelView(channels = uiState.value.channels)
+                        "no_credentials" -> NoCredentialsView(navController = navController)
                     }
-                }
-
-                AnimatedVisibility(
-                    visible = uiState.value.channels.isEmpty(),
-                    exit = fadeOut()
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(dimensionResource(R.dimen.medium_padding))
-                            .height(4.dp)
-                    )
-                }
-
-                AnimatedVisibility(
-                    visible = uiState.value.channels.isNotEmpty(),
-                    enter = fadeIn()
-                )
-                {
-                    TsChannelList(
-                        channels = uiState.value.channels,
-                        onClickChannel = { channel -> println(channel.toString()) },
-                        onClickMember = { member -> println(member.toString()) }
-                    )
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun LoadingView(){
+    CircularProgressIndicator(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(dimensionResource(R.dimen.medium_padding))
+            .height(4.dp)
+    )
+}
+
+@Composable
+private fun ChannelView(channels : List<TsChannel>){
+    TsChannelList(
+        channels = channels,
+        onClickChannel = { channel -> println(channel.toString()) },
+        onClickMember = { member -> println(member.toString()) }
+    )
+}
+
+@Composable
+private fun NoCredentialsView(navController: NavController){
+    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_no_connection))
+        val progress by animateLottieCompositionAsState(composition = composition, iterations = LottieConstants.IterateForever)
+        LottieAnimation(
+            composition = composition,
+            progress = { progress },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp),
+        )
+        val annotatedText = buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            ){
+                append(stringResource(R.string.no_credentials_found))
+            }
+            append(" ")
+            pushStringAnnotation(
+                tag = "url", annotation = NavRoutes.Settings.route
+            )
+            withStyle(
+                style = SpanStyle(
+                    color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold
+                )
+            ) {
+                append(stringResource(R.string.settings))
+            }
+            pop()
+        }
+        ClickableText( annotatedText, onClick = { offset ->
+            annotatedText.getStringAnnotations(
+                tag = "url",
+                start = offset,
+                end = offset
+            ).firstOrNull()?.let { annotation ->
+                navController.navigate(annotation.item)
+            }
+        }
+        )
     }
 }
 
