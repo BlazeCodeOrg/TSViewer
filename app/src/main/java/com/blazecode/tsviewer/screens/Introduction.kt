@@ -15,8 +15,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -33,12 +35,15 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.blazecode.eventtool.views.DefaultPreference
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.viewmodels.IntroductionViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -88,7 +93,15 @@ private fun MainLayout(viewModel: IntroductionViewModel, navController: NavContr
     }
 
     //LAYOUT
-    Column {
+    Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
+        // WELCOME
+        Text(
+            text = stringResource(R.string.welcome),
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(16.dp),
+            textAlign = TextAlign.Center
+        )
+
         // BATTERY OPTIMIZATION
         AnimatedVisibility(
             visible = !uiState.value.isBatteryOptimizationActive,
@@ -138,6 +151,16 @@ private fun MainLayout(viewModel: IntroductionViewModel, navController: NavContr
                     }
                 )
             }
+        }
+
+        // GOTO SETTINGS
+        Button(
+            onClick = {
+                navController.navigate(NavRoutes.Settings.route)
+            },
+            modifier = Modifier.padding(vertical = 32.dp, horizontal = 16.dp)
+        ) {
+            Text(text = stringResource(R.string.goto_settings))
         }
     }
 

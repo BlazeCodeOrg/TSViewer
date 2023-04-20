@@ -27,12 +27,14 @@
 
     <!-- INTRODUCTION TAB -->
     <string name="introduction">Introduction</string>
+    <string name="welcome">Welcome to TSViewer, before you can use the app, some things have to be set up.</string>
     <string name="turn_off_battery_optimization">Turn off battery optimization</string>
     <string name="turn_off_battery_optimization_summary">To make sure the app runs as intended, please turn off battery optimization.</string>
     <string name="notification_permission">Notification permission</string>
     <string name="notification_permission_summary">To make sure you get notified when somebody is connected, please grant the notification permission. All notifications are silent.</string>
     <string name="place_QS_tile">Place Quick-Settings tile</string>
     <string name="place_QS_tile_summary">If you want to see the client amount in the quick-settings area place the Quick-Settings tile.</string>
+    <string name="goto_settings">Go to settings to setup IP, etc.</string>
 
     <!-- HOME TAB -->
     <string name="no_credentials_found">No credentials found, enter them in the</string>        <!-- This is followed by the "Settings" string in annotation -->
