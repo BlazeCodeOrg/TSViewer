@@ -40,7 +40,6 @@ class WearableListenerService: WearableListenerService() {
     }
 
     companion object {
-        private const val WEAR_CAPABILITY = "wear"
         private const val CLIENTS_PATH = "/clients"
         private const val TEST_PATH = "/test"
     }
