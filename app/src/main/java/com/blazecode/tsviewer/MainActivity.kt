@@ -61,11 +61,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val isFirstStart = isFirstStart()
+
         setContent {
             val navController = rememberAnimatedNavController()
 
             var isDebugMenuOpen = remember { mutableStateOf(false) }
-            val startDestination = if(isFirstStart()) NavRoutes.Introduction.route else NavRoutes.Home.route
+            val startDestination = if(isFirstStart) NavRoutes.Introduction.route else NavRoutes.Home.route
 
             TSViewerTheme {
                 Scaffold (
@@ -108,7 +110,7 @@ class MainActivity : AppCompatActivity() {
         workManager = this.let { WorkManager.getInstance(it) }
 
         //CREATE NOTIFICATION CHANNEL IF FIRST START
-        if (isFirstStart()) {
+        if (isFirstStart){
             val clientNotificationManager = ClientNotificationManager(this)
             clientNotificationManager.createChannel()
         }
