@@ -53,7 +53,6 @@
     <!-- SETTINGS TAB -->
     <string name="other">Other</string>
     <string name="found_wearable">Found wearable</string>
-    <string name="looking_for_wearable">Looking for wearable</string>
     <string name="no_wearable_found">No wearable found</string>
 
     <!-- ABOUT TAB -->

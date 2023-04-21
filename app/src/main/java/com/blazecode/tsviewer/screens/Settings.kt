@@ -78,14 +78,7 @@ private fun MainLayout(viewModel: SettingsViewModel, navController: NavControlle
                 onCheckChanged = { viewModel.setIncludeQueryClients(it) }
             )
 
-            val summary: String? =
-                if (uiState.value.lookingForWearable) {
-                    stringResource(R.string.looking_for_wearable)
-                } else if (uiState.value.foundWearable) {
-                    stringResource(R.string.found_wearable)
-                } else {
-                    stringResource(R.string.no_wearable_found)
-                }
+            val summary: String? = if (uiState.value.foundWearable) stringResource(R.string.found_wearable) else stringResource(R.string.no_wearable_found)
             SwitchPreference(
                 title = stringResource(R.string.sync_wearable),
                 icon = painterResource(R.drawable.ic_wearable),

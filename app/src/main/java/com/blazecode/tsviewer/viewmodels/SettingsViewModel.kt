@@ -60,10 +60,7 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
     }
 
     fun setSyncWearable(syncWearable: Boolean){
-        _uiState.value = _uiState.value.copy(
-            syncWearable = syncWearable,
-            lookingForWearable = true,
-        )
+        _uiState.value = _uiState.value.copy(syncWearable = syncWearable)
         saveSettings()
     }
 
@@ -96,7 +93,6 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
         viewModelScope.launch {
             val wearDataManager = WearDataManager(app)
             _uiState.value = _uiState.value.copy(
-                lookingForWearable = false,
                 foundWearable = wearDataManager.areNodesAvailable()
             )
             if(!_uiState.value.foundWearable){
