@@ -19,4 +19,6 @@ data class SettingsUiState (
     val virtualServerId: Int = 1,
 
     val connectionSuccessful: Boolean? = null,
+    val lookingForWearable: Boolean = false,
+    val foundWearable: Boolean = false
 )

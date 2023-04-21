@@ -47,6 +47,14 @@ class WearDataManager(context: Context) {
         send(TEST_PATH, "This is a test message")
     }
 
+    suspend fun areNodesAvailable(): Boolean{
+        val nodes = capabilityClient
+            .getCapability(WEAR_CAPABILITY, CapabilityClient.FILTER_REACHABLE)
+            .await()
+            .nodes
+        return nodes.isNotEmpty()
+    }
+
     private fun send(path: String, data: String) {
         GlobalScope.launch {
             try {

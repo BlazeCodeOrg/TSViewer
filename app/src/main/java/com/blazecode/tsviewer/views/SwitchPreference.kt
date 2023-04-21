@@ -6,6 +6,7 @@
 
 package com.blazecode.eventtool.views
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -19,12 +20,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.blazecode.tsviewer.R
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SwitchPreference(
     title: String,
     checked: Boolean,
     icon: Painter? = null,
     summary: String? = null,
+    switchEnabled: Boolean? = null,
     onCheckChanged: (Boolean) -> Unit){
     Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.small_padding), dimensionResource(R.dimen.medium_padding), 0.dp)){
         Row (modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.small_padding)), verticalAlignment = Alignment.CenterVertically){
@@ -38,7 +41,7 @@ fun SwitchPreference(
                 if(!summary.isNullOrEmpty()) Text(summary, fontSize = 15.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Box (modifier = Modifier.fillMaxWidth().padding(0.dp, 0.dp, dimensionResource(R.dimen.medium_padding), 0.dp).weight(1.5f), contentAlignment = Alignment.CenterEnd){
-                Switch(checked = checked, onCheckedChange = onCheckChanged)
+                Switch(checked = checked, onCheckedChange = onCheckChanged, enabled = switchEnabled ?: true)
             }
         }
     }

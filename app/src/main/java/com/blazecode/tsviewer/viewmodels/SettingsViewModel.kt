@@ -8,12 +8,15 @@ package com.blazecode.tsviewer.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.blazecode.tsviewer.uistate.SettingsUiState
 import com.blazecode.tsviewer.util.ConnectionManager
 import com.blazecode.tsviewer.util.SettingsManager
+import com.blazecode.tsviewer.util.wear.WearDataManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class SettingsViewModel(val app: Application) : AndroidViewModel(app){
 
@@ -24,6 +27,7 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
     // INIT
     init {
         loadSettings()
+        checkWearableConnection()
     }
 
     // NETWORK
@@ -56,7 +60,10 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
     }
 
     fun setSyncWearable(syncWearable: Boolean){
-        _uiState.value = _uiState.value.copy(syncWearable = syncWearable)
+        _uiState.value = _uiState.value.copy(
+            syncWearable = syncWearable,
+            lookingForWearable = true,
+        )
         saveSettings()
     }
 
@@ -83,6 +90,19 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
     fun setVirtualServerId(virtualServerId: Int){
         _uiState.value = _uiState.value.copy(virtualServerId = virtualServerId, connectionSuccessful = null)
         saveSettings()
+    }
+
+    private fun checkWearableConnection(){
+        viewModelScope.launch {
+            val wearDataManager = WearDataManager(app)
+            _uiState.value = _uiState.value.copy(
+                lookingForWearable = false,
+                foundWearable = wearDataManager.areNodesAvailable()
+            )
+            if(!_uiState.value.foundWearable){
+                _uiState.value = _uiState.value.copy(syncWearable = false)
+            }
+        }
     }
 
     // SETTINGS
