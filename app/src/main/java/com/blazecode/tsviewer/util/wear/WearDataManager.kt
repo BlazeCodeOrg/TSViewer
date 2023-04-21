@@ -24,7 +24,6 @@ import java.lang.reflect.Type
 
 class WearDataManager(context: Context) {
 
-    private val dataClient by lazy { Wearable.getDataClient(context) }
     private val messageClient by lazy { Wearable.getMessageClient(context) }
     private val capabilityClient by lazy { Wearable.getCapabilityClient(context) }
 
