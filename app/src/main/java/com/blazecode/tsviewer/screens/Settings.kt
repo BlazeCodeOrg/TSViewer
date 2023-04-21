@@ -84,7 +84,7 @@ private fun MainLayout(viewModel: SettingsViewModel, navController: NavControlle
                 icon = painterResource(R.drawable.ic_wearable),
                 checked = uiState.value.syncWearable,
                 summary = summary,
-                switchEnabled = uiState.value.foundWearable,
+                switchEnabled = uiState.value.foundWearable || uiState.value.syncWearable,
                 onCheckChanged = { viewModel.setSyncWearable(it) }
             )
         }

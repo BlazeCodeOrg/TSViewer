@@ -95,9 +95,6 @@ class SettingsViewModel(val app: Application) : AndroidViewModel(app){
             _uiState.value = _uiState.value.copy(
                 foundWearable = wearDataManager.areNodesAvailable()
             )
-            if(!_uiState.value.foundWearable){
-                _uiState.value = _uiState.value.copy(syncWearable = false)
-            }
         }
     }
 
