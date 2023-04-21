@@ -22,9 +22,6 @@ import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.data.ConnectionDetails
 import com.blazecode.tsviewer.data.TsClient
 import com.blazecode.tsviewer.database.DatabaseManager
-import com.blazecode.tsviewer.util.database.UserCount
-import com.blazecode.tsviewer.util.database.UserCountDAO
-import com.blazecode.tsviewer.util.database.UserCountDatabase
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.tile.TileManager
 import com.blazecode.tsviewer.util.wear.WearDataManager
@@ -41,9 +38,6 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     val clientNotificationManager = ClientNotificationManager(context)
     val tileManager = TileManager(context)
     val errorHandler = ErrorHandler(context)
-
-    lateinit var db: UserCountDatabase
-    lateinit var userCountDAO: UserCountDAO
 
     private var IP_ADRESS : String = ""
     private var USERNAME : String = ""
@@ -88,12 +82,6 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         for(client in clientList){
             clientListNames.add(client.nickname)
         }
-    }
-
-    private fun getLatestId() : Int {
-        val latestEntry : UserCount? = userCountDAO.getLastEntry()
-        return if(latestEntry == null) 0
-        else latestEntry.id!!
     }
 
     private fun writeClients(list: MutableList<TsClient>?) {

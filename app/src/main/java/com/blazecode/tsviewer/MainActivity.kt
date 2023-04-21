@@ -11,7 +11,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,20 +23,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequest
-import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import com.blazecode.eventtool.views.DefaultPreference
 import com.blazecode.eventtool.views.SwitchPreference
-import com.blazecode.tsviewer.databinding.ActivityMainBinding
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.screens.About
 import com.blazecode.tsviewer.screens.Data
@@ -46,8 +37,6 @@ import com.blazecode.tsviewer.screens.Introduction
 import com.blazecode.tsviewer.screens.Settings
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
-import com.blazecode.tsviewer.util.updater.GitHubUpdater
-import com.blazecode.tsviewer.util.updater.UpdateCheckWorker
 import com.blazecode.tsviewer.util.wear.WearDataManager
 import com.blazecode.tsviewer.viewmodels.AboutViewModel
 import com.blazecode.tsviewer.viewmodels.DataViewModel
@@ -59,27 +48,21 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
-
     private lateinit var workManager: WorkManager
-    private lateinit var gitHubUpdater: GitHubUpdater
     private val TAG = "updater"
 
     private lateinit var preferences : SharedPreferences
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
+    @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             val navController = rememberAnimatedNavController()
-            val context = rememberCoroutineScope()
 
             var isDebugMenuOpen = remember { mutableStateOf(false) }
             val startDestination = if(isFirstStart()) NavRoutes.Introduction.route else NavRoutes.Home.route
@@ -124,139 +107,11 @@ class MainActivity : AppCompatActivity() {
         // INITIALIZE WORK MANAGER
         workManager = this.let { WorkManager.getInstance(it) }
 
-        // INITIALIZE UPDATER
-        gitHubUpdater = GitHubUpdater(this)
-
-        /*
-        // AUTO UPDATE CHECK
-        val autoUpdateMenuItem = binding.toolbar.menu.findItem(R.id.action_update_check)
-        autoUpdateMenuItem.isChecked = preferences.getBoolean("autoUpdateCheck", true)
-
-        // SYNC WITH WEARABLE
-        val syncWearableMenuItem = binding.toolbar.menu.findItem(R.id.action_sync_wearable)
-        syncWearableMenuItem.isChecked = preferences.getBoolean("syncWearable", false)
-
-        // DEBUG AUTO UPDATE CHECK
-        val debugAutoUpdateMenuItem = binding.toolbar.menu.findItem(R.id.action_update_check_debug)
-        debugAutoUpdateMenuItem.isChecked = preferences.getBoolean("debugUpdateCheck", false)
-        if (BuildConfig.DEBUG) debugAutoUpdateMenuItem.isVisible = true
-
-        // DEMO MODE
-        val demoModeMenuItem = binding.toolbar.menu.findItem(R.id.action_demo_mode)
-        demoModeMenuItem.isChecked = preferences.getBoolean("demoMode", false)
-        if (BuildConfig.DEBUG) demoModeMenuItem.isVisible = true
-
-        binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.action_source -> {
-                    LinkUtil.Builder(this)
-                        .link(getString(R.string.github_source_url))
-                        .open()
-                    return@setOnMenuItemClickListener true
-                }
-
-                R.id.action_licenses -> {
-                    LibsBuilder()
-                        .withLicenseShown(true)
-                        .withAboutIconShown(true)
-                        .withVersionShown(true)
-                        .withActivityTitle(getString(R.string.licenses))
-                        .withAboutDescription("test description")
-                        .start(this)
-
-                    return@setOnMenuItemClickListener true
-                }
-
-                R.id.action_send_email -> {
-                    MailUtil.Builder(this)
-                        .subject("Report")
-                        .includeDeviceInfo(true)
-                        .send()
-                    return@setOnMenuItemClickListener true
-                }
-
-                R.id.action_update_check -> {
-                    autoUpdateMenuItem.isChecked = !autoUpdateMenuItem.isChecked
-                    setAutoUpdateCheck(autoUpdateMenuItem.isChecked)
-                    startUpdateCheckSchedule(autoUpdateMenuItem.isChecked)
-                    return@setOnMenuItemClickListener true
-                }
-
-                R.id.action_sync_wearable -> {
-                    syncWearableMenuItem.isChecked = !syncWearableMenuItem.isChecked
-                    setSyncWearable(syncWearableMenuItem.isChecked)
-                    return@setOnMenuItemClickListener true
-                }
-
-                R.id.action_update_check_debug -> {
-                    debugAutoUpdateMenuItem.isChecked = !debugAutoUpdateMenuItem.isChecked
-                    setDebugUpdateCheck(debugAutoUpdateMenuItem.isChecked)
-                    return@setOnMenuItemClickListener true
-                }
-
-                R.id.action_demo_mode -> {
-                    demoModeMenuItem.isChecked = !demoModeMenuItem.isChecked
-                    demoMode(demoModeMenuItem.isChecked )
-                    return@setOnMenuItemClickListener true
-                }
-                else -> false
-            }
-        }
-
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when(item.itemId) {
-                R.id.action_start -> {
-                    supportFragmentManager.commit { replace(R.id.fragment_container, MainFragment()) }
-                    true
-                }
-                R.id.action_graph -> {
-                    supportFragmentManager.commit { replace(R.id.fragment_container, GraphFragment(EmptyCoroutineContext)) }
-                    true
-                }
-                else -> false
-            }
-        }
-
-         */
-
         //CREATE NOTIFICATION CHANNEL IF FIRST START
         if (isFirstStart()) {
             val clientNotificationManager = ClientNotificationManager(this)
             clientNotificationManager.createChannel()
-            gitHubUpdater.createNotificationChannel()
-            startUpdateCheckSchedule(true)
-
-            //if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                //placeQsTile()
         }
-
-        /*
-        //OPTIMIZE TOOLBAR HEIGHT
-        val layoutParams = binding.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
-        layoutParams.height = resources.configuration.densityDpi
-
-        //CHECK FOR UPDATE
-        val autoUpdateCheck = preferences.getBoolean("autoUpdateCheck", true)
-        val debugUpdateCheck = preferences.getBoolean("debugUpdateCheck", false)
-
-        if((autoUpdateCheck && !BuildConfig.DEBUG) || (BuildConfig.DEBUG && debugUpdateCheck)){
-            val extras = intent.extras
-            //CHECK IF NOTIFICATION WAS TAPPED
-            if (extras == null) {
-                checkForUpdate()
-            } else {
-                //START UPDATE DIALOG
-                gitHubUpdater.downloadDialog(
-                    intent.getStringExtra("releaseName")!!,
-                    intent.getStringExtra("releaseBody")!!,
-                    intent.getStringExtra("releaseLink")!!,
-                    intent.getStringExtra("releaseFileName")!!
-                )
-            }
-        }
-
-         */
-        //checkBatteryOptimization()
     }
 
     @Composable
@@ -299,25 +154,6 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun checkForUpdate(){
-        val updateCheckWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<UpdateCheckWorker>().build()
-        workManager.enqueue(updateCheckWorkRequest)
-    }
-
-    private fun startUpdateCheckSchedule(enable: Boolean){
-        if(enable){
-            val updateCheckPeriodicWorkRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<UpdateCheckWorker>(
-                12,
-                TimeUnit.HOURS,
-                10, TimeUnit.MINUTES)
-                .build()
-
-            workManager.enqueueUniquePeriodicWork(TAG, ExistingPeriodicWorkPolicy.REPLACE, updateCheckPeriodicWorkRequest)
-        } else {
-            workManager.cancelUniqueWork(TAG)
-        }
-    }
-
     private fun isFirstStart() : Boolean {
         val preferences = getSharedPreferences("preferences", MODE_PRIVATE)!!
         return if(preferences.getBoolean("isFirstStart", true)){
@@ -327,29 +163,5 @@ class MainActivity : AppCompatActivity() {
             editor.commit()
             true
         } else false
-    }
-
-    private fun setAutoUpdateCheck(isEnabled: Boolean){
-        val editor : SharedPreferences.Editor = preferences.edit()
-        editor.putBoolean("autoUpdateCheck", isEnabled)
-        editor.commit()
-    }
-
-    private fun setSyncWearable(isEnabled: Boolean){
-        val editor : SharedPreferences.Editor = preferences.edit()
-        editor.putBoolean("syncWearable", isEnabled)
-        editor.commit()
-    }
-
-    private fun setDebugUpdateCheck(isEnabled: Boolean) {
-        val editor : SharedPreferences.Editor = preferences.edit()
-        editor.putBoolean("debugUpdateCheck", isEnabled)
-        editor.commit()
-    }
-
-    private fun demoMode(demoMode: Boolean) {
-        val editor : SharedPreferences.Editor = preferences.edit()
-        editor.putBoolean("demoMode", demoMode)
-        editor.commit()
     }
 }

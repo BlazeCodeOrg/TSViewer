@@ -1,100 +1,15 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ /*
   ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
   ~  */
   -->
 
 <resources>
-
-    <!--BASE THEME-->
-    <style name="Theme.TSViewer" parent="Theme.Material3.DayNight.NoActionBar">
-        <!--PRIMARY COLORS-->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryVariant">@color/primaryVariant</item>
-        <item name="colorOnPrimary">@color/onPrimary</item>
-        <item name="android:colorBackground">@color/background</item>
-        <!--STATUS BAR-->
-        <item name="android:statusBarColor" >@color/background</item>
-        <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
-        <!--TEXT-->
-        <item name="fontFamily">@font/inter_regular</item>
-        <!-- BUTTONS -->
-        <item name="materialButtonStyle">@style/tsButton</item>
-        <!-- TEXT INPUT STYLE -->
-        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
-        <!-- ABOUT LIBRARIES -->
-        <item name="aboutLibrariesStyle">@style/CustomAboutLibrariesStyle</item>
-        <!-- POPUP MENUS -->
-        <item name="actionOverflowMenuStyle">@style/tsMenu</item>
-        <!-- BOTTOM NAVIGATION -->
-        <item name="bottomNavigationStyle">@style/tsBottomBar</item>
-    </style>
+    <style name="Theme.TSViewer" parent="Theme.Material3.DayNight.NoActionBar" />
 
     <style name="Theme.TSViewer.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <!--TOOLBAR-->
-    <style name="TextAppearance.App.CollapsingToolbar.Expanded" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
-        <item name="android:fontFamily">@font/inter</item>
-    </style>
-
-    <style name="TextAppearance.App.CollapsingToolbar.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:fontFamily">@font/inter</item>
-    </style>
-
-    <!-- MENU -->
-    <style name="tsMenu" parent="@style/Widget.MaterialComponents.PopupMenu.Overflow">
-        <item name="android:popupBackground">@drawable/background_menu</item>
-    </style>
-
-    <!-- BOTTOM NAVIGATION -->
-    <style name="tsBottomBar" parent="Widget.Material3.BottomNavigationView">
-        <item name="itemActiveIndicatorStyle">@style/tsBottomBarActiveIndicator</item>
-    </style>
-
-    <!-- BOTTOM NAVIGATION ACTIVE INDICATOR-->
-    <style name="tsBottomBarActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/primaryLight</item>
-    </style>
-
-    <!-- BUTTONS -->
-    <style name="tsButton" parent="@style/Widget.MaterialComponents.Button">
-        <item name="textAllCaps">false</item>
-        <item name="cornerRadius">@dimen/icon_button_size</item>
-        <item name="android:textColor">@color/text_on_primary</item>
-    </style>
-
-    <style name="tsTextButton" parent="@style/Widget.MaterialComponents.Button.TextButton">
-        <item name="textAllCaps">false</item>
-        <item name="cornerRadius">@dimen/icon_button_size</item>
-    </style>
-
-    <style name="tsWarningTextButton" parent="@style/tsButton">
-        <item name="android:backgroundTint">@color/graph_delete</item>
-    </style>
-
-    <!-- TOOLTIPS -->
-    <style name="tsTooltipStyle" parent="ToolTipLayoutDefaultStyle">
-        <item name="ttlm_backgroundColor">@color/tooltip_background</item>
-        <item name="ttlm_overlayStyle">@style/tsTooltipOverlay</item>
-    </style>
-
-    <style name="tsTooltipOverlay" parent="ToolTipOverlayDefaultStyle">
-        <item name="android:color">@color/primary</item>
-        <item name="ttlm_repeatCount">2</item>
-    </style>
-
-    <!-- ABOUT LIBRARIES -->
-    <style name="CustomAboutLibrariesStyle" parent="">
-        <item name="aboutLibrariesCardBackground">@color/background</item>
-        <item name="aboutLibrariesDescriptionTitle">@color/text</item>
-        <item name="aboutLibrariesDescriptionText">@color/text_secondary</item>
-        <item name="aboutLibrariesDescriptionDivider">@color/background</item>
-        <item name="aboutLibrariesOpenSourceTitle">@color/text</item>
-        <item name="aboutLibrariesOpenSourceText">@color/text_secondary</item>
-        <item name="aboutLibrariesSpecialButtonText">@color/text</item>
-        <item name="aboutLibrariesOpenSourceDivider">@color/background</item>
-    </style>
 </resources>

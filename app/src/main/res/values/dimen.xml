@@ -6,14 +6,10 @@
 
 <resources>
 
-    <!--TOOLBAR-->
-    <dimen name="silk_toolbar_expanded_height">226dp</dimen>
-    <dimen name="silk_toolbar_scrim_visible_height">174dp</dimen>
-    <dimen name="silk_toolbar_expanded_title_margin">24dp</dimen>
-
+    <!-- BUTTONS -->
     <dimen name="icon_button_size">50dp</dimen>
 
-    <!--MARGINS-->
+    <!-- MARGINS -->
     <dimen name="small_padding">8dp</dimen>
     <dimen name="medium_padding">16dp</dimen>
     <dimen name="large_padding">32dp</dimen>

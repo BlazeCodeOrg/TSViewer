@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
  *
  */
 
@@ -24,7 +24,7 @@ class ClientTileService : TileService() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startActivityAndCollapse(Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         } else {
-            Toast.makeText(this, resources.getString(R.string.notSupportedBelowAndroidTen), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, resources.getString(R.string.not_supported_below_android_ten), Toast.LENGTH_LONG).show()
         }
     }
 

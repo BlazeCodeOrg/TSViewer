@@ -5,25 +5,11 @@
   -->
 
 <resources>
-    <!-- UI ELEMENTS -->
-    <string name="start">Start</string>
-    <string name="graph">Graph</string>
 
-    <string name="run_service">Run Service</string>
-
-    <string name="more">More</string>
-    <string name="less">Less</string>
-    <string name="run_once">Run Once</string>
-    <string name="start_schedule">Start Schedule</string>
-    <string name="stop_schedule">Stop Schedule</string>
-    <string name="connection_attempts">Connection Attempts</string>
-    <string name="test_connection">Test Connection</string>
-
+    <!-- BASIC -->
     <string name="confirm">Confirm</string>
-    <string name="yes">Yes</string>
-    <string name="download">Download</string>
-    <string name="cancel">Cancel</string>
     <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
 
     <!-- INTRODUCTION TAB -->
     <string name="introduction">Introduction</string>
@@ -38,6 +24,7 @@
 
     <!-- HOME TAB -->
     <string name="no_credentials_found">No credentials found, enter them in the</string>        <!-- This is followed by the "Settings" string in annotation -->
+    <string name="run_service">Run Service</string>
 
     <!-- DATA TAB -->
     <string name="data">Data</string>
@@ -51,60 +38,12 @@
     <string name="minutes_short">min</string>
 
     <!-- SETTINGS TAB -->
+    <string name="settings">Settings</string>
     <string name="other">Other</string>
+    <string name="sync_wearable">Sync with wearable</string>
     <string name="found_wearable">Found wearable</string>
     <string name="no_wearable_found">No wearable found</string>
-
-    <!-- ABOUT TAB -->
-    <string name="about">About</string>
-    <string name="version">Version</string>
-    <string name="source">Source</string>
-    <string name="report_issue">Report issue</string>
-    <string name="suggest_feature">Suggest feature</string>
-    <string name="copied_version">Copied version</string>
-
-    <!-- TOOLTIPS -->
-    <string name="tooltip_include_query_clients">Turn this on to include any connected query clients such as bots. (The client used by the app will always be excluded)</string>
-
-    <!-- ERROR MESSAGES -->
-    <string name="mustBeProvided">This must be provided</string>
-    <string name="notSupportedBelowAndroidTen">This function is not supported below Android 10</string>
-
-    <!-- BATTERY OPTIMIZATION SNACKBAR -->
-    <string name="batt_optimization">Please disable battery optimization for this app to make sure it runs as intended.</string>
-    <string name="batt_disable">Disable</string>
-
-    <!-- NOTIFICATIONS -->
-    <string name="notificationChannelClient">Client Channel</string>
-    <string name="notificationChannelClientID">CLIENT_CHANNEL</string>
-    <string name="client_connected">Client connected</string>
-    <string name="clients_connected">Clients connected</string>
-
-    <string name="notificationChannelUpdate">Update Channel</string>
-    <string name="notificationChannelUpdateID">UPDATE_CHANNEL</string>
-    <string name="update_available">Update %1$s available!</string>
-    <string name="downloading">Downloading</string>
-
-    <string name="permissionInSettings">Please grant the permission in the settings if this was not intended.</string>
-
-    <!-- QS TILE -->
-    <string name="client">Client</string>
-    <string name="clients">Clients</string>
-    <string name="no_network">No Network</string>
-    <string name="no_wifi">No WiFi</string>
-    <string name="airplane_mode">Airplane Mode</string>
-
-    <!-- MENU -->
-    <string name="licenses">Open Source Licenses</string>
-    <string name="send_email">Send E-Mail</string>
-    <string name="check_updates">Auto check for updates</string>
-    <string name="sync_wearable">Sync with Wearable</string>
-
-    <!-- GRAPH -->
-    <string name="not_enough_data">Not enough data collected</string>
-
-    <!-- Settings -->
-    <string name="settings">Settings</string>
+    <string name="test_connection">Test Connection</string>
     <string name="general">General</string>
     <string name="update_interval">Update interval</string>
     <string name="connection">Connection</string>
@@ -119,5 +58,33 @@
     <string name="default_nickname">TSViewer</string>
     <string name="include_query_clients">Include Query Clients</string>
     <string name="only_wifi">Execute only on WiFi</string>
+
+    <!-- ABOUT TAB -->
+    <string name="about">About</string>
+    <string name="version">Version</string>
+    <string name="source">Source</string>
+    <string name="licenses">Licenses</string>
+    <string name="report_issue">Report issue</string>
+    <string name="suggest_feature">Suggest feature</string>
+    <string name="copied_version">Copied version</string>
+
+    <!-- NOTIFICATIONS -->
+    <string name="notificationChannelClient">Client Channel</string>
+    <string name="notificationChannelClientID">CLIENT_CHANNEL</string>
+    <string name="client_connected">Client connected</string>
+    <string name="clients_connected">Clients connected</string>
+
+    <string name="notificationChannelUpdate">Update Channel</string>
+    <string name="notificationChannelUpdateID">UPDATE_CHANNEL</string>
+    <string name="update_available">Update %1$s available!</string>
+    <string name="downloading">Downloading</string>
+
+    <!-- QS TILE -->
+    <string name="client">Client</string>
+    <string name="clients">Clients</string>
+    <string name="no_network">No Network</string>
+    <string name="no_wifi">No WiFi</string>
+    <string name="airplane_mode">Airplane Mode</string>
+    <string name="not_supported_below_android_ten">This function is not supported below Android 10</string>
 
 </resources>
