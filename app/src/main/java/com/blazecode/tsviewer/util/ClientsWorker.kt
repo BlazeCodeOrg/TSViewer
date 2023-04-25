@@ -77,15 +77,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         writeClients(clientList)
     }
 
-    private fun extractNames(){
-        clientListNames.clear()
-        for(client in clientList){
-            clientListNames.add(client.nickname)
-        }
-    }
-
     private fun writeClients(list: MutableList<TsClient>?) {
-        tileManager.init()
         if(list == null){
             run {
                 var message : String = ""
@@ -109,7 +101,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         } else {
             run {
                 // QS TILE
-                tileManager.post(clientListNames)
+                tileManager.post(list)
                 // DATABASE
                 val databaseManager = DatabaseManager(context)
                 databaseManager.writeClients(list)

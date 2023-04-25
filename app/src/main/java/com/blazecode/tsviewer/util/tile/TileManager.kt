@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (c) BlazeCode / Ralf Lehmann, 2022.
+ *  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
  *
  */
 
@@ -10,19 +10,20 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.data.TsClient
 
 class TileManager(val context: Context) {
 
     lateinit var tileSettings : SharedPreferences
     lateinit var editor : SharedPreferences.Editor
 
-    fun init(){
+    init {
         //INITIALIZE SHARED PREFERENCES
         tileSettings = context?.getSharedPreferences("tile", AppCompatActivity.MODE_PRIVATE)!!
         editor = tileSettings.edit()
     }
 
-    fun post(clientListNames: MutableList<String>) {
+    fun post(clientListNames: MutableList<TsClient>) {
         //DISABLE TILE WHEN SERVER IS EMPTY
         if(clientListNames.isEmpty()) setState(false)
         else setState(true)
