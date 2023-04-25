@@ -11,25 +11,14 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
 import androidx.work.WorkManager
-import com.blazecode.eventtool.views.DefaultPreference
-import com.blazecode.eventtool.views.PreferenceGroup
-import com.blazecode.eventtool.views.SwitchPreference
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.screens.About
 import com.blazecode.tsviewer.screens.Data
@@ -37,15 +26,14 @@ import com.blazecode.tsviewer.screens.Home
 import com.blazecode.tsviewer.screens.Introduction
 import com.blazecode.tsviewer.screens.Settings
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
-import com.blazecode.tsviewer.util.DemoModeValues
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
-import com.blazecode.tsviewer.util.wear.WearDataManager
 import com.blazecode.tsviewer.viewmodels.AboutViewModel
 import com.blazecode.tsviewer.viewmodels.DataViewModel
 import com.blazecode.tsviewer.viewmodels.HomeViewModel
 import com.blazecode.tsviewer.viewmodels.IntroductionViewModel
 import com.blazecode.tsviewer.viewmodels.SettingsViewModel
 import com.blazecode.tsviewer.views.BottomNavBar
+import com.blazecode.tsviewer.views.DebugMenu
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -91,6 +79,8 @@ class MainActivity : AppCompatActivity() {
                         }
                         if(isDebugMenuOpen.value && BuildConfig.DEBUG) {
                             DebugMenu(
+                                context = this@MainActivity,
+                                preferences = preferences,
                                 onDismiss = {
                                     isDebugMenuOpen.value = false
                                 },
@@ -116,79 +106,6 @@ class MainActivity : AppCompatActivity() {
             val clientNotificationManager = ClientNotificationManager(this)
             clientNotificationManager.createChannel()
         }
-    }
-
-    @Composable
-    private fun DebugMenu(onDismiss : () -> Unit, navController: NavController){
-        val forceNoCredentials = remember { mutableStateOf(preferences.getBoolean("debug_forceNoCredentials", false)) }
-        val demoMode = remember { mutableStateOf(preferences.getBoolean("debug_demoMode", false)) }
-        AlertDialog(
-            title = { Text("Debug Menu") },
-            text = {
-                Column {
-                    PreferenceGroup(title = "General"){
-                        SwitchPreference(
-                            title = "Force no credentials",
-                            checked = forceNoCredentials.value,
-                            onCheckChanged = {
-                                forceNoCredentials.value = it
-                                preferences.edit().putBoolean("debug_forceNoCredentials", it).apply() },
-                            summary = "Force loading anim"
-                        )
-                        DefaultPreference(
-                            title = "Start introduction",
-                            summary = "Navigate to introduction screen",
-                            onClick = {
-                                navController.navigate(NavRoutes.Introduction.route)
-                                onDismiss()
-                            }
-                        )
-                    }
-                    PreferenceGroup(title = "Wearable"){
-                        DefaultPreference(
-                            title = "Message Wearable",
-                            summary = "Send test message to wearable",
-                            onClick = {
-                                val wearDataManager = WearDataManager(this@MainActivity)
-                                wearDataManager.sendTestMessage()
-                            }
-                        )
-                    }
-                    PreferenceGroup(title = "Demo Mode") {
-                        SwitchPreference(
-                            title = "Demo mode",
-                            checked = demoMode.value,
-                            onCheckChanged = {
-                                demoMode.value = it
-                                preferences.edit().putBoolean("debug_demoMode", it).apply() },
-                            summary = "Show demo data"
-                        )
-                        DefaultPreference(
-                            title = "Post notification",
-                            summary = "Will contain demo values",
-                            onClick = {
-                                val clientNotificationManager = ClientNotificationManager(this@MainActivity)
-                                clientNotificationManager.post(DemoModeValues.clientList())
-                                onDismiss()
-                            }
-                        )
-                        DefaultPreference(
-                            title = "Update complication",
-                            summary = "Will contain demo values",
-                            onClick = {
-                                val wearDataManager = WearDataManager(this@MainActivity)
-                                wearDataManager.sendClientList(DemoModeValues.clientList())
-                                onDismiss()
-                            }
-                        )
-                    }
-                }
-            },
-            confirmButton = {},
-            dismissButton = { OutlinedButton(onClick = { onDismiss() }) { Text(stringResource(R.string.close)) } },
-            onDismissRequest = { onDismiss() },
-            modifier = Modifier.fillMaxWidth()
-        )
     }
 
     private fun isFirstStart() : Boolean {
