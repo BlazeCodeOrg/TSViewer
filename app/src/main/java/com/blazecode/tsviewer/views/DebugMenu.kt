@@ -26,6 +26,7 @@ import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.util.DemoModeValues
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
+import com.blazecode.tsviewer.util.tile.TileManager
 import com.blazecode.tsviewer.util.wear.WearDataManager
 
 @Composable
@@ -88,6 +89,15 @@ fun DebugMenu(context: Context, preferences: SharedPreferences, onDismiss : () -
                         onClick = {
                             val wearDataManager = WearDataManager(context)
                             wearDataManager.sendClientList(DemoModeValues.clientList())
+                            onDismiss()
+                        }
+                    )
+                    DefaultPreference(
+                        title = "Update QS tile",
+                        summary = "Will contain demo values",
+                        onClick = {
+                            val tileManager = TileManager(context)
+                            tileManager.post(DemoModeValues.clientList())
                             onDismiss()
                         }
                     )
