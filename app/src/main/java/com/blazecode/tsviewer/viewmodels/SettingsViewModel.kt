@@ -20,14 +20,26 @@ import kotlinx.coroutines.launch
 
 class SettingsViewModel(val app: Application) : AndroidViewModel(app){
 
+    private val settingsManager = SettingsManager(app)
+
     // UI STATE
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
     // INIT
     init {
-        loadSettings()
-        checkWearableConnection()
+        if(!settingsManager.isDemoModeActive()){
+            // NORMAL OPERATION
+            loadSettings()
+            checkWearableConnection()
+        } else {
+            // DEMO MODE
+            _uiState.value = settingsManager.getSettingsDemoUiState()
+            _uiState.value = _uiState.value.copy(
+                connectionSuccessful = true,
+                foundWearable = true
+            )
+        }
     }
 
     // NETWORK

@@ -20,6 +20,7 @@ import com.blazecode.tsviewer.data.TsChannel
 import com.blazecode.tsviewer.uistate.HomeUiState
 import com.blazecode.tsviewer.util.ClientsWorker
 import com.blazecode.tsviewer.util.ConnectionManager
+import com.blazecode.tsviewer.util.DemoModeValues
 import com.blazecode.tsviewer.util.SettingsManager
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,13 +41,21 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
-        _uiState.value = _uiState.value.copy(serviceRunning = isRunning())
+        if(!settingsManager.isDemoModeActive()){
+            // DEFAULT OPERATION
+            _uiState.value = _uiState.value.copy(serviceRunning = isRunning())
 
-        if(areCredentialsSet()){
-            viewModelScope.launch {
-                _uiState.value = _uiState.value.copy(channels = getChannels())
+            if(areCredentialsSet()){
+                viewModelScope.launch {
+                    _uiState.value = _uiState.value.copy(channels = getChannels())
+                }
+                _uiState.value = _uiState.value.copy(areCredentialsSet = true)
             }
+        } else {
+            // DEMO MODE
+            _uiState.value = _uiState.value.copy(serviceRunning = true)
             _uiState.value = _uiState.value.copy(areCredentialsSet = true)
+            _uiState.value = _uiState.value.copy(channels = DemoModeValues.channels())
         }
     }
 

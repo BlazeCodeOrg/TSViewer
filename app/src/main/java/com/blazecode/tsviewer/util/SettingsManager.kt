@@ -38,12 +38,20 @@ class SettingsManager(val context: Context) {
         return loadSettings()
     }
 
+    fun getSettingsDemoUiState(): SettingsUiState {
+        return loadDemoSettings()
+    }
+
     fun getScheduleTime(): Float {
         return preferences.getFloat("scheduleTime", 15f)
     }
 
     fun getConnectionDetails(): ConnectionDetails {
         return loadConnectionDetails()
+    }
+
+    fun isDemoModeActive(): Boolean {
+        return preferences.getBoolean("debug_demoMode", false)
     }
 
     fun areCredentialsSet(): Boolean {
@@ -88,6 +96,24 @@ class SettingsManager(val context: Context) {
             password = encryptedSharedPreferences.getString("pass", context.resources.getString(R.string.default_query_password)).toString(),
             queryPort = encryptedSharedPreferences.getInt("queryport", context.resources.getString(R.string.default_query_port).toInt()),
             virtualServerId = encryptedSharedPreferences.getInt("virtualServerId", context.resources.getString(R.string.default_virtual_server_id).toInt())
+        )
+
+        return tempUiState
+    }
+
+    private fun loadDemoSettings(): SettingsUiState {
+        var tempUiState = SettingsUiState()
+
+        tempUiState = tempUiState.copy(
+            scheduleTime = 15f,
+            executeOnlyOnWifi = false,
+            includeQueryClients = false,
+            syncWearable = true,
+            ip = context.resources.getString(R.string.default_ip_address),
+            username = context.resources.getString(R.string.default_query_user),
+            password = context.resources.getString(R.string.default_query_password),
+            queryPort = context.resources.getString(R.string.default_query_port).toInt(),
+            virtualServerId = context.resources.getString(R.string.default_virtual_server_id).toInt()
         )
 
         return tempUiState

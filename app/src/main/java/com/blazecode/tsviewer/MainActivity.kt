@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.work.WorkManager
 import com.blazecode.eventtool.views.DefaultPreference
+import com.blazecode.eventtool.views.PreferenceGroup
 import com.blazecode.eventtool.views.SwitchPreference
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.screens.About
@@ -36,6 +37,7 @@ import com.blazecode.tsviewer.screens.Home
 import com.blazecode.tsviewer.screens.Introduction
 import com.blazecode.tsviewer.screens.Settings
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
+import com.blazecode.tsviewer.util.DemoModeValues
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.wear.WearDataManager
 import com.blazecode.tsviewer.viewmodels.AboutViewModel
@@ -119,34 +121,67 @@ class MainActivity : AppCompatActivity() {
     @Composable
     private fun DebugMenu(onDismiss : () -> Unit, navController: NavController){
         val forceNoCredentials = remember { mutableStateOf(preferences.getBoolean("debug_forceNoCredentials", false)) }
+        val demoMode = remember { mutableStateOf(preferences.getBoolean("debug_demoMode", false)) }
         AlertDialog(
             title = { Text("Debug Menu") },
             text = {
                 Column {
-                    SwitchPreference(
-                        title = "Force no credentials",
-                        checked = forceNoCredentials.value,
-                        onCheckChanged = {
-                            forceNoCredentials.value = it
-                            preferences.edit().putBoolean("debug_forceNoCredentials", it).apply() },
-                        summary = "Force loading anim"
-                    )
-                    DefaultPreference(
-                        title = "Start introduction",
-                        summary = "Navigate to introduction screen",
-                        onClick = {
-                            navController.navigate(NavRoutes.Introduction.route)
-                            onDismiss()
-                        }
-                    )
-                    DefaultPreference(
-                        title = "Message Wearable",
-                        summary = "Send test message to wearable",
-                        onClick = {
-                            val wearDataManager = WearDataManager(this@MainActivity)
-                            wearDataManager.sendTestMessage()
-                        }
-                    )
+                    PreferenceGroup(title = "General"){
+                        SwitchPreference(
+                            title = "Force no credentials",
+                            checked = forceNoCredentials.value,
+                            onCheckChanged = {
+                                forceNoCredentials.value = it
+                                preferences.edit().putBoolean("debug_forceNoCredentials", it).apply() },
+                            summary = "Force loading anim"
+                        )
+                        DefaultPreference(
+                            title = "Start introduction",
+                            summary = "Navigate to introduction screen",
+                            onClick = {
+                                navController.navigate(NavRoutes.Introduction.route)
+                                onDismiss()
+                            }
+                        )
+                    }
+                    PreferenceGroup(title = "Wearable"){
+                        DefaultPreference(
+                            title = "Message Wearable",
+                            summary = "Send test message to wearable",
+                            onClick = {
+                                val wearDataManager = WearDataManager(this@MainActivity)
+                                wearDataManager.sendTestMessage()
+                            }
+                        )
+                    }
+                    PreferenceGroup(title = "Demo Mode") {
+                        SwitchPreference(
+                            title = "Demo mode",
+                            checked = demoMode.value,
+                            onCheckChanged = {
+                                demoMode.value = it
+                                preferences.edit().putBoolean("debug_demoMode", it).apply() },
+                            summary = "Show demo data"
+                        )
+                        DefaultPreference(
+                            title = "Post notification",
+                            summary = "Will contain demo values",
+                            onClick = {
+                                val clientNotificationManager = ClientNotificationManager(this@MainActivity)
+                                clientNotificationManager.post(DemoModeValues.clientList())
+                                onDismiss()
+                            }
+                        )
+                        DefaultPreference(
+                            title = "Update complication",
+                            summary = "Will contain demo values",
+                            onClick = {
+                                val wearDataManager = WearDataManager(this@MainActivity)
+                                wearDataManager.sendClientList(DemoModeValues.clientList())
+                                onDismiss()
+                            }
+                        )
+                    }
                 }
             },
             confirmButton = {},

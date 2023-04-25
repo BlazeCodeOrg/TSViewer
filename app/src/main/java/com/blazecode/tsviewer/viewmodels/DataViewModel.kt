@@ -14,6 +14,8 @@ import com.blazecode.tsviewer.data.TsServerInfo
 import com.blazecode.tsviewer.database.ClientRepository
 import com.blazecode.tsviewer.database.ServerRepository
 import com.blazecode.tsviewer.uistate.DataUiState
+import com.blazecode.tsviewer.util.DemoModeValues
+import com.blazecode.tsviewer.util.SettingsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,15 +24,26 @@ import kotlinx.coroutines.launch
 
 class DataViewModel(val app: Application): AndroidViewModel(app){
 
+    private val settingsManager = SettingsManager(app)
+
     // UI STATE
     private val _uiState = MutableStateFlow(DataUiState())
     val uiState: StateFlow<DataUiState> = _uiState.asStateFlow()
 
     init {
-        viewModelScope.launch {
+        if(!settingsManager.isDemoModeActive()){
+            // NORMAL OPERATION
+            viewModelScope.launch {
+                _uiState.value = _uiState.value.copy(
+                    serverInfoList = getServerInfoList(),
+                    clientList = getClientList()
+                )
+            }
+        } else {
+            // DEMO MODE
             _uiState.value = _uiState.value.copy(
-                serverInfoList = getServerInfoList(),
-                clientList = getClientList()
+                serverInfoList = DemoModeValues.serverInfoList(),
+                clientList = DemoModeValues.clientList()
             )
         }
     }
