@@ -54,6 +54,13 @@ fun DebugMenu(context: Context, preferences: SharedPreferences, onDismiss : () -
                             onDismiss()
                         }
                     )
+                    DefaultPreference(
+                        title = "Crash app",
+                        summary = "trigger a crash",
+                        onClick = {
+                            throw Exception("Crash triggered by user")
+                        }
+                    )
                 }
                 PreferenceGroup(title = "Wearable"){
                     DefaultPreference(

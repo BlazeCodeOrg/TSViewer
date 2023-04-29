@@ -10,6 +10,7 @@
     <string name="confirm">Confirm</string>
     <string name="close">Close</string>
     <string name="cancel">Cancel</string>
+    <string name="send">Send</string>
 
     <!-- INTRODUCTION TAB -->
     <string name="introduction">Introduction</string>
@@ -86,5 +87,10 @@
     <string name="no_wifi">No WiFi</string>
     <string name="airplane_mode">Airplane Mode</string>
     <string name="not_supported_below_android_ten">This function is not supported below Android 10</string>
+
+    <!-- ERROR REPORTING -->
+    <string name="error_report_title">Whoops, something went wrong</string>
+    <string name="error_user_comment">Comment</string>
+    <string name="error_user_email">E-Mail address (optional)</string>
 
 </resources>

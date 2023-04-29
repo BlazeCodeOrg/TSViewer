@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val navController = rememberAnimatedNavController()
 
-            var isDebugMenuOpen = remember { mutableStateOf(false) }
+            val isDebugMenuOpen = remember { mutableStateOf(false) }
             val startDestination = if(isFirstStart) NavRoutes.Introduction.route else NavRoutes.Home.route
 
             TSViewerTheme {
