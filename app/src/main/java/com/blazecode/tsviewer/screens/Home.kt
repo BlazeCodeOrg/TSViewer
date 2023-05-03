@@ -99,12 +99,9 @@ private fun MainLayout(viewModel: HomeViewModel, navController: NavController) {
 
 @Composable
 private fun LoadingView(){
-    CircularProgressIndicator(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(dimensionResource(R.dimen.medium_padding))
-            .height(4.dp)
-    )
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+        CircularProgressIndicator()
+    }
 }
 
 @Composable
