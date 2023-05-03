@@ -9,7 +9,6 @@ package com.blazecode.tsviewer
 import android.app.Application
 import android.content.Context
 import com.blazecode.tsviewer.util.errors.ErrorReportActivity
-import org.acra.ACRA
 import org.acra.config.coreConfiguration
 import org.acra.config.dialog
 import org.acra.config.mailSender
@@ -20,8 +19,6 @@ import org.acra.ktx.initAcra
 class TSViewerApplication: Application() {
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
-
-        ACRA.DEV_LOGGING = true
 
         initAcra{
             coreConfiguration {

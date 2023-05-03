@@ -16,4 +16,7 @@ interface ServerDAO{
 
     @Insert
     fun insertServerInfo(vararg serverInfo: TsServerInfo)
+
+    @Query("SELECT timestamp FROM tsserverinfo ORDER BY timestamp DESC LIMIT 1")
+    fun getTimestampOfLastUpdate(): Long
 }

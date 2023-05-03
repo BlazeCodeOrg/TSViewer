@@ -21,4 +21,8 @@ class ServerRepository(context: Context) {
     fun insertServerInfo(serverInfo: TsServerInfo) {
         serverDao.insertServerInfo(serverInfo)
     }
+
+    fun getTimestampOfLastUpdate(): Long {
+        return serverDao.getTimestampOfLastUpdate()
+    }
 }

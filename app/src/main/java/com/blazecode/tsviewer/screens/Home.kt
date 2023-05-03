@@ -65,6 +65,7 @@ private fun MainLayout(viewModel: HomeViewModel, navController: NavController) {
         SwitchBar(
             title = stringResource(R.string.run_service),
             checked = uiState.value.serviceRunning,
+            summary = if(uiState.value.serviceRunning) stringResource(R.string.last_update, uiState.value.lastUpdate) else "",
             onCheckChanged = {
                 if(uiState.value.areCredentialsSet){
                     viewModel.setRunService(it)

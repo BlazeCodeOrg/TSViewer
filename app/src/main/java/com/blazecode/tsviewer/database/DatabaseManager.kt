@@ -43,6 +43,10 @@ class DatabaseManager(context: Context) {
         serverRepository.insertServerInfo(serverInfo)
     }
 
+    fun getTimestampOfLastUpdate(): Long {
+        return serverRepository.getTimestampOfLastUpdate()
+    }
+
     private fun getScheduleTime(): Float {
         return settingsManager.getScheduleTime()
     }

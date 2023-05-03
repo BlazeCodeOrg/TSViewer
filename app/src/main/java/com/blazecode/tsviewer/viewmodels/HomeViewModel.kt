@@ -17,12 +17,14 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import com.blazecode.tsviewer.data.TsChannel
+import com.blazecode.tsviewer.database.DatabaseManager
 import com.blazecode.tsviewer.uistate.HomeUiState
 import com.blazecode.tsviewer.util.ClientsWorker
 import com.blazecode.tsviewer.util.ConnectionManager
 import com.blazecode.tsviewer.util.DemoModeValues
 import com.blazecode.tsviewer.util.SettingsManager
 import com.google.common.util.concurrent.ListenableFuture
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -51,9 +53,14 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
                 }
                 _uiState.value = _uiState.value.copy(areCredentialsSet = true)
             }
+
+            viewModelScope.launch {
+                _uiState.value = _uiState.value.copy(lastUpdate = getLastUpdate())
+            }
         } else {
             // DEMO MODE
             _uiState.value = _uiState.value.copy(serviceRunning = true)
+            _uiState.value = _uiState.value.copy(lastUpdate = 5)
             _uiState.value = _uiState.value.copy(areCredentialsSet = true)
             _uiState.value = _uiState.value.copy(channels = DemoModeValues.channels())
         }
@@ -96,6 +103,7 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
         workManager.cancelUniqueWork(TAG)
     }
 
+    // GETTERS
     private fun areCredentialsSet(): Boolean {
         return settingsManager.areCredentialsSet()
     }
@@ -118,5 +126,15 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
             e.printStackTrace()
             false
         }
+    }
+
+    private suspend fun getLastUpdate(): Long {
+        var timestamp: Long = 0
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            val databaseManager = DatabaseManager(app)
+            timestamp = databaseManager.getTimestampOfLastUpdate()
+        }
+        job.join()
+        return (System.currentTimeMillis() - timestamp) / 1000 / 60
     }
 }
