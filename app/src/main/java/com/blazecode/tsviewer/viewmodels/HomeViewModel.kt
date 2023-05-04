@@ -135,6 +135,6 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
             timestamp = databaseManager.getTimestampOfLastUpdate()
         }
         job.join()
-        return (System.currentTimeMillis() - timestamp) / 1000 / 60
+        return if(timestamp == 0L) 0 else (System.currentTimeMillis() - timestamp) / 1000 / 60
     }
 }
