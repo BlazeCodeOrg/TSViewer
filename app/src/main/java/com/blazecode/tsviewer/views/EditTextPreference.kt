@@ -94,7 +94,7 @@ fun EditTextPreference(
                        }
                    )
            },
-            confirmButton = { TextButton(onClick = { isDialogVisible.value = false; tempText.value.also(onTextChange) }) { Text(stringResource(R.string.confirm)) } },
+            confirmButton = { TextButton(onClick = { isDialogVisible.value = false; tempText.value.trim().also(onTextChange) }) { Text(stringResource(R.string.confirm)) } },
             dismissButton = { TextButton(onClick = { isDialogVisible.value = false }) { Text(stringResource(R.string.cancel)) } },
         )
     }
