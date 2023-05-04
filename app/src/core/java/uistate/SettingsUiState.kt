@@ -4,7 +4,7 @@
  *
  */
 
-package com.blazecode.tsviewer.uistate
+package uistate
 
 data class SettingsUiState (
     val scheduleTime: Float = 15f,

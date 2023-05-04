@@ -4,7 +4,7 @@
  *
  */
 
-package com.blazecode.tsviewer.util
+package util
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -15,7 +15,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.data.ConnectionDetails
-import com.blazecode.tsviewer.uistate.SettingsUiState
+import uistate.SettingsUiState
 
 class SettingsManager(val context: Context) {
 
@@ -69,7 +69,6 @@ class SettingsManager(val context: Context) {
         editor.putFloat("scheduleTime", uiState.scheduleTime)
         editor.putBoolean("run_only_wifi", uiState.executeOnlyOnWifi)
         editor.putBoolean("includeQuery", uiState.includeQueryClients)
-        editor.putBoolean("syncWearable", uiState.syncWearable)
         editor.apply()
 
         with (encryptedSharedPreferences.edit()) {
@@ -90,7 +89,6 @@ class SettingsManager(val context: Context) {
             scheduleTime = preferences.getFloat("scheduleTime", 15f),
             executeOnlyOnWifi = preferences.getBoolean("run_only_wifi", false),
             includeQueryClients = preferences.getBoolean("includeQuery", false),
-            syncWearable = preferences.getBoolean("syncWearable", false),
             ip = encryptedSharedPreferences.getString("ip", context.resources.getString(R.string.default_ip_address)).toString(),
             username = encryptedSharedPreferences.getString("user", context.resources.getString(R.string.default_query_user)).toString(),
             password = encryptedSharedPreferences.getString("pass", context.resources.getString(R.string.default_query_password)).toString(),
@@ -108,7 +106,6 @@ class SettingsManager(val context: Context) {
             scheduleTime = 15f,
             executeOnlyOnWifi = false,
             includeQueryClients = false,
-            syncWearable = true,
             ip = context.resources.getString(R.string.default_ip_address),
             username = context.resources.getString(R.string.default_query_user),
             password = context.resources.getString(R.string.default_query_password),

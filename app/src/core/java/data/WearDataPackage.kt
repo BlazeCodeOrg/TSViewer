@@ -4,7 +4,9 @@
  *
  */
 
-package com.blazecode.tsviewer.data
+package data
+
+import com.blazecode.tsviewer.data.TsClient
 
 data class WearDataPackage(
     val clients: List<TsClient>,

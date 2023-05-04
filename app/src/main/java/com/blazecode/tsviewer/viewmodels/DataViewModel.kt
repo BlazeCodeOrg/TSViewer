@@ -15,12 +15,12 @@ import com.blazecode.tsviewer.database.ClientRepository
 import com.blazecode.tsviewer.database.ServerRepository
 import com.blazecode.tsviewer.uistate.DataUiState
 import com.blazecode.tsviewer.util.DemoModeValues
-import com.blazecode.tsviewer.util.SettingsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import util.SettingsManager
 
 class DataViewModel(val app: Application): AndroidViewModel(app){
 

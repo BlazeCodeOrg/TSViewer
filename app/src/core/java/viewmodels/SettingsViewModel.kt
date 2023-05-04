@@ -4,19 +4,19 @@
  *
  */
 
-package com.blazecode.tsviewer.viewmodels
+package viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.blazecode.tsviewer.uistate.SettingsUiState
 import com.blazecode.tsviewer.util.ConnectionManager
-import com.blazecode.tsviewer.util.SettingsManager
-import com.blazecode.tsviewer.util.wear.WearDataManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import uistate.SettingsUiState
+import util.SettingsManager
+import wear.WearDataManager
 
 class SettingsViewModel(val app: Application) : AndroidViewModel(app){
 

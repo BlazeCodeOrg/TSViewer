@@ -4,15 +4,15 @@
  *
  */
 
-package com.blazecode.tsviewer.util.wear
+package wear
 
 import android.content.Context
 import com.blazecode.tsviewer.data.TsClient
-import com.blazecode.tsviewer.data.WearDataPackage
 import com.google.android.gms.wearable.CapabilityClient
 import com.google.android.gms.wearable.Wearable
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import data.WearDataPackage
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async

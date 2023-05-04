@@ -4,7 +4,7 @@
  *
  */
 
-package com.blazecode.tsviewer.screens
+package screens
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.clickable
@@ -30,7 +30,7 @@ import com.blazecode.eventtool.views.SwitchPreference
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
-import com.blazecode.tsviewer.viewmodels.SettingsViewModel
+import viewmodels.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,16 +76,6 @@ private fun MainLayout(viewModel: SettingsViewModel, navController: NavControlle
                 icon = painterResource(R.drawable.ic_query_client),
                 checked = uiState.value.includeQueryClients,
                 onCheckChanged = { viewModel.setIncludeQueryClients(it) }
-            )
-
-            val summary: String? = if (uiState.value.foundWearable) stringResource(R.string.found_wearable) else stringResource(R.string.no_wearable_found)
-            SwitchPreference(
-                title = stringResource(R.string.sync_wearable),
-                icon = painterResource(R.drawable.ic_wearable),
-                checked = uiState.value.syncWearable,
-                summary = summary,
-                switchEnabled = uiState.value.foundWearable || uiState.value.syncWearable,
-                onCheckChanged = { viewModel.setSyncWearable(it) }
             )
         }
         PreferenceGroup(title = stringResource(R.string.connection)) {

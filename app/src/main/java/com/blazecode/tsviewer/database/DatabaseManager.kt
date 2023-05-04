@@ -9,7 +9,7 @@ package com.blazecode.tsviewer.database
 import android.content.Context
 import com.blazecode.tsviewer.data.TsClient
 import com.blazecode.tsviewer.data.TsServerInfo
-import com.blazecode.tsviewer.util.SettingsManager
+import util.SettingsManager
 
 class DatabaseManager(context: Context) {
 

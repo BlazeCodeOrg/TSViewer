@@ -19,16 +19,16 @@ import androidx.work.WorkRequest
 import com.blazecode.tsviewer.data.TsChannel
 import com.blazecode.tsviewer.database.DatabaseManager
 import com.blazecode.tsviewer.uistate.HomeUiState
-import com.blazecode.tsviewer.util.ClientsWorker
 import com.blazecode.tsviewer.util.ConnectionManager
 import com.blazecode.tsviewer.util.DemoModeValues
-import com.blazecode.tsviewer.util.SettingsManager
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import util.ClientsWorker
+import util.SettingsManager
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 

@@ -4,7 +4,7 @@
  *
  */
 
-package com.blazecode.tsviewer.util
+package util
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -22,11 +22,13 @@ import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.data.ConnectionDetails
 import com.blazecode.tsviewer.data.TsClient
 import com.blazecode.tsviewer.database.DatabaseManager
+import com.blazecode.tsviewer.util.ConnectionManager
+import com.blazecode.tsviewer.util.ErrorHandler
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.tile.TileManager
-import com.blazecode.tsviewer.util.wear.WearDataManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import wear.WearDataManager
 
 
 class ClientsWorker(private val context: Context, workerParameters: WorkerParameters) :

@@ -24,20 +24,20 @@ import com.blazecode.tsviewer.screens.About
 import com.blazecode.tsviewer.screens.Data
 import com.blazecode.tsviewer.screens.Home
 import com.blazecode.tsviewer.screens.Introduction
-import com.blazecode.tsviewer.screens.Settings
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.viewmodels.AboutViewModel
 import com.blazecode.tsviewer.viewmodels.DataViewModel
 import com.blazecode.tsviewer.viewmodels.HomeViewModel
 import com.blazecode.tsviewer.viewmodels.IntroductionViewModel
-import com.blazecode.tsviewer.viewmodels.SettingsViewModel
 import com.blazecode.tsviewer.views.BottomNavBar
-import com.blazecode.tsviewer.views.DebugMenu
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import screens.Settings
 import timber.log.Timber
+import viewmodels.SettingsViewModel
+import views.DebugMenu
 
 
 class MainActivity : AppCompatActivity() {

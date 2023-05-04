@@ -4,7 +4,7 @@
  *
  */
 
-package com.blazecode.tsviewer.views
+package views
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -27,7 +27,6 @@ import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.util.DemoModeValues
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
 import com.blazecode.tsviewer.util.tile.TileManager
-import com.blazecode.tsviewer.util.wear.WearDataManager
 
 @Composable
 fun DebugMenu(context: Context, preferences: SharedPreferences, onDismiss : () -> Unit, navController: NavController) {
@@ -62,16 +61,6 @@ fun DebugMenu(context: Context, preferences: SharedPreferences, onDismiss : () -
                         }
                     )
                 }
-                PreferenceGroup(title = "Wearable"){
-                    DefaultPreference(
-                        title = "Message Wearable",
-                        summary = "Send test message to wearable",
-                        onClick = {
-                            val wearDataManager = WearDataManager(context)
-                            wearDataManager.sendTestMessage()
-                        }
-                    )
-                }
                 PreferenceGroup(title = "Demo Mode") {
                     SwitchPreference(
                         title = "Demo mode",
@@ -87,15 +76,6 @@ fun DebugMenu(context: Context, preferences: SharedPreferences, onDismiss : () -
                         onClick = {
                             val clientNotificationManager = ClientNotificationManager(context)
                             clientNotificationManager.post(DemoModeValues.clientList())
-                            onDismiss()
-                        }
-                    )
-                    DefaultPreference(
-                        title = "Update complication",
-                        summary = "Will contain demo values",
-                        onClick = {
-                            val wearDataManager = WearDataManager(context)
-                            wearDataManager.sendClientList(DemoModeValues.clientList())
                             onDismiss()
                         }
                     )

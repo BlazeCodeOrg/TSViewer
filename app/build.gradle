@@ -24,7 +24,6 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -32,6 +31,17 @@ android {
         }
         debug {
             signingConfig signingConfigs.debug
+        }
+    }
+    flavorDimensions "version"
+    productFlavors {
+        core {
+            dimension "version"
+            versionNameSuffix "-core"
+        }
+        foss {
+            dimension "version"
+            versionNameSuffix "-foss"
         }
     }
     compileOptions {
@@ -78,7 +88,7 @@ dependencies {
 
     //COROUTINES
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
+    coreImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
 
     //WORK MANAGER
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
@@ -121,7 +131,7 @@ dependencies {
 
     //WEAR INTEGRATION
     wearApp project(':wear')
-    implementation 'com.google.android.gms:play-services-wearable:18.0.0'
+    coreImplementation 'com.google.android.gms:play-services-wearable:18.0.0'
 
     // CRASH DETECTION
     def acraVersion = "5.9.7"

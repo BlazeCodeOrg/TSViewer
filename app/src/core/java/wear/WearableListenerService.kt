@@ -4,7 +4,7 @@
  *
  */
 
-package com.blazecode.tsviewer.util.wear
+package wear
 
 import android.content.Intent
 import com.blazecode.tsviewer.MainActivity

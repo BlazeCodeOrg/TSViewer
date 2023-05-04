@@ -43,7 +43,7 @@
             android:launchMode="singleInstance" />
 
         <!-- Wear -->
-        <service android:name=".util.wear.WearableListenerService"
+        <service android:name="wear.WearableListenerService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
