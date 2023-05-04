@@ -8,7 +8,7 @@
 buildscript {
     ext {
         ABOUT_LIBRARIES_VERSION = '10.6.2'
-        compose_version = '1.5.0-alpha02'
+        compose_version = '1.5.0-alpha03'
         wear_compose_version = '1.2.0-alpha08'
     }
     repositories {
