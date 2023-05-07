@@ -30,6 +30,7 @@ import com.blazecode.tsviewer.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditTextPreference(
+    modifier: Modifier = Modifier,
     title: String,
     text: String? = null,
     icon: Painter? = null,
@@ -42,20 +43,22 @@ fun EditTextPreference(
     val isDialogVisible = remember { mutableStateOf(false) }
     val prefilledText = text ?: ""
 
-    Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.small_padding), dimensionResource(R.dimen.medium_padding), 0.dp).clickable(onClick = {isDialogVisible.value = true} )){
-        Row (modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.small_padding)), verticalAlignment = Alignment.CenterVertically){
-            if(icon != null){
-                Box (modifier = Modifier.size(dimensionResource(R.dimen.icon_button_size)).weight(1f), contentAlignment = Alignment.Center){
-                    Icon(icon, "")
+    Box(modifier = modifier){
+        Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.small_padding), dimensionResource(R.dimen.medium_padding), 0.dp).clickable(onClick = {isDialogVisible.value = true} )){
+            Row (modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.small_padding)), verticalAlignment = Alignment.CenterVertically){
+                if(icon != null){
+                    Box (modifier = Modifier.size(dimensionResource(R.dimen.icon_button_size)).weight(1f), contentAlignment = Alignment.Center){
+                        Icon(icon, "")
+                    }
                 }
-            }
-            Column (modifier = Modifier.weight(6f, true)){
-                Text(title, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp)
-                if(useSimpleSummaryProvider == true)
-                    Text(
-                        text = if(isPassword == true) prefilledText.replace(Regex("."), "\u2022") else prefilledText,
-                        fontSize = 15.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Column (modifier = Modifier.weight(6f, true)){
+                    Text(title, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp)
+                    if(useSimpleSummaryProvider == true)
+                        Text(
+                            text = if(isPassword == true) prefilledText.replace(Regex("."), "\u2022") else prefilledText,
+                            fontSize = 15.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
             }
         }
     }

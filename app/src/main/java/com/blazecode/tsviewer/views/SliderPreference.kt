@@ -6,8 +6,18 @@
 
 package com.blazecode.eventtool.views
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,6 +33,7 @@ import com.blazecode.tsviewer.R
 
 @Composable
 fun SliderPreference(
+    modifier: Modifier = Modifier,
     title: String,
     icon: Painter? = null,
     value: Float = 0f,
@@ -32,24 +43,26 @@ fun SliderPreference(
     onValueChange: (Float) -> Unit){
     val currentValue = remember { mutableStateOf(value) }
 
-    Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.small_padding), dimensionResource(R.dimen.medium_padding), 0.dp)){
-        Row (modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.small_padding)), verticalAlignment = Alignment.CenterVertically){
-            if(icon != null){
-                Box (modifier = Modifier.size(dimensionResource(R.dimen.icon_button_size)).weight(1f), contentAlignment = Alignment.Center){
-                    Icon(icon, "")
+    Box(modifier = modifier){
+        Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.small_padding), dimensionResource(R.dimen.medium_padding), 0.dp)){
+            Row (modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.small_padding)), verticalAlignment = Alignment.CenterVertically){
+                if(icon != null){
+                    Box (modifier = Modifier.size(dimensionResource(R.dimen.icon_button_size)).weight(1f), contentAlignment = Alignment.Center){
+                        Icon(icon, "")
+                    }
                 }
-            }
-            Column (modifier = Modifier.weight(6f, true)){
-                Row {
-                    Text(title, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp)
-                    Spacer(modifier = Modifier.weight(1f))
-                    Text("${currentValue.value.toInt()} $unitSuffix", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 15.sp)
+                Column (modifier = Modifier.weight(6f, true)){
+                    Row {
+                        Text(title, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp)
+                        Spacer(modifier = Modifier.weight(1f))
+                        Text("${currentValue.value.toInt()} $unitSuffix", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 15.sp)
+                    }
+                    Slider(
+                        value = currentValue.value,
+                        steps = steps,
+                        valueRange = valueRange,
+                        onValueChange = { onValueChange(it); currentValue.value = it })
                 }
-                Slider(
-                    value = currentValue.value,
-                    steps = steps,
-                    valueRange = valueRange,
-                    onValueChange = { onValueChange(it); currentValue.value = it })
             }
         }
     }

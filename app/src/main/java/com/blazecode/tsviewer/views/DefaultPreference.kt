@@ -7,7 +7,12 @@
 package com.blazecode.eventtool.views
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,20 +30,23 @@ import com.blazecode.tsviewer.R
 
 @Composable
 fun DefaultPreference(
+    modifier: Modifier = Modifier,
     title: String,
     icon: Painter? = null,
     summary: String? = null,
     onClick: () -> Unit){
-    Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.small_padding), dimensionResource(R.dimen.medium_padding), 0.dp).clickable(onClick = onClick)){
-        Row (modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.small_padding)), verticalAlignment = Alignment.CenterVertically){
-            if(icon != null){
-                Box (modifier = Modifier.size(dimensionResource(R.dimen.icon_button_size)).weight(1f), contentAlignment = Alignment.Center){
-                    Icon(icon, "")
+    Box(modifier = modifier){
+        Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.small_padding), dimensionResource(R.dimen.medium_padding), 0.dp).clickable(onClick = onClick)){
+            Row (modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.small_padding)), verticalAlignment = Alignment.CenterVertically){
+                if(icon != null){
+                    Box (modifier = Modifier.size(dimensionResource(R.dimen.icon_button_size)).weight(1f), contentAlignment = Alignment.Center){
+                        Icon(icon, "")
+                    }
                 }
-            }
-            Column (modifier = Modifier.weight(6f, true)){
-                Text(title, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp)
-                if(!summary.isNullOrEmpty()) Text(summary, fontSize = 15.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Column (modifier = Modifier.weight(6f, true)){
+                    Text(title, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp)
+                    if(!summary.isNullOrEmpty()) Text(summary, fontSize = 15.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
             }
         }
     }

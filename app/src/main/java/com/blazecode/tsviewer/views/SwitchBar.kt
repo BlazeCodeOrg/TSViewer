@@ -30,28 +30,31 @@ import com.blazecode.tsviewer.R
 
 @Composable
 fun SwitchBar(
+    modifier: Modifier = Modifier,
     title: String,
     summary: String = "",
     checked: Boolean,
     onCheckChanged: (Boolean) -> Unit){
-    Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.small_padding), dimensionResource(R.dimen.medium_padding), 0.dp),
-    colors = CardDefaults.cardColors(containerColor = getContainerColor(checked)),){
-        Row (modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.medium_padding)), verticalAlignment = Alignment.CenterVertically){
-            Column (modifier = Modifier.weight(5f, true)){
-                Text(title, color = getTextColor(checked), fontSize = 18.sp)
-                if(summary.isNotEmpty()) Text(summary, color = getTextColor(checked), fontSize = 16.sp, modifier = Modifier.alpha(.7f))
-            }
-            Box (modifier = Modifier.fillMaxWidth().padding(0.dp, 0.dp, dimensionResource(R.dimen.medium_padding), 0.dp).weight(1.5f), contentAlignment = Alignment.CenterEnd){
-                Switch(
-                    checked = checked,
-                    onCheckedChange = {
-                        onCheckChanged(it)
-                    },
-                    colors = SwitchDefaults.colors(
-                        checkedTrackColor = MaterialTheme.colorScheme.secondaryContainer,
-                        checkedThumbColor = MaterialTheme.colorScheme.primary,
+    Box(modifier = modifier){
+        Card (modifier = Modifier.padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.small_padding), dimensionResource(R.dimen.medium_padding), 0.dp),
+            colors = CardDefaults.cardColors(containerColor = getContainerColor(checked)),){
+            Row (modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.medium_padding)), verticalAlignment = Alignment.CenterVertically){
+                Column (modifier = Modifier.weight(5f, true)){
+                    Text(title, color = getTextColor(checked), fontSize = 18.sp)
+                    if(summary.isNotEmpty()) Text(summary, color = getTextColor(checked), fontSize = 16.sp, modifier = Modifier.alpha(.7f))
+                }
+                Box (modifier = Modifier.fillMaxWidth().padding(0.dp, 0.dp, dimensionResource(R.dimen.medium_padding), 0.dp).weight(1.5f), contentAlignment = Alignment.CenterEnd){
+                    Switch(
+                        checked = checked,
+                        onCheckedChange = {
+                            onCheckChanged(it)
+                        },
+                        colors = SwitchDefaults.colors(
+                            checkedTrackColor = MaterialTheme.colorScheme.secondaryContainer,
+                            checkedThumbColor = MaterialTheme.colorScheme.primary,
+                        )
                     )
-                )
+                }
             }
         }
     }

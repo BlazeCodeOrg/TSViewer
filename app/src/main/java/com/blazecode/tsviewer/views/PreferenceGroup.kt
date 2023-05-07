@@ -24,13 +24,16 @@ import com.blazecode.tsviewer.R
 
 @Composable
 fun PreferenceGroup(
+    modifier: Modifier = Modifier,
     title: String,
     content: @Composable () -> Unit){
-    Column {
-        Box(modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding), 0.dp, 0.dp)){
-            Text(text = title, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
+    Box(modifier = modifier){
+        Column {
+            Box(modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.medium_padding), dimensionResource(R.dimen.medium_padding), 0.dp, 0.dp)){
+                Text(text = title, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
+            }
+            content()
         }
-        content()
     }
 }
 
@@ -38,7 +41,7 @@ fun PreferenceGroup(
 @Composable
 private fun Preview(){
     Surface {
-        PreferenceGroup("GroupName"){
+        PreferenceGroup(title = "GroupName"){
             DefaultPreference(icon = painterResource(R.drawable.ic_settings), title = "title") {}
         }
     }
