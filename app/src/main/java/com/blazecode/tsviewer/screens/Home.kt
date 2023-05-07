@@ -63,7 +63,7 @@ private fun MainLayout(viewModel: HomeViewModel, navController: NavController) {
 
     Column {
         SwitchBar(
-            title = stringResource(R.string.run_service),
+            title = if(uiState.value.serviceRunning) stringResource(R.string.service_running) else stringResource(R.string.service_stopped),
             checked = uiState.value.serviceRunning,
             summary = if(uiState.value.serviceRunning) stringResource(R.string.last_update, uiState.value.lastUpdate) else "",
             onCheckChanged = {

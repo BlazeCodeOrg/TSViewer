@@ -25,7 +25,8 @@
 
     <!-- HOME TAB -->
     <string name="no_credentials_found">No credentials found, enter them in the</string>        <!-- This is followed by the "Settings" string in annotation -->
-    <string name="run_service">Run Service</string>
+    <string name="service_running">Service running</string>
+    <string name="service_stopped">Service stopped</string>
     <string name="last_update">Last update: %1$s min ago</string>
 
     <!-- DATA TAB -->
