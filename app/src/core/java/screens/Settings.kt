@@ -145,7 +145,7 @@ private fun MainLayout(viewModel: SettingsViewModel, navController: NavControlle
                     }
                 )
             }
-            PreferenceGroup(title = stringResource(R.string.other)){
+            PreferenceGroup(title = stringResource(R.string.other), modifier = Modifier.padding(bottom = dimensionResource(R.dimen.medium_padding))){
                 DefaultPreference(
                     title = stringResource(R.string.about),
                     icon = painterResource(R.drawable.ic_info),
