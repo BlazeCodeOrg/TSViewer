@@ -98,6 +98,13 @@ private fun MainLayout(viewModel: AboutViewModel){
                 modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.small_padding))
 
             )
+            AssistChip(
+                onClick = { viewModel.helpTranslate() },
+                label = { Text(text = stringResource(R.string.help_translate)) },
+                leadingIcon = { Icon(painterResource(R.drawable.ic_translate), "help translate") },
+                modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.small_padding))
+
+            )
         }
 
         Text(

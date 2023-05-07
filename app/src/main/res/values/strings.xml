@@ -69,6 +69,7 @@
     <string name="report_issue">Report issue</string>
     <string name="suggest_feature">Suggest feature</string>
     <string name="copied_version">Copied version</string>
+    <string name="help_translate">Help translate</string>
 
     <!-- NOTIFICATIONS -->
     <string name="notificationChannelClient">Client Channel</string>

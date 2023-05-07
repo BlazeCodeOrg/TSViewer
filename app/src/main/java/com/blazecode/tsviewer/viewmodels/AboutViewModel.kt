@@ -49,6 +49,14 @@ class AboutViewModel(val app: Application): AndroidViewModel(app) {
         ).open()
     }
 
+    fun helpTranslate(){
+        val sourceUrl = app.resources.getString(R.string.translation_url)
+        LinkUtil.Builder(
+            context = app,
+            link = sourceUrl,
+        ).open()
+    }
+
     fun copyVersion(){
         val clipboard: ClipboardManager? = app.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
         val clip = ClipData.newPlainText("version", "${_uiState.value.versionName} (${_uiState.value.versionCode})")
