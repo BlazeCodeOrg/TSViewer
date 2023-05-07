@@ -134,7 +134,7 @@ dependencies {
     coreImplementation 'com.google.android.gms:play-services-wearable:18.0.0'
 
     // CRASH DETECTION
-    def acraVersion = "5.9.7"
+    def acraVersion = "5.10.0-beta03"
     implementation("ch.acra:acra-mail:$acraVersion")
     implementation("ch.acra:acra-dialog:$acraVersion")
     implementation('com.google.guava:guava:31.1-jre')
