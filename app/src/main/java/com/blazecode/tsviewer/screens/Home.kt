@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -33,10 +34,12 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.blazecode.eventtool.views.SwitchBar
+import com.blazecode.tsviewer.BuildConfig
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.data.TsChannel
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
+import com.blazecode.tsviewer.util.updater.GitHubUpdater
 import com.blazecode.tsviewer.viewmodels.HomeViewModel
 import com.blazecode.tsviewer.views.TsChannelList
 
@@ -60,8 +63,12 @@ fun Home(viewModel: HomeViewModel = viewModel(), navController: NavController) {
 @Composable
 private fun MainLayout(viewModel: HomeViewModel, navController: NavController) {
     val uiState = viewModel.uiState.collectAsState()
+    val context = LocalContext.current
 
     Column {
+        if(BuildConfig.DEBUG && uiState.value.debug_updateAvailable || !BuildConfig.DEBUG){
+            GitHubUpdater(context)
+        }
         SwitchBar(
             title = if(uiState.value.serviceRunning) stringResource(R.string.service_running) else stringResource(R.string.service_stopped),
             checked = uiState.value.serviceRunning,

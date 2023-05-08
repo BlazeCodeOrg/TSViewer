@@ -46,6 +46,7 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
         if(!settingsManager.isDemoModeActive()){
             // DEFAULT OPERATION
             _uiState.value = _uiState.value.copy(serviceRunning = isRunning())
+            _uiState.value = _uiState.value.copy(debug_updateAvailable = isDebugUpdateActive())
 
             if(areCredentialsSet()){
                 viewModelScope.launch {
@@ -106,6 +107,10 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
     // GETTERS
     private fun areCredentialsSet(): Boolean {
         return settingsManager.areCredentialsSet()
+    }
+
+    private fun isDebugUpdateActive(): Boolean {
+        return settingsManager.isDebugUpdateActive()
     }
 
     private fun isRunning() : Boolean {

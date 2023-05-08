@@ -1,0 +1,16 @@
+<!--
+  ~ /*
+  ~  * Copyright (c) BlazeCode / Ralf Lehmann, 2023.
+  ~  */
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="960"
+    android:viewportHeight="960"
+    android:tint="?attr/colorControlNormal">
+  <path
+      android:fillColor="@android:color/white"
+      android:pathData="M252.35,602.09Q234.09,583.83 233.87,559.15Q233.65,534.48 251.91,516.22L437.35,330.78Q445.91,322.22 457.11,317.87Q468.3,313.52 480,313.52Q491.7,313.52 502.89,317.87Q514.09,322.22 522.65,330.78L708.65,516.78Q725.91,534.04 726.13,558.93Q726.35,583.83 708.09,602.09Q689.83,620.35 664.93,620.35Q640.04,620.35 621.78,602.09L480,460.74L337.65,603.09Q320.39,620.35 295.5,620.07Q270.61,619.78 252.35,602.09Z"/>
+</vector>

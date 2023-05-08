@@ -11,6 +11,7 @@
     <string name="close">Close</string>
     <string name="cancel">Cancel</string>
     <string name="send">Send</string>
+    <string name="download">Download</string>
 
     <!-- INTRODUCTION TAB -->
     <string name="introduction">Introduction</string>

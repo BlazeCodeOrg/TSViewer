@@ -8,8 +8,8 @@ package views
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -32,82 +32,96 @@ import wear.WearDataManager
 @Composable
 fun DebugMenu(context: Context, preferences: SharedPreferences, onDismiss : () -> Unit, navController: NavController) {
     val forceNoCredentials = remember { mutableStateOf(preferences.getBoolean("debug_forceNoCredentials", false)) }
+    val debug_update = remember { mutableStateOf(preferences.getBoolean("debug_update", false)) }
     val demoMode = remember { mutableStateOf(preferences.getBoolean("debug_demoMode", false)) }
     AlertDialog(
         title = { Text("Debug Menu") },
         text = {
-            Column {
-                PreferenceGroup(title = "General"){
-                    SwitchPreference(
-                        title = "Force no credentials",
-                        checked = forceNoCredentials.value,
-                        onCheckChanged = {
-                            forceNoCredentials.value = it
-                            preferences.edit().putBoolean("debug_forceNoCredentials", it).apply() },
-                        summary = "Force loading anim"
-                    )
-                    DefaultPreference(
-                        title = "Start introduction",
-                        summary = "Navigate to introduction screen",
-                        onClick = {
-                            navController.navigate(NavRoutes.Introduction.route)
-                            onDismiss()
-                        }
-                    )
-                    DefaultPreference(
-                        title = "Crash app",
-                        summary = "trigger a crash",
-                        onClick = {
-                            throw Exception("Crash triggered by user")
-                        }
-                    )
-                }
-                PreferenceGroup(title = "Wearable"){
-                    DefaultPreference(
-                        title = "Message Wearable",
-                        summary = "Send test message to wearable",
-                        onClick = {
-                            val wearDataManager = WearDataManager(context)
-                            wearDataManager.sendTestMessage()
-                        }
-                    )
-                }
-                PreferenceGroup(title = "Demo Mode") {
-                    SwitchPreference(
-                        title = "Demo mode",
-                        checked = demoMode.value,
-                        onCheckChanged = {
-                            demoMode.value = it
-                            preferences.edit().putBoolean("debug_demoMode", it).apply() },
-                        summary = "Show demo data"
-                    )
-                    DefaultPreference(
-                        title = "Post notification",
-                        summary = "Will contain demo values",
-                        onClick = {
-                            val clientNotificationManager = ClientNotificationManager(context)
-                            clientNotificationManager.post(DemoModeValues.clientList())
-                            onDismiss()
-                        }
-                    )
-                    DefaultPreference(
-                        title = "Update complication",
-                        summary = "Will contain demo values",
-                        onClick = {
-                            val wearDataManager = WearDataManager(context)
-                            wearDataManager.sendClientList(DemoModeValues.clientList())
-                            onDismiss()
-                        }
-                    )
-                    DefaultPreference(
-                        title = "Update QS tile",
-                        summary = "Will contain demo values",
-                        onClick = {
-                            val tileManager = TileManager(context)
-                            tileManager.post(DemoModeValues.clientList())
-                            onDismiss()
-                        }
-                    )
+            LazyColumn {
+                item {
+                    PreferenceGroup(title = "General") {
+                        SwitchPreference(
+                            title = "Show updater",
+                            checked = debug_update.value,
+                            onCheckChanged = {
+                                debug_update.value = it
+                                preferences.edit().putBoolean("debug_update", it).apply()
+                            },
+                            summary = "Force github updater to show"
+                        )
+                        SwitchPreference(
+                            title = "Force no credentials",
+                            checked = forceNoCredentials.value,
+                            onCheckChanged = {
+                                forceNoCredentials.value = it
+                                preferences.edit().putBoolean("debug_forceNoCredentials", it).apply()
+                            },
+                            summary = "Force loading anim"
+                        )
+                        DefaultPreference(
+                            title = "Start introduction",
+                            summary = "Navigate to introduction screen",
+                            onClick = {
+                                navController.navigate(NavRoutes.Introduction.route)
+                                onDismiss()
+                            }
+                        )
+                        DefaultPreference(
+                            title = "Crash app",
+                            summary = "trigger a crash",
+                            onClick = {
+                                throw Exception("Crash triggered by user")
+                            }
+                        )
+                    }
+                    PreferenceGroup(title = "Wearable") {
+                        DefaultPreference(
+                            title = "Message Wearable",
+                            summary = "Send test message to wearable",
+                            onClick = {
+                                val wearDataManager = WearDataManager(context)
+                                wearDataManager.sendTestMessage()
+                            }
+                        )
+                    }
+                    PreferenceGroup(title = "Demo Mode") {
+                        SwitchPreference(
+                            title = "Demo mode",
+                            checked = demoMode.value,
+                            onCheckChanged = {
+                                demoMode.value = it
+                                preferences.edit().putBoolean("debug_demoMode", it).apply()
+                            },
+                            summary = "Show demo data"
+                        )
+                        DefaultPreference(
+                            title = "Post notification",
+                            summary = "Will contain demo values",
+                            onClick = {
+                                val clientNotificationManager = ClientNotificationManager(context)
+                                clientNotificationManager.post(DemoModeValues.clientList())
+                                onDismiss()
+                            }
+                        )
+                        DefaultPreference(
+                            title = "Update complication",
+                            summary = "Will contain demo values",
+                            onClick = {
+                                val wearDataManager = WearDataManager(context)
+                                wearDataManager.sendClientList(DemoModeValues.clientList())
+                                onDismiss()
+                            }
+                        )
+                        DefaultPreference(
+                            title = "Update QS tile",
+                            summary = "Will contain demo values",
+                            onClick = {
+                                val tileManager = TileManager(context)
+                                tileManager.post(DemoModeValues.clientList())
+                                onDismiss()
+                            }
+                        )
+                    }
                 }
             }
         },

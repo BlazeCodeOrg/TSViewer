@@ -10,6 +10,7 @@
     <string name="email_address">info@blazecodeapps.com</string>
     <string name="github_source_url">https://github.com/BlazeCodeDev/TSViewer</string>
     <string name="github_issues_url">https://github.com/BlazeCodeDev/TSViewer/issues/new/choose</string>
+    <string name="github_releases_url">https://api.github.com/repos/BlazeCodeDev/TSViewer/releases</string>
     <string name="translation_url">https://translate.blazecodeapps.com/engage/tsviewer/</string>
 
     <string name="default_ip_address">ts.youripaddress.com</string>

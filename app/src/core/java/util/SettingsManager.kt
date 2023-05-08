@@ -54,6 +54,10 @@ class SettingsManager(val context: Context) {
         return preferences.getBoolean("debug_demoMode", false)
     }
 
+    fun isDebugUpdateActive(): Boolean {
+        return preferences.getBoolean("debug_update", false)
+    }
+
     fun areCredentialsSet(): Boolean {
         return if(preferences.getBoolean("debug_forceNoCredentials", false)){
             false
