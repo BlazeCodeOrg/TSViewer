@@ -7,8 +7,8 @@ The app uses the new Material You adaptive colors, but is also backwards compati
   <li>Amount of clients and their nicknames will be written into a notification</li>
   <li>Amount of clients will be written in the label of a qs tile (Android 10+)</li>
   <li>Amount of clients and time will be added to a database to be later viewed in a graph view</li>
-  <li>Android 12 adaptive color theming support</li>
-  <li>Android 13 adaptive icon support</li>
+  <li>Material You adaptive color theming support</li>
+  <li>WearOS support (Core flavor only)</li>
   <li>Locally stored and encryped IP and login credentials</li>
   <li>No trackers like Firebase and Crashlytics</li>
 </ul>
