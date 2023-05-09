@@ -9,10 +9,12 @@ package com.blazecode.tsviewer.util.errors
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -106,8 +108,9 @@ class ErrorReportActivity: AppCompatActivity() {
     @Composable
     private fun StackTraceCard(stackTrace: String) {
         Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.inverseSurface)) {
+            val scrollState = rememberScrollState(0)
             Text(
-                modifier = Modifier.padding(dimensionResource(R.dimen.small_padding)),
+                modifier = Modifier.padding(dimensionResource(R.dimen.small_padding)).horizontalScroll(scrollState),
                 text = stackTrace,
                 fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
                 maxLines = 5,

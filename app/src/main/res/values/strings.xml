@@ -96,6 +96,6 @@
     <!-- ERROR REPORTING -->
     <string name="error_report_title">Whoops, something went wrong</string>
     <string name="error_user_comment">Comment</string>
-    <string name="error_user_email">E-Mail address (optional)</string>
+    <string name="error_user_email">Your E-Mail address (optional)</string>
 
 </resources>
