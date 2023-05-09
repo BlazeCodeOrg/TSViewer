@@ -1,5 +1,5 @@
 # TSViewer
-This is a simple TeamSpeak client which connects every x minutes to get the connected clients and displays them in a notification and/or quick settings tile. This works by using a Teamspeak Query account to login. That means it is required to enter the ip and login credentials into the app. As this is sensitive, the ip and credentials are saved only locally and encrypted to make sure that other apps cannot scrape the data.
+This is a simple TeamSpeak client which connects every x minutes to get the connected clients and displays them in a notification, WearOS complication and quick settings tile. This works by using a Teamspeak Query account to login. That means it is required to enter the ip and login credentials into the app. As this is sensitive, the ip and credentials are saved only locally and encrypted to make sure that other apps cannot scrape the data.
 
 The app uses the new Material You adaptive colors, but is also backwards compatible to devices below Android 12.
 
@@ -8,23 +8,34 @@ The app uses the new Material You adaptive colors, but is also backwards compati
 - Amount of clients and their nicknames will be written into a notification
 - Amount of clients will be written in the label of a qs tile (Android 10+)
 - Amount of clients and time will be added to a database to be later viewed in a graph view
-- Android 12 adaptive color theming support
-- Android 13 adaptive icon support
+- WearOS support (Core flavor only)
+- Material You adaptive color theming support
 - Locally stored and encryped IP and login credentials
 - No trackers like Firebase and Crashlytics
 
 ## Screenshots
-### Main Screen
-<img height=600 src="https://user-images.githubusercontent.com/60486125/170534753-be64c25a-5ea6-453f-8b09-db455c88013d.png" />
+### Phone
+<img height=600 src="https://github.com/BlazeCodeDev/TSViewer/assets/60486125/fcd16559-44fb-492a-af3f-62c9f6286508"/>
+<img height=600 src="https://github.com/BlazeCodeDev/TSViewer/assets/60486125/a2a1bb10-bae1-48c8-a764-4423fba9a81e"/>
+<img height=600 src="https://github.com/BlazeCodeDev/TSViewer/assets/60486125/e359f2ea-a4b6-4947-9918-4e87d1adff03"/>
 
-### Graph Screen
-<img height=600 src="https://user-images.githubusercontent.com/60486125/170534804-e2a0bb1d-3787-493f-b539-cd9d09d17a4c.png" />
-
-### Notifications and Quick Settings
-<img height=600 src="https://user-images.githubusercontent.com/60486125/170534768-bfe1b828-80e7-49b8-af82-52d9eaddfcd7.png" />
+### WearOS (core flavor only)
+<img height=150 src="https://github.com/BlazeCodeDev/TSViewer/assets/60486125/d8dabe88-728f-4987-9b85-2d034343de2e"/>
 
 ## Video Demo
-![DEMO](https://user-images.githubusercontent.com/60486125/148692387-03ac0eac-58e2-417e-ba43-cac4bc41f90a.gif)
+<img height=600 src="https://user-images.githubusercontent.com/60486125/148692387-03ac0eac-58e2-417e-ba43-cac4bc41f90a.gif"/>
+
+## Flavors
+The flavors offer a different feature set. These have been introduced to comply with F-Droid rules, but also to be able to add features requiring Google Services. The inbuilt GitHub updater will always pull the correct flavor for you, so you don't accidentally switch to a different one.
+
+| Feature  | core | foss |
+| - | - | - |
+| Background service  | ✅ | ✅ |
+| Notification support | ✅ | ✅ |
+| QS-Tile support | ✅ | ✅ |
+| User database | ✅ | ✅ |
+| WearOS support  | ✅  | ❌ |
+
 
 ## Download
 [<img height=80 alt="Get it on F-Droid" src="https://user-images.githubusercontent.com/60486125/154999401-f69b1a74-dd6d-44e6-b729-e49f6b00ec4c.png" />](https://f-droid.org/en/packages/com.blazecode.tsviewer/)
@@ -46,7 +57,7 @@ You are using this software at your own risk, I cannot be held responsible for a
 ## License
 MIT License
 
-Copyright (c) 2022 BlazeCodeDev, Ralf Lehmann
+Copyright (c) 2023 BlazeCodeDev, Ralf Lehmann
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
