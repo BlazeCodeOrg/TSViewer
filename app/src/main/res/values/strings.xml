@@ -33,6 +33,7 @@
     <!-- DATA TAB -->
     <string name="data">Data</string>
     <string name="utilization">Utilization</string>
+    <string name="no_data">No data</string>
 
     <string name="client_info">Client Info</string>
     <string name="last_seen">Last seen</string>

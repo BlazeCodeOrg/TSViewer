@@ -6,9 +6,7 @@
 
 package com.blazecode.tsviewer.screens
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,6 +14,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -27,6 +28,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.data.Entry
 import com.blazecode.tsviewer.data.TsClient
@@ -72,30 +77,52 @@ fun Data(viewModel: DataViewModel = viewModel(), navController: NavController) {
 private fun MainLayout(viewModel: DataViewModel) {
     val uiState = viewModel.uiState.collectAsState()
 
-    AnimatedVisibility(
-        visible = uiState.value.serverInfoList.isEmpty(),
-        exit = fadeOut()
-    ) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-            CircularProgressIndicator()
-        }
+    val currentView = remember { mutableStateOf("loading") }
+    if(uiState.value.clientList?.isNotEmpty() == true){
+        currentView.value = "done"
+    } else if(uiState.value.clientList != null && uiState.value.clientList?.isEmpty() == true){
+        currentView.value = "no_data"
+    } else {
+        currentView.value = "loading"
     }
 
-    AnimatedVisibility(
-        visible = uiState.value.serverInfoList.isNotEmpty(),
-        enter = fadeIn()
-    ) {
-        Column(modifier = Modifier.padding(horizontal = 8.dp)) {
-            Text(text = stringResource(R.string.utilization), style = Typography.titleMedium)
-            ChartView(uiState.value.serverInfoList)
-            Spacer(modifier = Modifier.size(16.dp))
-            Text(text = stringResource(R.string.clients), style = Typography.titleMedium)
-            ClientListView(
-                inputList = uiState.value.clientList,
-                onClick = { client ->
-                    viewModel.openClientInfoSheet(client)
+    Crossfade(currentView){
+        when(it.value){
+            "loading" -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                    CircularProgressIndicator()
                 }
-            )
+            }
+            "no_data" -> {
+                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_empty_database))
+                val progress by animateLottieCompositionAsState(composition = composition)
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        LottieAnimation(
+                            composition = composition,
+                            progress = { progress },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp),
+                        )
+                        Text(text = stringResource(R.string.no_data))
+                    }
+                }
+            }
+            "done" -> {
+                Column(modifier = Modifier.padding(horizontal = 8.dp)) {
+                    Text(text = stringResource(R.string.utilization), style = Typography.titleMedium)
+                    ChartView(uiState.value.serverInfoList)
+                    Spacer(modifier = Modifier.size(16.dp))
+                    Text(text = stringResource(R.string.clients), style = Typography.titleMedium)
+                    ClientListView(
+                        inputList = uiState.value.clientList!!,
+                        onClick = { client ->
+                            viewModel.openClientInfoSheet(client)
+                        }
+                    )
+                }
+            }
         }
     }
 
