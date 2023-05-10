@@ -1,0 +1,43 @@
+name: Feature Request
+description: Request a feature
+title: "[Feature Request]: "
+labels: ["feature request"]
+assignees:
+  - blazecodedev
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature request form!
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info? (publicly visible)
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: textarea
+    id: problem-relation
+    attributes:
+      label: Problem relation
+      description: Is your request related to a problem you are experiencing?
+      placeholder: I'm always frustrated when...
+    validations:
+      required: false
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution / Feature
+      description: Describe the feature you want to see in the app as precise as possible.
+      placeholder: I'd like to see...
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative solutions
+      description: Describe the alternative solutions you have thought of as precise as possible.
+      placeholder: I've also considered...
+    validations:
+      required: false
