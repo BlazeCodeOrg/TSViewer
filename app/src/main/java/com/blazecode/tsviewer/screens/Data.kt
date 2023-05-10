@@ -156,23 +156,28 @@ private fun ChartView(inputList: List<TsServerInfo>){
         value.roundToInt().toString()
     }
 
-    val markerLabelFormatter = MarkerLabelFormatter { value ->
-        val index = value[0].entry.x.toInt()
-        val builder: StringBuilder = StringBuilder()
+    val markerLabelFormatter = MarkerLabelFormatter { value, chartValues ->
+        chartValues.chartEntryModel.entries.firstOrNull()?.getOrNull(value[0].index)?.let { entry ->
+            val entry = ((entry as Entry).tsServerInfo)
 
-        val date = Date(list[index].timestamp)
-        val simpleDateFormat = SimpleDateFormat("dd.MM.yy, HH:mm")
-        simpleDateFormat.timeZone = TimeZone.getDefault()
-        val dateString = simpleDateFormat.format(date)
+            val date = Date(entry.timestamp)
+            val simpleDateFormat = SimpleDateFormat("dd.MM.yy, HH:mm")
+            simpleDateFormat.timeZone = TimeZone.getDefault()
+            val dateString = simpleDateFormat.format(date)
 
-        builder.append("$dateString\n")
-        list[index].clients.forEachIndexed { index, it ->
-            builder.append("${it.nickname}, ")
-            if(index % 3 == 0){
-                builder.append("\n")
+            val builder: StringBuilder = StringBuilder()
+            builder.append("$dateString\n")
+            entry.clients.forEachIndexed { index, it ->
+                if(index == entry.clients.size - 1)
+                    builder.append(it.nickname)
+                else
+                    builder.append("${it.nickname}, ")
+                if(index % 3 == 0){
+                    builder.append("\n")
+                }
             }
-        }
-        builder.toString()
+            builder.toString()
+        }.toString()
     }
 
     Chart(
