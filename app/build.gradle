@@ -19,7 +19,7 @@ android {
         applicationId "com.blazecode.tsviewer"
         minSdk 26
         targetSdk 33
-        versionCode 7
+        versionCode 8
         versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
