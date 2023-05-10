@@ -59,7 +59,7 @@ class AboutViewModel(val app: Application): AndroidViewModel(app) {
 
     fun copyVersion(){
         val clipboard: ClipboardManager? = app.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
-        val clip = ClipData.newPlainText("version", "${_uiState.value.versionName} (${_uiState.value.versionCode})")
+        val clip = ClipData.newPlainText("version", _uiState.value.versionName)
         clipboard?.setPrimaryClip(clip)
 
         Toast.makeText(app, app.resources.getString(R.string.copied_version), Toast.LENGTH_SHORT).show()
