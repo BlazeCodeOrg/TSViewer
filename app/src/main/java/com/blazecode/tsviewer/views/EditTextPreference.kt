@@ -81,7 +81,7 @@ fun EditTextPreference(
     }
 
     if (isDialogVisible.value) {
-        val tempText = remember { mutableStateOf(prefilledText) }
+        val tempTextValue = remember { mutableStateOf(TextFieldValue(prefilledText, selection = TextRange(prefilledText.length))) }
         val passwordVisible = remember { mutableStateOf(false) }
         val focusRequester = remember { FocusRequester() }
         val keyboardType =
@@ -96,12 +96,12 @@ fun EditTextPreference(
             title = { Text(title) },
             text = {
                    OutlinedTextField(
-                       value = TextFieldValue(tempText.value, selection = TextRange(tempText.value.length)),
+                       value = tempTextValue.value,
                        singleLine = singleLine,
                        keyboardOptions = keyboardType,
                        placeholder = { Text(placeholder ?: "") },
                        visualTransformation = if (passwordVisible.value || isPassword == false) VisualTransformation.None else PasswordVisualTransformation(),
-                       onValueChange = { tempText.value = it.text },
+                       onValueChange = { tempTextValue.value = it },
                        modifier = Modifier.focusRequester(focusRequester),
                        trailingIcon = {
                            if(isPassword == true){
@@ -117,7 +117,7 @@ fun EditTextPreference(
                        }
                    )
            },
-            confirmButton = { TextButton(onClick = { isDialogVisible.value = false; tempText.value.trim().also(onTextChange) }) { Text(stringResource(R.string.confirm)) } },
+            confirmButton = { TextButton(onClick = { isDialogVisible.value = false; tempTextValue.value.text.trim().also(onTextChange) }) { Text(stringResource(R.string.confirm)) } },
             dismissButton = { TextButton(onClick = { isDialogVisible.value = false }) { Text(stringResource(R.string.cancel)) } },
         )
 
