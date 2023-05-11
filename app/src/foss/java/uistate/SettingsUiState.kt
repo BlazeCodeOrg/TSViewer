@@ -11,9 +11,9 @@ data class SettingsUiState (
     val executeOnlyOnWifi: Boolean = false,
     val includeQueryClients: Boolean = false,
 
-    val ip: String = "ts.youripaddress.com",
-    val username: String = "queryuser",
-    val password: String = "password",
+    val ip: String = "",
+    val username: String = "",
+    val password: String = "",
     val queryPort: Int = 10011,
     val virtualServerId: Int = 1,
 

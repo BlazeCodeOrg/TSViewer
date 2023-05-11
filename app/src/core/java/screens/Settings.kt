@@ -92,6 +92,7 @@ private fun MainLayout(viewModel: SettingsViewModel, navController: NavControlle
             EditTextPreference(
                 title = stringResource(R.string.ip_address),
                 text = uiState.value.ip,
+                placeholder = stringResource(R.string.default_ip_address),
                 icon = painterResource(R.drawable.ic_ip),
                 singleLine = true,
                 onTextChange = { viewModel.setIp(it) }
@@ -99,6 +100,7 @@ private fun MainLayout(viewModel: SettingsViewModel, navController: NavControlle
             EditTextPreference(
                 title = stringResource(R.string.query_username),
                 text = uiState.value.username,
+                placeholder = stringResource(R.string.default_query_user),
                 icon = painterResource(R.drawable.ic_user),
                 singleLine = true,
                 onTextChange = { viewModel.setUsername(it) }
@@ -106,6 +108,7 @@ private fun MainLayout(viewModel: SettingsViewModel, navController: NavControlle
             EditTextPreference(
                 title = stringResource(R.string.query_password),
                 text = uiState.value.password,
+                placeholder = stringResource(R.string.default_query_password),
                 icon = painterResource(R.drawable.ic_password),
                 singleLine = true,
                 isPassword = true,
