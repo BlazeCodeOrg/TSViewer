@@ -33,8 +33,9 @@ fun EditTextPreference(
     modifier: Modifier = Modifier,
     title: String,
     text: String? = null,
+    placeholder: String? = null,
     icon: Painter? = null,
-    useSimpleSummaryProvider: Boolean? = true,
+    showSummary: Boolean? = true,
     isPassword: Boolean? = false,
     isNumber: Boolean? = false,
     singleLine: Boolean = false,
@@ -53,11 +54,22 @@ fun EditTextPreference(
                 }
                 Column (modifier = Modifier.weight(6f, true)){
                     Text(title, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp)
-                    if(useSimpleSummaryProvider == true)
+                    if(showSummary == true){
+                        var summaryText =
+                            if (isPassword == true && prefilledText != "") {
+                                prefilledText.replace(Regex("."), "\u2022")
+                            } else if (isPassword == true && prefilledText == "" && placeholder != null) {
+                                placeholder.replace(Regex("."), "\u2022")
+                            } else if(text == "" && placeholder != null){
+                                placeholder
+                            } else
+                                prefilledText
+
                         Text(
-                            text = if(isPassword == true) prefilledText.replace(Regex("."), "\u2022") else prefilledText,
+                            text = summaryText,
                             fontSize = 15.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
                 }
             }
         }
@@ -81,6 +93,7 @@ fun EditTextPreference(
                        value = tempText.value,
                        singleLine = singleLine,
                        keyboardOptions = keyboardType,
+                       placeholder = { Text(placeholder ?: "") },
                        visualTransformation = if (passwordVisible.value || isPassword == false) VisualTransformation.None else PasswordVisualTransformation(),
                        onValueChange = { tempText.value = it },
                        trailingIcon = {
@@ -107,7 +120,7 @@ fun EditTextPreference(
 @Composable
 private fun Preview(){
     Column{
-        EditTextPreference(icon = painterResource(R.drawable.ic_settings), title = "title", useSimpleSummaryProvider = true, text = "test"){}
-        EditTextPreference(icon = painterResource(R.drawable.ic_settings), title = "title", useSimpleSummaryProvider = false, text = "test"){}
+        EditTextPreference(icon = painterResource(R.drawable.ic_settings), title = "title", showSummary = true, text = "test"){}
+        EditTextPreference(icon = painterResource(R.drawable.ic_settings), title = "title", showSummary = false, text = "test"){}
     }
 }
