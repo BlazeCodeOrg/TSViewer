@@ -28,6 +28,7 @@ import com.blazecode.tsviewer.views.GitHubUpdateCard
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Composable
 fun GitHubUpdater(context: Context) {
@@ -42,11 +43,11 @@ fun GitHubUpdater(context: Context) {
         val releases: Array<GitHubRelease> = gson.fromJson(input, Array<GitHubRelease>::class.java)
         val latestReleaseVersion = releases?.get(0)?.tag_name?.removePrefix("V")
 
-        if(BuildConfig.VERSION_NAME != latestReleaseVersion){
+        if(BuildConfig.VERSION_NAME.split("-")[0] != latestReleaseVersion){
             releases?.get(0)?.let { release.value = releases[0] }
-            Log.i("UPDATER", "Update found")
+            Timber.i("Update found")
         } else {
-            Log.i("UPDATER", "No update found")
+            Timber.i("No update found")
         }
     }
 
