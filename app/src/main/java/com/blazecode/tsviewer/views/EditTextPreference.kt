@@ -22,8 +22,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -94,12 +96,12 @@ fun EditTextPreference(
             title = { Text(title) },
             text = {
                    OutlinedTextField(
-                       value = tempText.value,
+                       value = TextFieldValue(tempText.value, selection = TextRange(tempText.value.length)),
                        singleLine = singleLine,
                        keyboardOptions = keyboardType,
                        placeholder = { Text(placeholder ?: "") },
                        visualTransformation = if (passwordVisible.value || isPassword == false) VisualTransformation.None else PasswordVisualTransformation(),
-                       onValueChange = { tempText.value = it },
+                       onValueChange = { tempText.value = it.text },
                        modifier = Modifier.focusRequester(focusRequester),
                        trailingIcon = {
                            if(isPassword == true){
