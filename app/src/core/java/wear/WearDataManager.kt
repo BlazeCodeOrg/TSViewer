@@ -8,6 +8,7 @@ package wear
 
 import android.content.Context
 import com.blazecode.tsviewer.data.TsClient
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.wearable.CapabilityClient
 import com.google.android.gms.wearable.Wearable
 import com.google.gson.GsonBuilder
@@ -47,11 +48,16 @@ class WearDataManager(context: Context) {
     }
 
     suspend fun areNodesAvailable(): Boolean{
-        val nodes = capabilityClient
-            .getCapability(WEAR_CAPABILITY, CapabilityClient.FILTER_REACHABLE)
-            .await()
-            .nodes
-        return nodes.isNotEmpty()
+        try {
+            val nodes = capabilityClient
+                .getCapability(WEAR_CAPABILITY, CapabilityClient.FILTER_REACHABLE)
+                .await()
+                .nodes
+            return nodes.isNotEmpty()
+        } catch (e: ApiException){
+            Timber.e("Error checking for nodes: $e")
+            return false
+        }
     }
 
     private fun send(path: String, data: String) {
