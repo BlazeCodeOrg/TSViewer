@@ -24,7 +24,7 @@ import com.android.volley.toolbox.Volley
 import com.blazecode.scrapguidev2.util.LinkUtil
 import com.blazecode.tsviewer.BuildConfig
 import com.blazecode.tsviewer.R
-import com.blazecode.tsviewer.screens.GitHubUpdateCard
+import com.blazecode.tsviewer.views.GitHubUpdateCard
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

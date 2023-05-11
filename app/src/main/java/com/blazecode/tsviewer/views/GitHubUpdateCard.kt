@@ -4,7 +4,7 @@
  *
  */
 
-package com.blazecode.tsviewer.screens
+package com.blazecode.tsviewer.views
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
