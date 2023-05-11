@@ -95,9 +95,9 @@ class SettingsManager(val context: Context) {
             executeOnlyOnWifi = preferences.getBoolean("run_only_wifi", false),
             includeQueryClients = preferences.getBoolean("includeQuery", false),
             syncWearable = preferences.getBoolean("syncWearable", false),
-            ip = encryptedSharedPreferences.getString("ip", context.resources.getString(R.string.default_ip_address)).toString(),
-            username = encryptedSharedPreferences.getString("user", context.resources.getString(R.string.default_query_user)).toString(),
-            password = encryptedSharedPreferences.getString("pass", context.resources.getString(R.string.default_query_password)).toString(),
+            ip = encryptedSharedPreferences.getString("ip", "").toString(),
+            username = encryptedSharedPreferences.getString("user", "").toString(),
+            password = encryptedSharedPreferences.getString("pass", "").toString(),
             queryPort = encryptedSharedPreferences.getInt("queryport", context.resources.getString(R.string.default_query_port).toInt()),
             virtualServerId = encryptedSharedPreferences.getInt("virtualServerId", context.resources.getString(R.string.default_virtual_server_id).toInt())
         )
