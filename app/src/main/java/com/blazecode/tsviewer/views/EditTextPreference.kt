@@ -11,10 +11,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -78,6 +81,7 @@ fun EditTextPreference(
     if (isDialogVisible.value) {
         val tempText = remember { mutableStateOf(prefilledText) }
         val passwordVisible = remember { mutableStateOf(false) }
+        val focusRequester = remember { FocusRequester() }
         val keyboardType =
             if (isPassword == true)
                 KeyboardOptions(keyboardType = KeyboardType.Password)
@@ -96,6 +100,7 @@ fun EditTextPreference(
                        placeholder = { Text(placeholder ?: "") },
                        visualTransformation = if (passwordVisible.value || isPassword == false) VisualTransformation.None else PasswordVisualTransformation(),
                        onValueChange = { tempText.value = it },
+                       modifier = Modifier.focusRequester(focusRequester),
                        trailingIcon = {
                            if(isPassword == true){
                                val image = if (passwordVisible.value) painterResource(R.drawable.ic_visibility)
@@ -113,6 +118,10 @@ fun EditTextPreference(
             confirmButton = { TextButton(onClick = { isDialogVisible.value = false; tempText.value.trim().also(onTextChange) }) { Text(stringResource(R.string.confirm)) } },
             dismissButton = { TextButton(onClick = { isDialogVisible.value = false }) { Text(stringResource(R.string.cancel)) } },
         )
+
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
+        }
     }
 }
 
