@@ -78,7 +78,7 @@ private fun MainLayout(viewModel: DataViewModel) {
     val uiState = viewModel.uiState.collectAsState()
 
     val currentView = remember { mutableStateOf("loading") }
-    if(uiState.value.clientList != null){
+    if(uiState.value.clientList?.isNotEmpty() == true){
         currentView.value = "done"
     } else if(uiState.value.clientList != null && uiState.value.clientList?.isEmpty() == true){
         currentView.value = "no_data"
