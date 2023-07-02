@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -31,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
@@ -38,23 +40,24 @@ import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.Text
-import com.blazecode.tsviewer.BuildConfig
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.wear.communication.WearDataManager
 import com.blazecode.tsviewer.wear.navigation.NavRoutes
 import com.blazecode.tsviewer.wear.theme.TSViewerTheme
+import com.blazecode.tsviewer.wear.viewmodels.HomeViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
-fun Home(navController: NavController) {
+fun Home(viewModel: HomeViewModel = viewModel(), navController: NavController) {
     TSViewerTheme {
-        MainLayout(navController)
+        MainLayout(viewModel, navController)
     }
 }
 
 @Composable
-private fun MainLayout(navController: NavController){
+private fun MainLayout(viewModel: HomeViewModel, navController: NavController){
+    val uiState = viewModel.uiState.collectAsState()
 
     val context = LocalContext.current
     val scrollState = rememberScalingLazyListState()
@@ -98,6 +101,6 @@ private fun MainLayout(navController: NavController){
 
 
         item { Spacer(modifier = Modifier.size(8.dp)) }
-        item { Text(text = "Version: ${BuildConfig.VERSION_NAME}", textAlign = TextAlign.Center, modifier = Modifier.alpha(.7f)) }
+        item { Text(text = "Version: ${viewModel.uiState.value.version}", textAlign = TextAlign.Center, modifier = Modifier.alpha(.7f)) }
     }
 }

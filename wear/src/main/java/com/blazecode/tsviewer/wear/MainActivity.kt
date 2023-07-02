@@ -14,6 +14,7 @@ import com.blazecode.tsviewer.wear.navigation.NavRoutes
 import com.blazecode.tsviewer.wear.screens.ClientList
 import com.blazecode.tsviewer.wear.screens.Home
 import com.blazecode.tsviewer.wear.viewmodels.ClientListViewModel
+import com.blazecode.tsviewer.wear.viewmodels.HomeViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -31,7 +32,7 @@ class MainActivity : ComponentActivity() {
 
             val navController = rememberAnimatedNavController()
             AnimatedNavHost(navController = navController, startDestination = startDestination) {
-                composable(NavRoutes.Home.route) { Home(navController) }
+                composable(NavRoutes.Home.route) { Home(HomeViewModel(application), navController) }
                 composable(NavRoutes.ClientList.route) { ClientList(ClientListViewModel(application)) }
             }
         }
