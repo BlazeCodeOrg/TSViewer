@@ -18,10 +18,11 @@ import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUp
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.wear.MainActivity
+import data.DataHolder
 
 class ComplicationProvider: ComplicationDataSourceService() {
 
-    val dataHolder = ComplicationDataHolder
+    val dataHolder = DataHolder
 
     override fun getPreviewData(type: ComplicationType): ComplicationData? {
         return getComplicationData(null)
