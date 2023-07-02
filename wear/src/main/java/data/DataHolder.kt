@@ -4,11 +4,11 @@
  *
  */
 
-package com.blazecode.tsviewer.wear.complication
+package data
 
 import data.TsClient
 
-object ComplicationDataHolder {
+object DataHolder {
     var list: MutableList<TsClient> = mutableListOf()
     var time: Long = 0
 }
