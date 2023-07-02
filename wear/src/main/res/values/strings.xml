@@ -6,14 +6,19 @@
 
 <resources>
     <string name="app_name">TSViewer</string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
-    <string name="client_connected">%s Client connected</string>
-    <string name="clients_connected">%s Clients connected</string>
-    <string name="time_ago">%s min ago</string>
 
-    <string name="open_client_screen">Clients</string>
+    <!-- HOME SCREEN -->
     <string name="launch_app_on_phone">Launch app</string>
+    <string name="open_client_screen">Clients</string>
+
+    <!-- CLIENTS SCREEN -->
+    <plurals name="clients_connected">
+        <item quantity="one">%s Client connected</item>
+        <item quantity="other">%s Clients connected</item>
+    </plurals>
+    <string name="time_ago">%s min ago</string>
+    <string name="refresh">Refresh</string>
+    <string name="loading">Loading</string>
+    <string name="done">Done</string>
+
 </resources>

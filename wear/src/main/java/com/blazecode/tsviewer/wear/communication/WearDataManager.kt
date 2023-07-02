@@ -26,6 +26,10 @@ class WearDataManager(context: Context) {
         send(START_ACTIVITY_PATH)
     }
 
+    fun requestRefresh() {
+        send(REQUEST_REFRESH)
+    }
+
     private fun send(path: String, data: String = "") {
         GlobalScope.launch {
             try {
@@ -54,5 +58,6 @@ class WearDataManager(context: Context) {
     companion object {
         private const val MOBILE_CAPABILITY = "mobile"
         private const val START_ACTIVITY_PATH = "/start-activity"
+        private const val REQUEST_REFRESH = "/request-refresh"
     }
 }

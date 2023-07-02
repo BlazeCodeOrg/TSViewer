@@ -7,7 +7,7 @@
 package com.blazecode.tsviewer.wear.communication
 
 import android.widget.Toast
-import com.blazecode.tsviewer.wear.complication.ComplicationDataHolder
+import data.DataHolder
 import com.blazecode.tsviewer.wear.complication.ComplicationProvider
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
@@ -25,13 +25,13 @@ class WearableListenerService: WearableListenerService() {
                 val data = gson.fromJson(String(messageEvent.data), WearDataPackage::class.java)
 
                 if(!data.clients.isNullOrEmpty()){
-                    ComplicationDataHolder.list = data.clients.toMutableList()
+                    DataHolder.list = data.clients.toMutableList()
                     ComplicationProvider().update(this)
                 } else {
-                    ComplicationDataHolder.list = mutableListOf()
+                    DataHolder.list = mutableListOf()
                     ComplicationProvider().update(this)
                 }
-                ComplicationDataHolder.time = data.timestamp
+                DataHolder.time = data.timestamp
             }
             TEST_PATH -> {
                 Toast.makeText(this, "TESTING\n${String(messageEvent.data)}", Toast.LENGTH_SHORT).show()
