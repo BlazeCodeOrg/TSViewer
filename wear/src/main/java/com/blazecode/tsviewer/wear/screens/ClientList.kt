@@ -7,11 +7,9 @@
 package com.blazecode.tsviewer.wear.screens
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.animation.with
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.scrollBy
@@ -45,9 +43,7 @@ import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.Text
 import com.blazecode.tsviewer.R
-import com.blazecode.tsviewer.wear.communication.WearDataManager
 import com.blazecode.tsviewer.wear.viewmodels.ClientListViewModel
-import data.DataHolder
 import kotlinx.coroutines.launch
 
 @Preview
@@ -82,7 +78,11 @@ fun ClientList(viewModel: ClientListViewModel = viewModel()){
         item { Spacer(modifier = Modifier.size(16.dp)) }
         item { Text(text = uiState.value.clientListString, textAlign = TextAlign.Center) }
         item {
-            Chip(onClick = { viewModel.requestRefresh() },
+            Chip(
+                onClick = {
+                    if(!uiState.value.isLoading && !uiState.value.isDoneLoading)
+                        viewModel.requestRefresh()
+               },
                 label = {
                     val text =
                         if(uiState.value.isLoading) stringResource(id = R.string.loading)
