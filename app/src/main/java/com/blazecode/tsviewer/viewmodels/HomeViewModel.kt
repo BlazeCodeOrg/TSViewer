@@ -97,7 +97,7 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
 
         val oneTimeclientWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ClientsWorker>().build()          //RUN ONE TIME
         workManager.enqueue(oneTimeclientWorkRequest)
-        workManager.enqueueUniquePeriodicWork(TAG, ExistingPeriodicWorkPolicy.REPLACE, clientWorkRequest)     //SCHEDULE THE NEXT RUNS
+        workManager.enqueueUniquePeriodicWork(TAG, ExistingPeriodicWorkPolicy.UPDATE, clientWorkRequest)     //SCHEDULE THE NEXT RUNS
         _uiState.value = _uiState.value.copy(serviceRunning = isRunning())
     }
 
