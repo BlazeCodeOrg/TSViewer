@@ -57,9 +57,16 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     override suspend fun doWork() : Result {
         loadPreferences()
 
+        val suppress_DB = inputData.getBoolean("suppress_db", false)
+        val suppress_Notification = inputData.getBoolean("suppress_notification", false)
+
         withContext(Dispatchers.IO){
-            if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) getClients()
-            else {
+            if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) getClients( {
+                getClients(
+                    postNotification = !suppress_Notification,
+                    writeDB = !suppress_DB
+                )
+            } else {
                 clientNotificationManager.removeNotification()
                 writeClients(null)
             }
@@ -68,11 +75,16 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         return Result.success()
     }
 
-    private fun getClients(){
+    private fun getClients(
+        postNotification: Boolean = true,
+        writeDB: Boolean = true
+    ){
         clientList = connectionManager.getClients(ConnectionDetails(IP_ADRESS, USERNAME, PASSWORD, INCLUDE_QUERY_CLIENTS, PORT, SERVER_ID))
 
-        clientNotificationManager.post(clientList)
-        writeClients(clientList)
+        if(postNotification)
+            clientNotificationManager.post(clientList)
+        if(writeDB)
+            writeClients(clientList)
     }
 
     private fun writeClients(list: MutableList<TsClient>?) {
