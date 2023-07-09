@@ -2,9 +2,11 @@ package com.blazecode.tsviewer.wear.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.Observer
 import com.blazecode.tsviewer.wear.communication.WearDataManager
 import com.blazecode.tsviewer.wear.uistate.ClientListUiState
 import data.DataHolder
+import data.TsClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,10 +18,25 @@ class ClientListViewModel(val app: Application): AndroidViewModel(app) {
     val uiState: StateFlow<ClientListUiState> = _uiState.asStateFlow()
 
     init {
+        loadData()
+
+        val listObserver = Observer<MutableList<TsClient>> {
+            loadData()
+            _uiState.value = _uiState.value.copy(
+                isLoading = false
+            )
+        }
+        DataHolder.list.observeForever(listObserver)
+    }
+
+    fun loadData(){
+        val list = if(DataHolder.list.value == null) mutableListOf<TsClient>() else DataHolder.list.value!!
+        val time = if(DataHolder.time.value == null) 0 else ((System.currentTimeMillis() - DataHolder.time.value!!) / 1000 / 60)
+
         _uiState.value = _uiState.value.copy(
-            clientListString = DataHolder.list.map{ it.nickname }.joinToString(),
-            clientList = DataHolder.list,
-            time = if(DataHolder.time == 0L) 0 else ((System.currentTimeMillis() - DataHolder.time) / 1000 / 60)
+            clientListString = list.map{ it.nickname }.joinToString(),
+            clientList = list,
+            time = time,
         )
     }
 

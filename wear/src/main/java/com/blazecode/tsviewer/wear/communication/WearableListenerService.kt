@@ -6,13 +6,17 @@
 
 package com.blazecode.tsviewer.wear.communication
 
+import android.util.Log
 import android.widget.Toast
-import data.DataHolder
 import com.blazecode.tsviewer.wear.complication.ComplicationProvider
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
 import com.google.gson.GsonBuilder
+import data.DataHolder
 import data.WearDataPackage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class WearableListenerService: WearableListenerService() {
 
@@ -24,14 +28,18 @@ class WearableListenerService: WearableListenerService() {
                 val gson = GsonBuilder().create()
                 val data = gson.fromJson(String(messageEvent.data), WearDataPackage::class.java)
 
-                if(!data.clients.isNullOrEmpty()){
-                    DataHolder.list = data.clients.toMutableList()
-                    ComplicationProvider().update(this)
-                } else {
-                    DataHolder.list = mutableListOf()
-                    ComplicationProvider().update(this)
+                GlobalScope.launch(Dispatchers.Main) {
+                    if(!data.clients.isNullOrEmpty()){
+                        DataHolder.list.value = data.clients.toMutableList()
+                        ComplicationProvider().update(this@WearableListenerService)
+                    } else {
+                        DataHolder.list.value = mutableListOf()
+                        ComplicationProvider().update(this@WearableListenerService)
+                    }
+                    DataHolder.time.value = data.timestamp
                 }
-                DataHolder.time = data.timestamp
+
+                Log.i("WearableListenerService", "Received ${data.clients.size} clients")
             }
             TEST_PATH -> {
                 Toast.makeText(this, "TESTING\n${String(messageEvent.data)}", Toast.LENGTH_SHORT).show()

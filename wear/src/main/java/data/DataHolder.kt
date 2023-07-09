@@ -6,9 +6,13 @@
 
 package data
 
-import data.TsClient
+import androidx.lifecycle.MutableLiveData
 
 object DataHolder {
-    var list: MutableList<TsClient> = mutableListOf()
-    var time: Long = 0
+    val list: MutableLiveData<MutableList<TsClient>> by lazy {
+        MutableLiveData<MutableList<TsClient>>()
+    }
+    val time: MutableLiveData<Long> by lazy {
+        MutableLiveData<Long>()
+    }
 }

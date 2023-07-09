@@ -12,7 +12,11 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Icon
-import androidx.wear.watchface.complications.data.*
+import androidx.wear.watchface.complications.data.ComplicationData
+import androidx.wear.watchface.complications.data.ComplicationType
+import androidx.wear.watchface.complications.data.MonochromaticImage
+import androidx.wear.watchface.complications.data.PlainComplicationText
+import androidx.wear.watchface.complications.data.ShortTextComplicationData
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceService
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
@@ -34,7 +38,7 @@ class ComplicationProvider: ComplicationDataSourceService() {
             .putExtra("openClientScreen", true)
         val tapPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
             addNextIntentWithParentStack(tapIntent)
-            getPendingIntent(dataHolder.list.size, PendingIntent.FLAG_IMMUTABLE)
+            getPendingIntent(dataHolder.list.value!!.size, PendingIntent.FLAG_IMMUTABLE)
         }
 
         listener.onComplicationData(getComplicationData(tapPendingIntent))
@@ -45,7 +49,7 @@ class ComplicationProvider: ComplicationDataSourceService() {
 
         return ShortTextComplicationData.Builder(
             text = PlainComplicationText.Builder(
-                text = dataHolder.list.size.toString()
+                text = dataHolder.list.value!!.size.toString()
             ).build(),
 
             contentDescription = PlainComplicationText.Builder(

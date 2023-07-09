@@ -80,13 +80,12 @@ fun ClientList(viewModel: ClientListViewModel = viewModel()){
         item {
             Chip(
                 onClick = {
-                    if(!uiState.value.isLoading && !uiState.value.isDoneLoading)
+                    if(!uiState.value.isLoading)
                         viewModel.requestRefresh()
                },
                 label = {
                     val text =
                         if(uiState.value.isLoading) stringResource(id = R.string.loading)
-                        else if(uiState.value.isDoneLoading) stringResource(id = R.string.done)
                         else stringResource(id = R.string.refresh)
 
                     AnimatedContent (
