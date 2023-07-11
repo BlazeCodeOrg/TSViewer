@@ -7,6 +7,7 @@
 package com.blazecode.tsviewer.screens
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -45,11 +46,14 @@ import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
+import com.patrykandpatrick.vico.compose.chart.scroll.ChartScrollSpec
 import com.patrykandpatrick.vico.core.axis.AxisPosition
 import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
 import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.marker.MarkerLabelFormatter
+import com.patrykandpatrick.vico.core.scroll.AutoScrollCondition
+import com.patrykandpatrick.vico.core.scroll.InitialScroll
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -136,7 +140,7 @@ private fun MainLayout(viewModel: DataViewModel) {
 
 @Composable
 private fun ChartView(inputList: List<TsServerInfo>){
-    val list = inputList.reversed()
+    val list = inputList
     val chartEntryModelProducer = list.mapIndexed { index, tsServerInfo ->
         Entry(index.toFloat(), tsServerInfo.clients.size.toFloat(), tsServerInfo) }
         .let { ChartEntryModelProducer(it) }
@@ -200,12 +204,18 @@ private fun ChartView(inputList: List<TsServerInfo>){
             valueFormatter = xAxisValueFormatter,
             guideline = null,
         ),
+        chartScrollSpec = ChartScrollSpec(
+            initialScroll = InitialScroll.End,
+            isScrollEnabled = true,
+            autoScrollCondition = AutoScrollCondition.OnModelSizeIncreased,
+            autoScrollAnimationSpec = spring()
+        )
     )
 }
 
 @Composable
 private fun ClientListView(inputList: List<TsClient>, onClick: (TsClient) -> Unit){
-    val list = inputList.sortedBy { it.activeConnectionTime }.reversed()
+    val list = inputList.sortedBy { it.activeConnectionTime }
     LazyColumn {
         items(list.size) { index ->
             ClientItemView(list[index], onClick = onClick)
