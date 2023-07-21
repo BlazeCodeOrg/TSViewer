@@ -29,6 +29,7 @@ class WearableListenerService: WearableListenerService() {
                 val data = gson.fromJson(String(messageEvent.data), WearDataPackage::class.java)
 
                 GlobalScope.launch(Dispatchers.Main) {
+                    DataHolder.time.value = data.timestamp
                     if(!data.clients.isNullOrEmpty()){
                         DataHolder.list.value = data.clients.toMutableList()
                         ComplicationProvider().update(this@WearableListenerService)
@@ -36,7 +37,6 @@ class WearableListenerService: WearableListenerService() {
                         DataHolder.list.value = mutableListOf()
                         ComplicationProvider().update(this@WearableListenerService)
                     }
-                    DataHolder.time.value = data.timestamp
                 }
 
                 Log.i("WearableListenerService", "Received ${data.clients.size} clients")
