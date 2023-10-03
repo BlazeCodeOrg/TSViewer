@@ -61,7 +61,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         val suppress_Notification = inputData.getBoolean("suppress_notification", false)
 
         withContext(Dispatchers.IO){
-            if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) getClients( {
+            if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) {
                 getClients(
                     postNotification = !suppress_Notification,
                     writeDB = !suppress_DB
