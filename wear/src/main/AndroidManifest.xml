@@ -9,6 +9,7 @@
 
     <!-- PERMISSSIONS -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:minSdkVersion="29" android:name="android.permission.VIBRATE"/>
 
     <!-- FEATURES -->
     <uses-feature android:name="android.hardware.type.watch" />

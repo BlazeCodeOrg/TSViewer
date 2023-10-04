@@ -1,6 +1,9 @@
 package com.blazecode.tsviewer.wear.viewmodels
 
 import android.app.Application
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Observer
 import com.blazecode.tsviewer.wear.communication.WearDataManager
@@ -25,6 +28,7 @@ class ClientListViewModel(val app: Application): AndroidViewModel(app) {
             _uiState.value = _uiState.value.copy(
                 isLoading = false
             )
+            vibrate()
         }
         DataHolder.list.observeForever(listObserver)
     }
@@ -46,5 +50,12 @@ class ClientListViewModel(val app: Application): AndroidViewModel(app) {
         )
 
         WearDataManager(app).requestRefresh()
+    }
+
+    fun vibrate(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            val vibrator = app.getSystemService(Vibrator::class.java)
+            vibrator.vibrate(VibrationEffect.createOneShot(50, 120))
+        }
     }
 }
