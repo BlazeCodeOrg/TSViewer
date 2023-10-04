@@ -22,7 +22,7 @@ import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUp
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.wear.MainActivity
-import data.DataHolder
+import com.blazecode.tsviewer.wear.data.DataHolder
 
 class ComplicationProvider: ComplicationDataSourceService() {
 

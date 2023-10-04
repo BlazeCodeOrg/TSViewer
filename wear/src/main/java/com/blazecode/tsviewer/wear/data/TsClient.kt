@@ -4,7 +4,7 @@
  *
  */
 
-package data
+package com.blazecode.tsviewer.wear.data
 
 import java.util.Date
 

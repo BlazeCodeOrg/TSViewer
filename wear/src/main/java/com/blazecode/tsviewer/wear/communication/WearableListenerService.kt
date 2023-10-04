@@ -9,11 +9,11 @@ package com.blazecode.tsviewer.wear.communication
 import android.util.Log
 import android.widget.Toast
 import com.blazecode.tsviewer.wear.complication.ComplicationProvider
+import com.blazecode.tsviewer.wear.data.DataHolder
+import com.blazecode.tsviewer.wear.data.WearDataPackage
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
 import com.google.gson.GsonBuilder
-import data.DataHolder
-import data.WearDataPackage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -30,13 +30,8 @@ class WearableListenerService: WearableListenerService() {
 
                 GlobalScope.launch(Dispatchers.Main) {
                     DataHolder.time.value = data.timestamp
-                    if(!data.clients.isNullOrEmpty()){
-                        DataHolder.list.value = data.clients.toMutableList()
-                        ComplicationProvider().update(this@WearableListenerService)
-                    } else {
-                        DataHolder.list.value = mutableListOf()
-                        ComplicationProvider().update(this@WearableListenerService)
-                    }
+                    DataHolder.list.value = data.clients.toMutableList()
+                    ComplicationProvider().update(this@WearableListenerService)
                 }
 
                 Log.i("WearableListenerService", "Received ${data.clients.size} clients")
