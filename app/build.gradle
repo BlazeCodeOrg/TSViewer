@@ -85,10 +85,10 @@ dependencies {
 
     // NAVIGATION
     implementation "androidx.navigation:navigation-compose"
-    implementation 'com.google.accompanist:accompanist-navigation-animation:0.30.1'
+    implementation 'com.google.accompanist:accompanist-navigation-animation:0.33.2-alpha'
 
     // TRANSPARENT STATUS BAR
-    implementation 'com.google.accompanist:accompanist-systemuicontroller:0.30.0'
+    implementation 'com.google.accompanist:accompanist-systemuicontroller:0.33.2-alpha'
 
     //COROUTINES
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
