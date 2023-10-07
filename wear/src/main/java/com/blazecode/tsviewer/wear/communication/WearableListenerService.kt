@@ -36,6 +36,12 @@ class WearableListenerService: WearableListenerService() {
 
                 Log.i("WearableListenerService", "Received ${data.clients.size} clients")
             }
+            SERVICE_STATUS_PATH -> {
+                GlobalScope.launch(Dispatchers.Main) {
+                    DataHolder.serviceStatus.value = String(messageEvent.data).toBoolean()
+                    ComplicationProvider().update(this@WearableListenerService)
+                }
+            }
             TEST_PATH -> {
                 Toast.makeText(this, "TESTING\n${String(messageEvent.data)}", Toast.LENGTH_SHORT).show()
             }
@@ -44,6 +50,7 @@ class WearableListenerService: WearableListenerService() {
 
     companion object {
         private const val CLIENTS_PATH = "/clients"
+        private const val SERVICE_STATUS_PATH = "/service_status"
         private const val TEST_PATH = "/test"
     }
 }

@@ -25,10 +25,12 @@ class ClientListViewModel(val app: Application): AndroidViewModel(app) {
 
         val listObserver = Observer<MutableList<TsClient>> {
             loadData()
+            if(_uiState.value.isLoading)
+                vibrate()
+
             _uiState.value = _uiState.value.copy(
                 isLoading = false
             )
-            vibrate()
         }
         DataHolder.list.observeForever(listObserver)
     }

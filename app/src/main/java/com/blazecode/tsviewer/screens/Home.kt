@@ -40,8 +40,8 @@ import com.blazecode.tsviewer.data.TsChannel
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.util.updater.GitHubUpdater
-import com.blazecode.tsviewer.viewmodels.HomeViewModel
 import com.blazecode.tsviewer.views.TsChannelList
+import viewmodels.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

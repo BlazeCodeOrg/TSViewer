@@ -58,6 +58,10 @@ class SettingsManager(val context: Context) {
         return preferences.getBoolean("debug_update", false)
     }
 
+    fun isWatchSyncEnabled(): Boolean {
+        return preferences.getBoolean("syncWearable", false)
+    }
+
     fun areCredentialsSet(): Boolean {
         return if(preferences.getBoolean("debug_forceNoCredentials", false)){
             false

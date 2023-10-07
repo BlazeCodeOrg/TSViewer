@@ -31,6 +31,7 @@ class WearDataManager(context: Context) {
     companion object {
         private const val WEAR_CAPABILITY = "wear"
         private const val CLIENTS_PATH = "/clients"
+        private const val SERVICE_STATUS_PATH = "/service_status"
         private const val TEST_PATH = "/test"
     }
 
@@ -45,6 +46,10 @@ class WearDataManager(context: Context) {
 
     fun sendTestMessage() {
         send(TEST_PATH, "This is a test message")
+    }
+
+    fun sendServiceStatus(isRunning: Boolean) {
+        send(SERVICE_STATUS_PATH, isRunning.toString())
     }
 
     suspend fun areNodesAvailable(): Boolean{

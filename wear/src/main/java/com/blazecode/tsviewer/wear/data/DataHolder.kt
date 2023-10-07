@@ -15,4 +15,7 @@ object DataHolder {
     val time: MutableLiveData<Long> by lazy {
         MutableLiveData<Long>()
     }
+    val serviceStatus: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
 }
