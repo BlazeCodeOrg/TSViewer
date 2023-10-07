@@ -1,6 +1,6 @@
 package com.blazecode.tsviewer.wear.uistate
 
-import data.TsClient
+import com.blazecode.tsviewer.wear.data.TsClient
 
 data class ClientListUiState (
     val clientListString: String = "",

@@ -7,9 +7,9 @@ import android.os.Vibrator
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Observer
 import com.blazecode.tsviewer.wear.communication.WearDataManager
+import com.blazecode.tsviewer.wear.data.DataHolder
+import com.blazecode.tsviewer.wear.data.TsClient
 import com.blazecode.tsviewer.wear.uistate.ClientListUiState
-import data.DataHolder
-import data.TsClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
