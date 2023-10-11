@@ -9,31 +9,41 @@ package com.blazecode.tsviewer.wear
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.blazecode.tsviewer.wear.data.DataHolder
 import com.blazecode.tsviewer.wear.navigation.NavRoutes
 import com.blazecode.tsviewer.wear.screens.ClientList
 import com.blazecode.tsviewer.wear.screens.Home
+import com.blazecode.tsviewer.wear.screens.ServiceOff
 import com.blazecode.tsviewer.wear.viewmodels.ClientListViewModel
 import com.blazecode.tsviewer.wear.viewmodels.HomeViewModel
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.blazecode.tsviewer.wear.viewmodels.ServiceOffViewModel
 
 class MainActivity : ComponentActivity() {
 
-    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val dataHolder = DataHolder
+
         setContent {
             // CHECK IF COMPLICATION WAS TAPPED
-            val complicationTapped = intent.extras?.getBoolean("openClientScreen")
-            val startDestination = if (complicationTapped != null) NavRoutes.ClientList.route else NavRoutes.Home.route
+            var startDestination: String = NavRoutes.Home.route
 
-            val navController = rememberAnimatedNavController()
-            AnimatedNavHost(navController = navController, startDestination = startDestination) {
+            if(intent.extras?.getBoolean("openComplication") != null){
+                if(dataHolder.serviceStatus.value == true && dataHolder.list.value != null)
+                    startDestination = NavRoutes.ClientList.route
+                else
+                    startDestination = NavRoutes.ServiceOffScreen.route
+            }
+
+            val navController = rememberNavController()
+            NavHost(navController = navController, startDestination = startDestination) {
                 composable(NavRoutes.Home.route) { Home(HomeViewModel(application), navController) }
                 composable(NavRoutes.ClientList.route) { ClientList(ClientListViewModel(application)) }
+                composable(NavRoutes.ServiceOffScreen.route) { ServiceOff(ServiceOffViewModel(application)) }
             }
         }
     }

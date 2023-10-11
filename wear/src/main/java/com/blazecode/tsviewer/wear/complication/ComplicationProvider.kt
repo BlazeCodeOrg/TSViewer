@@ -35,7 +35,7 @@ class ComplicationProvider: ComplicationDataSourceService() {
     override fun onComplicationRequest(request: ComplicationRequest, listener: ComplicationRequestListener) {
 
         val tapIntent = Intent(this, MainActivity::class.java)
-            .putExtra("openClientScreen", true)
+            .putExtra("openComplication", true)
         val tapPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
             addNextIntentWithParentStack(tapIntent)
             getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
