@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
             var startDestination: String = NavRoutes.Home.route
 
             if(intent.extras?.getBoolean("openComplication") != null){
-                if(dataHolder.serviceStatus.value == true && dataHolder.list.value != null)
+                if(dataHolder.serviceStatus.value == true)
                     startDestination = NavRoutes.ClientList.route
                 else
                     startDestination = NavRoutes.ServiceOffScreen.route

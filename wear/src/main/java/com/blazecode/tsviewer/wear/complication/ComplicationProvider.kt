@@ -47,8 +47,8 @@ class ComplicationProvider: ComplicationDataSourceService() {
     private fun getComplicationData(tapAction: PendingIntent?): ComplicationData{
         val icon = Icon.createWithResource(this, R.drawable.ic_icon)
 
-        val text = if (dataHolder.serviceStatus.value == true && dataHolder.list.value != null)  //true = running, false = !running
-            dataHolder.list.value!!.size.toString()
+        val text = if (dataHolder.serviceStatus.value == true)  //true = running, false = !running
+            dataHolder.list.value?.size.toString()
         else
             "-"
 
