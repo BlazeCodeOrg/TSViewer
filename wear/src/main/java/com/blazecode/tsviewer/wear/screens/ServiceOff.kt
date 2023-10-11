@@ -30,7 +30,6 @@ import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.Text
 import com.blazecode.tsviewer.R
-import com.blazecode.tsviewer.wear.communication.WearDataManager
 import com.blazecode.tsviewer.wear.theme.TSViewerTheme
 import com.blazecode.tsviewer.wear.viewmodels.ServiceOffViewModel
 import kotlinx.coroutines.Dispatchers
@@ -76,13 +75,14 @@ private fun MainLayout(viewModel: ServiceOffViewModel){
         item { Spacer(modifier = Modifier.size(8.dp)) }
 
         item {
-            Chip(onClick = { scope.launch(Dispatchers.IO) { WearDataManager(context).startService() }},
+            Chip(onClick = { scope.launch(Dispatchers.IO) { viewModel.startService() }},
                 label = { Text(stringResource(id = R.string.start_service)) },
                 icon = { Icon(painterResource(R.drawable.ic_refresh), contentDescription = null) },
-                colors = ChipDefaults.chipColors(backgroundColor = colorResource(R.color.background), iconColor = colorResource(R.color.primary))) }
+                colors = ChipDefaults.chipColors(backgroundColor = colorResource(R.color.background), iconColor = colorResource(R.color.primary)),
+                enabled = uiState.value.startServiceButtonEnabled) }
 
         item {
-            Chip(onClick = { scope.launch(Dispatchers.IO) { WearDataManager(context).sendStartActivityRequest() }},
+            Chip(onClick = { scope.launch(Dispatchers.IO) { viewModel.launchApp() }},
                 label = { Text(stringResource(R.string.launch_app_on_phone)) },
                 icon = { Icon(painterResource(R.drawable.ic_open), contentDescription = null) },
                 colors = ChipDefaults.chipColors(backgroundColor = colorResource(R.color.background), iconColor = colorResource(R.color.primary))) }
