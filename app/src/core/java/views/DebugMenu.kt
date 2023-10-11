@@ -80,7 +80,7 @@ fun DebugMenu(context: Context, preferences: SharedPreferences, onDismiss : () -
                             summary = "Send test message to wearable",
                             onClick = {
                                 val wearDataManager = WearDataManager(context)
-                                wearDataManager.sendTestMessage()
+                                wearDataManager.sendToastMessage("Test Message")
                             }
                         )
                     }

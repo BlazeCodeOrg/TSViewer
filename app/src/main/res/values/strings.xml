@@ -98,4 +98,7 @@
     <string name="error_user_comment">Comment</string>
     <string name="error_user_email">Your E-Mail address (optional)</string>
 
+    <!-- WEAR TOAST MESSAGES -->
+    <string name="service_started">Service started</string>
+
 </resources>

@@ -30,6 +30,10 @@ class WearDataManager(context: Context) {
         send(REQUEST_REFRESH)
     }
 
+    fun startService(){
+        send(START_SERVICE)
+    }
+
     private fun send(path: String, data: String = "") {
         GlobalScope.launch {
             try {
@@ -59,5 +63,6 @@ class WearDataManager(context: Context) {
         private const val MOBILE_CAPABILITY = "mobile"
         private const val START_ACTIVITY_PATH = "/start-activity"
         private const val REQUEST_REFRESH = "/request-refresh"
+        private const val START_SERVICE = "/start-service"
     }
 }

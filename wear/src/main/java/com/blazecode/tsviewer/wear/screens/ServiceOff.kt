@@ -13,7 +13,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.rotary.onPreRotaryScrollEvent
@@ -73,9 +72,14 @@ private fun MainLayout(viewModel: ServiceOffViewModel){
         item { Image(painter = painterResource(id = R.drawable.ic_error), contentDescription = "error") }
         item { Spacer(modifier = Modifier.size(2.dp)) }
 
-        item { Text(text = "Service not active", fontSize = 16.sp) }
-        item { Text(text = "Open App to start", modifier = Modifier.alpha(.7f), fontSize = 14.sp) }
+        item { Text(text = stringResource(id = R.string.service_off), fontSize = 16.sp) }
         item { Spacer(modifier = Modifier.size(8.dp)) }
+
+        item {
+            Chip(onClick = { scope.launch(Dispatchers.IO) { WearDataManager(context).startService() }},
+                label = { Text(stringResource(id = R.string.start_service)) },
+                icon = { Icon(painterResource(R.drawable.ic_refresh), contentDescription = null) },
+                colors = ChipDefaults.chipColors(backgroundColor = colorResource(R.color.background), iconColor = colorResource(R.color.primary))) }
 
         item {
             Chip(onClick = { scope.launch(Dispatchers.IO) { WearDataManager(context).sendStartActivityRequest() }},

@@ -32,7 +32,7 @@ class WearDataManager(context: Context) {
         private const val WEAR_CAPABILITY = "wear"
         private const val CLIENTS_PATH = "/clients"
         private const val SERVICE_STATUS_PATH = "/service_status"
-        private const val TEST_PATH = "/test"
+        private const val TOAST_PATH = "/toast"
     }
 
     fun sendClientList(list: MutableList<TsClient>){
@@ -44,8 +44,8 @@ class WearDataManager(context: Context) {
         Timber.d("Sent data to wear: $json")
     }
 
-    fun sendTestMessage() {
-        send(TEST_PATH, "This is a test message")
+    fun sendToastMessage(message: String) {
+        send(TOAST_PATH, message)
     }
 
     fun sendServiceStatus(isRunning: Boolean) {
