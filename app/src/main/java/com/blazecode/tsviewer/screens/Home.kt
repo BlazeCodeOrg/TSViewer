@@ -4,7 +4,7 @@
  *
  */
 
-package com.blazecode.tsviewer.screens
+package screens
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.*

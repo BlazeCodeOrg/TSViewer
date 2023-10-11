@@ -22,7 +22,6 @@ import androidx.work.WorkManager
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.screens.About
 import com.blazecode.tsviewer.screens.Data
-import com.blazecode.tsviewer.screens.Home
 import com.blazecode.tsviewer.screens.Introduction
 import com.blazecode.tsviewer.ui.theme.TSViewerTheme
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
@@ -33,6 +32,7 @@ import com.blazecode.tsviewer.views.BottomNavBar
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import screens.Home
 import screens.Settings
 import timber.log.Timber
 import viewmodels.HomeViewModel

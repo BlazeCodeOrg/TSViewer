@@ -21,6 +21,7 @@ import com.blazecode.tsviewer.database.DatabaseManager
 import com.blazecode.tsviewer.uistate.HomeUiState
 import com.blazecode.tsviewer.util.ConnectionManager
 import com.blazecode.tsviewer.util.DemoModeValues
+import com.blazecode.tsviewer.util.ServiceManager
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,9 +35,8 @@ import java.util.concurrent.TimeUnit
 
 class HomeViewModel(val app: Application) : AndroidViewModel(app) {
 
-    private val TAG = "scheduleClients"
     private val settingsManager = SettingsManager(app)
-    private var workManager: WorkManager = app.let { WorkManager.getInstance(it) }
+    private val serviceManager = ServiceManager(app)
 
     // UI STATE
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -45,7 +45,7 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
     init {
         if(!settingsManager.isDemoModeActive()){
             // DEFAULT OPERATION
-            _uiState.value = _uiState.value.copy(serviceRunning = isRunning())
+            _uiState.value = _uiState.value.copy(serviceRunning = serviceManager.isRunning())
             _uiState.value = _uiState.value.copy(debug_updateAvailable = isDebugUpdateActive())
 
             if(areCredentialsSet()){
@@ -72,10 +72,11 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
         _uiState.value = _uiState.value.copy(serviceRunning = serviceRunning)
 
         if(serviceRunning){
-            startService()
+            serviceManager.startService()
         } else {
-            stopService()
+            serviceManager.stopService()
         }
+        _uiState.value = _uiState.value.copy(serviceRunning = serviceManager.isRunning())
     }
 
     private suspend fun getChannels(): MutableList<TsChannel> {
@@ -88,23 +89,6 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
         return tempChannels
     }
 
-    private fun startService(){
-        val clientWorkRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<ClientsWorker>(
-            settingsManager.getScheduleTime().toLong(),                                                                                 //GIVE NEW WORK TIME
-            TimeUnit.MINUTES,
-            1, TimeUnit.MINUTES)                                                                      //FLEX TIME INTERVAL
-            .build()
-
-        val oneTimeclientWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ClientsWorker>().build()          //RUN ONE TIME
-        workManager.enqueue(oneTimeclientWorkRequest)
-        workManager.enqueueUniquePeriodicWork(TAG, ExistingPeriodicWorkPolicy.UPDATE, clientWorkRequest)     //SCHEDULE THE NEXT RUNS
-        _uiState.value = _uiState.value.copy(serviceRunning = isRunning())
-    }
-
-    private fun stopService(){
-        workManager.cancelUniqueWork(TAG)
-    }
-
     // GETTERS
     private fun areCredentialsSet(): Boolean {
         return settingsManager.areCredentialsSet()
@@ -112,26 +96,6 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
 
     private fun isDebugUpdateActive(): Boolean {
         return settingsManager.isDebugUpdateActive()
-    }
-
-    private fun isRunning() : Boolean {
-        val instance = WorkManager.getInstance(app.applicationContext)
-        val statuses: ListenableFuture<List<WorkInfo>> = instance.getWorkInfosForUniqueWork(TAG)
-        return try {
-            var running = false
-            val workInfoList: List<WorkInfo> = statuses.get()
-            for (workInfo in workInfoList) {
-                val state = workInfo.state
-                running = state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED
-            }
-            running
-        } catch (e: ExecutionException) {
-            e.printStackTrace()
-            false
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-            false
-        }
     }
 
     private suspend fun getLastUpdate(): Long {
