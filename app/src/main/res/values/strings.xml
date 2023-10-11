@@ -100,5 +100,6 @@
 
     <!-- WEAR TOAST MESSAGES -->
     <string name="service_started">Service started</string>
+    <string name="service_already_running_please_restart">Service already running, please restart it manually</string>
 
 </resources>
