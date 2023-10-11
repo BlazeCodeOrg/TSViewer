@@ -39,6 +39,7 @@ class WearableListenerService: WearableListenerService() {
             SERVICE_STATUS_PATH -> {
                 GlobalScope.launch(Dispatchers.Main) {
                     DataHolder.serviceStatus.value = String(messageEvent.data).toBoolean()
+                    println(String(messageEvent.data).toBoolean())
                     ComplicationProvider().update(this@WearableListenerService)
                 }
             }

@@ -77,6 +77,10 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
         } else {
             stopService()
         }
+
+        if(settingsManager.isWatchSyncEnabled()) {
+            WearDataManager(app).sendServiceStatus(serviceRunning)
+        }
     }
 
     private suspend fun getChannels(): MutableList<TsChannel> {
@@ -124,9 +128,6 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app) {
             for (workInfo in workInfoList) {
                 val state = workInfo.state
                 running = state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED
-            }
-            if(settingsManager.isWatchSyncEnabled()) {
-                WearDataManager(app).sendServiceStatus(running)
             }
             running
         } catch (e: ExecutionException) {

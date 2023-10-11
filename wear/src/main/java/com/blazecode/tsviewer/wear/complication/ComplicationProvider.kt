@@ -38,7 +38,7 @@ class ComplicationProvider: ComplicationDataSourceService() {
             .putExtra("openClientScreen", true)
         val tapPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
             addNextIntentWithParentStack(tapIntent)
-            getPendingIntent(dataHolder.list.value!!.size, PendingIntent.FLAG_IMMUTABLE)
+            getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
         }
 
         listener.onComplicationData(getComplicationData(tapPendingIntent))
@@ -47,7 +47,7 @@ class ComplicationProvider: ComplicationDataSourceService() {
     private fun getComplicationData(tapAction: PendingIntent?): ComplicationData{
         val icon = Icon.createWithResource(this, R.drawable.ic_icon)
 
-        val text = if (dataHolder.serviceStatus.value == true)  //true = running, false = !running
+        val text = if (dataHolder.serviceStatus.value == true && dataHolder.list.value != null)  //true = running, false = !running
             dataHolder.list.value!!.size.toString()
         else
             "-"
