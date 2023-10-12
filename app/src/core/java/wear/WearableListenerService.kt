@@ -55,7 +55,6 @@ class WearableListenerService: WearableListenerService() {
 
         val data = Data.Builder()
         data.putBoolean("suppress_db", true)
-        data.putBoolean("suppress_notification", true)
 
         val oneTimeclientWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ClientsWorker>()
             .setInputData(data.build())
