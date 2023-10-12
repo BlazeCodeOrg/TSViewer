@@ -76,6 +76,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider_paths" />
         </provider>
+        <receiver android:exported="true" android:name=".util.notification.NotificationBroadcastReceiver"/>
     </application>
 
     <queries>

@@ -19,9 +19,12 @@ import com.blazecode.tsviewer.data.TsClient
 
 class ClientNotificationManager(private val context: Context) {
 
+    val ACTION_REFRESH = "refresh"
+
     fun post(clientListNames: MutableList<TsClient>){
         val names = clientListNames.map { it.nickname }
 
+        // ON TAP
         val notificationIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -30,6 +33,17 @@ class ClientNotificationManager(private val context: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        // ON ACTION
+        val refreshIntent = Intent(context, NotificationBroadcastReceiver::class.java).apply {
+            action = ACTION_REFRESH
+            putExtra(ACTION_REFRESH, 0)
+        }
+        val refreshPendingIntent: PendingIntent =
+            PendingIntent.getBroadcast(context, 0, refreshIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+        // BUILDER
         if (names.isNotEmpty()) {
             val builder = NotificationCompat.Builder(context, context.getString(R.string.notificationChannelClientID))
                 .setGroup(context.getString(R.string.notificationChannelClientID))
@@ -39,6 +53,8 @@ class ClientNotificationManager(private val context: Context) {
                     .bigText(names.joinToString()))
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setContentIntent(notificationPendingIntent)
+                .addAction(R.drawable.ic_notification_icon, context.getString(R.string.notification_action_refresh),
+                    refreshPendingIntent)
 
             if (names.size == 1) builder.setContentTitle("${names.size} ${context.resources.getString(R.string.client_connected)}")
             else builder.setContentTitle("${names.size} ${context.resources.getString(R.string.clients_connected)}")

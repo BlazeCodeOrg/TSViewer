@@ -79,6 +79,7 @@
     <string name="notificationChannelClientID">CLIENT_CHANNEL</string>
     <string name="client_connected">Client connected</string>
     <string name="clients_connected">Clients connected</string>
+    <string name="notification_action_refresh">Refresh</string>
 
     <string name="notificationChannelUpdate">Update Channel</string>
     <string name="notificationChannelUpdateID">UPDATE_CHANNEL</string>
