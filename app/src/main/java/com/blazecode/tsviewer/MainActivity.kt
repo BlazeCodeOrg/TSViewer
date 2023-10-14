@@ -9,15 +9,17 @@ package com.blazecode.tsviewer
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.work.WorkManager
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.screens.About
@@ -29,9 +31,6 @@ import com.blazecode.tsviewer.viewmodels.AboutViewModel
 import com.blazecode.tsviewer.viewmodels.DataViewModel
 import com.blazecode.tsviewer.viewmodels.IntroductionViewModel
 import com.blazecode.tsviewer.views.BottomNavBar
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import screens.Home
 import screens.Settings
 import timber.log.Timber
@@ -47,14 +46,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var preferences : SharedPreferences
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         val isFirstStart = isFirstStart()
 
         setContent {
-            val navController = rememberAnimatedNavController()
+            val navController = rememberNavController()
 
             val isDebugMenuOpen = remember { mutableStateOf(false) }
             val startDestination = if(isFirstStart) NavRoutes.Introduction.route else NavRoutes.Home.route
@@ -70,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                         )
                     },
                     content = { paddingValues ->
-                        AnimatedNavHost(navController = navController, startDestination = startDestination, modifier = Modifier.padding(paddingValues).fillMaxSize()){
+                        NavHost(navController = navController, startDestination = startDestination, modifier = Modifier.padding(paddingValues).fillMaxSize()){
                             composable(NavRoutes.Home.route) { Home(HomeViewModel(application), navController) }
                             composable(NavRoutes.Data.route) { Data(DataViewModel(application), navController) }
                             composable(NavRoutes.Settings.route) { Settings(SettingsViewModel(application), navController) }
