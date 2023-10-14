@@ -9,7 +9,6 @@ package com.blazecode.tsviewer
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var preferences : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
+        // TODO enableEdgeToEdge() check padding values
         super.onCreate(savedInstanceState)
 
         val isFirstStart = isFirstStart()
