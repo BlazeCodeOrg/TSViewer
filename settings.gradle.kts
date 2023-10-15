@@ -8,11 +8,10 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
-        maven { url 'https://jitpack.io' }
+        maven { url = uri("https://jitpack.io/") }
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
     }
 }
 rootProject.name = "TSViewer"
-include ':app'
-include ':wear'
+include (":app")
+include (":wear")
