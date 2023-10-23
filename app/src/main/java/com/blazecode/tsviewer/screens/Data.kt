@@ -90,7 +90,7 @@ private fun MainLayout(viewModel: DataViewModel) {
         currentView.value = "loading"
     }
 
-    Crossfade(currentView){
+    Crossfade(currentView, label = ""){
         when(it.value){
             "loading" -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
@@ -120,7 +120,7 @@ private fun MainLayout(viewModel: DataViewModel) {
                     Spacer(modifier = Modifier.size(16.dp))
                     Text(text = stringResource(R.string.clients), style = Typography.titleMedium)
                     ClientListView(
-                        inputList = uiState.value.clientList!!,
+                        list = uiState.value.clientList!!,
                         onClick = { client ->
                             viewModel.openClientInfoSheet(client)
                         }
@@ -186,7 +186,6 @@ private fun ChartView(inputList: List<TsServerInfo>){
 
     Chart(
         chart = lineChart(
-            spacing = 1.dp,
             lines = listOf(
                 LineChart.LineSpec(
                     pointSizeDp = 22f,
@@ -205,7 +204,7 @@ private fun ChartView(inputList: List<TsServerInfo>){
             guideline = null,
         ),
         chartScrollSpec = ChartScrollSpec(
-            initialScroll = InitialScroll.End,
+            initialScroll = InitialScroll.Start,
             isScrollEnabled = true,
             autoScrollCondition = AutoScrollCondition.OnModelSizeIncreased,
             autoScrollAnimationSpec = spring()
@@ -214,8 +213,7 @@ private fun ChartView(inputList: List<TsServerInfo>){
 }
 
 @Composable
-private fun ClientListView(inputList: List<TsClient>, onClick: (TsClient) -> Unit){
-    val list = inputList.sortedBy { it.activeConnectionTime }
+private fun ClientListView(list: List<TsClient>, onClick: (TsClient) -> Unit){
     LazyColumn {
         items(list.size) { index ->
             ClientItemView(list[index], onClick = onClick)
