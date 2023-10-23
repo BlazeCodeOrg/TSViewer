@@ -6,14 +6,16 @@
 
 package com.blazecode.tsviewer.views
 
-import android.graphics.Paint
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -55,24 +57,28 @@ fun TsChannelList(
     }
 }
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 private fun ChannelView(
     title: String,
     onClick: () -> Unit = {}
 ){
     if (isSpacer(title)){
-        val regex = Regex(".\$")
-        val char = regex.find(title)!!.value
-        val charWidth = Paint().measureText(char)
+        val lineColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.35f)
 
-        BoxWithConstraints(modifier = Modifier.fillMaxWidth().clickable { onClick() }, contentAlignment = Alignment.Center) {
-            val n = (maxWidth / charWidth).value.toInt() / 6 * 4
-            Text(text = buildString {
-                for (i in 1..n) {
-                    append(char)
-                }
-            })
+        Card(modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp)
+            .height(2.dp)
+            .clickable { onClick() },
+            shape = MaterialTheme.shapes.small,
+            colors = CardDefaults.cardColors(
+                containerColor = lineColor
+            )
+        ){
+            
         }
+
     } else if (isCSpacer(title)){
         val regex = Regex("\\w{1,}\$")
         val regexTitle = regex.find(title)!!.value
@@ -82,14 +88,19 @@ private fun ChannelView(
             }
         }
     } else {
-        Card(modifier = Modifier.fillMaxWidth().clickable { onClick() }) {
+        Card(modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }) {
             Box(modifier = Modifier
                 .fillMaxSize()
                 .background(
                     Brush.horizontalGradient(
                         colors = listOf(
                             MaterialTheme.colorScheme.surfaceVariant,
-                            MaterialTheme.colorScheme.background)))) {
+                            MaterialTheme.colorScheme.background
+                        )
+                    )
+                )) {
                 Text(text = title, modifier = Modifier.padding(4.dp))
             }
         }
@@ -101,15 +112,21 @@ private fun MemberView(
     member: TsClient,
     onClick: () -> Unit = {}
 ){
-    Card(modifier = Modifier.padding(start = dimensionResource(R.dimen.large_padding)).clickable { onClick() }) {
+    Card(modifier = Modifier
+        .padding(start = dimensionResource(R.dimen.large_padding))
+        .clickable { onClick() }) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             if(member.isInputMuted && !member.isOutputMuted)
                 Icon(painter = painterResource(id = R.drawable.ic_mic_muted),
-                    modifier = Modifier.size(20.dp).padding(start = 4.dp),
+                    modifier = Modifier
+                        .size(20.dp)
+                        .padding(start = 4.dp),
                     contentDescription = null)
             if(member.isOutputMuted)
                 Icon(painter = painterResource(id = R.drawable.ic_speaker_muted),
-                    modifier = Modifier.size(20.dp).padding(start = 4.dp),
+                    modifier = Modifier
+                        .size(20.dp)
+                        .padding(start = 4.dp),
                     contentDescription = null)
             Text(text = member.nickname, modifier = Modifier.padding(4.dp))
         }
@@ -131,8 +148,10 @@ private fun isCSpacer(name: String): Boolean {
 private fun Preview(){
     val demoList = mutableListOf<TsChannel>(
         TsChannel(name = "Channel 1", members = mutableListOf(TsClient(id = 0, nickname = "Member 1"), TsClient(id = 0, nickname = "Member 2"))),
-        TsChannel(name = "Channel 1", members = mutableListOf(TsClient(id = 0, nickname = "Member 1", isInputMuted = true))),
         TsChannel(name = "[*spacer1]_"),
+        TsChannel(name = "Channel 1", members = mutableListOf(TsClient(id = 0, nickname = "Member 1", isInputMuted = true))),
         )
-    TsChannelList(channels = demoList)
+    Surface {
+        TsChannelList(channels = demoList)
+    }
 }
