@@ -66,7 +66,7 @@ class DataViewModel(val app: Application): AndroidViewModel(app){
         var list = mutableListOf<TsServerInfo>()
         val job = viewModelScope.launch(Dispatchers.IO) {
             val repository = ServerRepository(app)
-            list = repository.getServerInfo()
+            list = repository.getLast3Days()
         }
         job.join()
         return list
@@ -77,6 +77,7 @@ class DataViewModel(val app: Application): AndroidViewModel(app){
         val job = viewModelScope.launch(Dispatchers.IO) {
             val repository = ClientRepository(app)
             list = repository.getAllClients()
+            list.sortByDescending { it.activeConnectionTime }
         }
         job.join()
         return list

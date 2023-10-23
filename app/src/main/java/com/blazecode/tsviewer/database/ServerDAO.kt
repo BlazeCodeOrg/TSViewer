@@ -14,6 +14,9 @@ interface ServerDAO{
     @Query("SELECT * FROM tsserverinfo")
     fun getAll(): MutableList<TsServerInfo>
 
+    @Query("SELECT * FROM tsserverinfo ORDER BY timestamp DESC LIMIT 288")      // 288 = 3 Days at 15 min interval
+    fun getLast3Days(): MutableList<TsServerInfo>
+
     @Insert
     fun insertServerInfo(vararg serverInfo: TsServerInfo)
 

@@ -18,6 +18,10 @@ class ServerRepository(context: Context) {
         return serverDao.getAll()
     }
 
+    fun getLast3Days(): MutableList<TsServerInfo> {
+        return serverDao.getLast3Days()
+    }
+
     fun insertServerInfo(serverInfo: TsServerInfo) {
         serverDao.insertServerInfo(serverInfo)
     }
