@@ -66,7 +66,9 @@ class WearableListenerService: WearableListenerService() {
     private fun startService(){
         val serviceManager = ServiceManager(this.application)
         if(serviceManager.isRunning()){
-            WearDataManager(this).sendToastMessage(this.resources.getString(R.string.service_already_running_please_restart))
+            refreshRequest(this@WearableListenerService)
+            WearDataManager(this).sendServiceStatus(true)
+            WearDataManager(this).sendToastMessage(this.resources.getString(R.string.service_already_running_please_wait))
         } else {
             serviceManager.startService()
 
