@@ -20,6 +20,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.blazecode.eventtool.views.DefaultPreference
@@ -38,6 +39,7 @@ fun Settings(viewModel: SettingsViewModel = viewModel(), navController: NavContr
     TSViewerTheme {
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
         Scaffold (
+            contentWindowInsets = WindowInsets(0.dp),
             topBar = { TopAppBar(scrollBehavior, navController) },
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             content = { paddingValues ->

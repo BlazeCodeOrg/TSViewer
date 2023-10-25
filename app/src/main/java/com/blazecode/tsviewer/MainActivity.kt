@@ -9,13 +9,16 @@ package com.blazecode.tsviewer
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -47,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // TODO enableEdgeToEdge() check padding values
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         val isFirstStart = isFirstStart()
@@ -59,6 +63,7 @@ class MainActivity : AppCompatActivity() {
 
             TSViewerTheme {
                 Scaffold (
+                    contentWindowInsets = WindowInsets(0.dp),
                     bottomBar = {
                         BottomNavBar(
                             navController = navController,

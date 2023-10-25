@@ -66,6 +66,7 @@ fun Data(viewModel: DataViewModel = viewModel(), navController: NavController) {
     TSViewerTheme {
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
         Scaffold (
+            contentWindowInsets = WindowInsets(0.dp),
             topBar = { TopAppBar(scrollBehavior, navController) },
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             content = { paddingValues ->
