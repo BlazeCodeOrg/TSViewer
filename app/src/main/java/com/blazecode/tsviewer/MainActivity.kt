@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var preferences : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // TODO enableEdgeToEdge() check padding values
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
