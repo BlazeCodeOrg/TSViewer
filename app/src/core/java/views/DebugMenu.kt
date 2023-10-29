@@ -23,6 +23,7 @@ import com.blazecode.eventtool.views.DefaultPreference
 import com.blazecode.eventtool.views.PreferenceGroup
 import com.blazecode.eventtool.views.SwitchPreference
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.data.ErrorCode
 import com.blazecode.tsviewer.navigation.NavRoutes
 import com.blazecode.tsviewer.util.DemoModeValues
 import com.blazecode.tsviewer.util.notification.ClientNotificationManager
@@ -108,7 +109,7 @@ fun DebugMenu(context: Context, preferences: SharedPreferences, onDismiss : () -
                             summary = "Will contain demo values",
                             onClick = {
                                 val wearDataManager = WearDataManager(context)
-                                wearDataManager.sendClientList(DemoModeValues.clientList())
+                                wearDataManager.sendClientList(DemoModeValues.clientList(), ErrorCode.NO_ERROR)
                                 onDismiss()
                             }
                         )
