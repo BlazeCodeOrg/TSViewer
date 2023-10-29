@@ -25,4 +25,9 @@
     <string name="service_off">Service is off</string>
     <string name="start_service">Start Service</string>
 
+    <!-- ERROR CODES -->
+    <string name="no_network">No Network</string>
+    <string name="no_wifi">No WiFi</string>
+    <string name="airplane_mode">Airplane Mode</string>
+
 </resources>

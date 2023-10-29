@@ -17,9 +17,9 @@ object DataHolder {
         MutableLiveData<Long>()
     }
     val serviceStatus: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>()
+        MutableLiveData<Boolean>(false)
     }
     val errorCode: MutableLiveData<ErrorCode> by lazy {
-        MutableLiveData<ErrorCode>()
+        MutableLiveData<ErrorCode>(ErrorCode.NO_ERROR)
     }
 }
