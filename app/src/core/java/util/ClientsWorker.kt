@@ -66,16 +66,11 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         val suppress_Wearable = inputData.getBoolean("suppress_wearable", false)
 
         withContext(Dispatchers.IO){
-            if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) {
-                getClients(
-                    postNotification = !suppress_Notification,
-                    writeDB = !suppress_DB,
-                    syncWearable = !suppress_Wearable
-                )
-            } else {
-                clientNotificationManager.removeNotification()
-                writeClients(mutableListOf(), ErrorCode.NO_WIFI)
-            }
+            getClients(
+                postNotification = !suppress_Notification,
+                writeDB = !suppress_DB,
+                syncWearable = !suppress_Wearable
+            )
         }
 
         return Result.success()
@@ -86,7 +81,12 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         writeDB: Boolean = true,
         syncWearable: Boolean = true
     ){
-        clientList = connectionManager.getClients(ConnectionDetails(IP_ADRESS, USERNAME, PASSWORD, INCLUDE_QUERY_CLIENTS, PORT, SERVER_ID))
+        if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) {
+            clientList = connectionManager.getClients(ConnectionDetails(IP_ADRESS, USERNAME, PASSWORD, INCLUDE_QUERY_CLIENTS, PORT, SERVER_ID))
+        } else {
+            clientNotificationManager.removeNotification()
+            clientList = mutableListOf()
+        }
 
         var code : ErrorCode = ErrorCode.NO_ERROR
         if (clientList.isEmpty()) {
@@ -102,6 +102,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
             }
         }
         if (code != ErrorCode.NO_ERROR) tileManager.error(code)
+        if (code != ErrorCode.NO_ERROR) clientNotificationManager.removeNotification()
 
         if(syncWearable && SYNC_WEARABLE)
             wearDataManager.sendClientList(clientList, code)
