@@ -30,7 +30,6 @@ import com.blazecode.tsviewer.util.tile.TileManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-
 class ClientsWorker(private val context: Context, workerParameters: WorkerParameters) :
     CoroutineWorker(context, workerParameters) {
 
@@ -50,7 +49,6 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     private var SERVER_ID : Int = 0
     private var RUN_ONLY_WIFI : Boolean = true
     private var DEMO_MODE : Boolean = false
-    private var SYNC_WEARABLE : Boolean = false
 
     private var clientList = mutableListOf<TsClient>()
     private var clientListNames = mutableListOf<String>()
@@ -62,15 +60,10 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         val suppress_Notification = inputData.getBoolean("suppress_notification", false)
 
         withContext(Dispatchers.IO){
-            if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) {
-                getClients(
-                    postNotification = !suppress_Notification,
-                    writeDB = !suppress_DB
-                )
-            } else {
-                clientNotificationManager.removeNotification()
-                writeClients(mutableListOf(), ErrorCode.NO_WIFI)
-            }
+            getClients(
+                postNotification = !suppress_Notification,
+                writeDB = !suppress_DB
+            )
         }
 
         return Result.success()
@@ -80,9 +73,14 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         postNotification: Boolean = true,
         writeDB: Boolean = true
     ){
-        clientList = connectionManager.getClients(ConnectionDetails(IP_ADRESS, USERNAME, PASSWORD, INCLUDE_QUERY_CLIENTS, PORT, SERVER_ID))
+        if((isWifi() && RUN_ONLY_WIFI) || !RUN_ONLY_WIFI) {
+            clientList = connectionManager.getClients(ConnectionDetails(IP_ADRESS, USERNAME, PASSWORD, INCLUDE_QUERY_CLIENTS, PORT, SERVER_ID))
+        } else {
+            clientNotificationManager.removeNotification()
+            clientList = mutableListOf()
+        }
 
-        var code: ErrorCode = ErrorCode.NO_ERROR
+        var code : ErrorCode = ErrorCode.NO_ERROR
         if (clientList.isEmpty()) {
             if(!isWifi() && RUN_ONLY_WIFI && hasCellReception()){
                 // ONLY WIFI ALLOWED, NO WIFI CONNECTION
@@ -96,6 +94,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
             }
         }
         if (code != ErrorCode.NO_ERROR) tileManager.error(code)
+        if (code != ErrorCode.NO_ERROR) clientNotificationManager.removeNotification()
 
         if(postNotification)
             clientNotificationManager.post(clientList)
@@ -103,10 +102,9 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
             writeClients(clientList, code)
     }
 
-    private fun writeClients(list: MutableList<TsClient>, errorCode: ErrorCode){
-        if(list == null){
+    private fun writeClients(list: MutableList<TsClient>, errorCode: ErrorCode) {
+        if(list.size == 0 && errorCode != ErrorCode.NO_ERROR){
             run {
-                // DATABASE
                 val databaseManager = DatabaseManager(context)
                 databaseManager.writeClients(mutableListOf())
             }
@@ -150,7 +148,6 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
         INCLUDE_QUERY_CLIENTS = preferences.getBoolean("includeQuery", false)
         RUN_ONLY_WIFI = preferences.getBoolean("run_only_wifi", true)
         DEMO_MODE = preferences.getBoolean("demoMode", false)
-        SYNC_WEARABLE = preferences.getBoolean("syncWearable", false)
         loadEncryptedPreferences()
     }
 
