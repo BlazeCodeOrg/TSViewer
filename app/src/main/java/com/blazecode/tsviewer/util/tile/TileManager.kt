@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import com.blazecode.tsviewer.R
+import com.blazecode.tsviewer.data.ErrorCode
 import com.blazecode.tsviewer.data.TsClient
 
 class TileManager(val context: Context) {
@@ -34,9 +35,14 @@ class TileManager(val context: Context) {
         editor.commit()
     }
 
-    fun error (message : String){
+    fun error (code : ErrorCode){
         setState(false)
-        setSubtitle(message)
+        when (code) {
+            ErrorCode.NO_ERROR -> setSubtitle("")
+            ErrorCode.NO_NETWORK -> setSubtitle(context.getString(R.string.no_network))
+            ErrorCode.AIRPLANE_MODE -> setSubtitle(context.getString(R.string.airplane_mode))
+            ErrorCode.NO_WIFI -> setSubtitle(context.getString(R.string.no_wifi))
+        }
     }
 
     fun setSubtitle(subtitle: String){

@@ -23,6 +23,7 @@ import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.wear.MainActivity
 import com.blazecode.tsviewer.wear.data.DataHolder
+import com.blazecode.tsviewer.wear.enum.ErrorCode
 
 class ComplicationProvider: ComplicationDataSourceService() {
 
@@ -49,6 +50,8 @@ class ComplicationProvider: ComplicationDataSourceService() {
 
         val text = if (dataHolder.serviceStatus.value == true)  //true = running, false = !running
             dataHolder.list.value?.size.toString()
+        else if (dataHolder.errorCode.value != ErrorCode.NO_ERROR)
+            "!"
         else
             "-"
 

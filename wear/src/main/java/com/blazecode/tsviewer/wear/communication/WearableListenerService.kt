@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.blazecode.tsviewer.wear.complication.ComplicationProvider
 import com.blazecode.tsviewer.wear.data.DataHolder
 import com.blazecode.tsviewer.wear.data.WearDataPackage
+import com.blazecode.tsviewer.wear.enum.ErrorCode
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
 import com.google.gson.GsonBuilder
@@ -43,6 +44,13 @@ class WearableListenerService: WearableListenerService() {
                     ComplicationProvider().update(this@WearableListenerService)
                 }
             }
+            ERROR_CODE_PATH -> {
+                GlobalScope.launch(Dispatchers.Main) {
+                    DataHolder.errorCode.value = ErrorCode.valueOf(String(messageEvent.data))
+                    println(ErrorCode.valueOf(String(messageEvent.data)))
+                    ComplicationProvider().update(this@WearableListenerService)
+                }
+            }
             TOAST_PATH -> {
                 Toast.makeText(this, String(messageEvent.data), Toast.LENGTH_SHORT).show()
             }
@@ -52,6 +60,7 @@ class WearableListenerService: WearableListenerService() {
     companion object {
         private const val CLIENTS_PATH = "/clients"
         private const val SERVICE_STATUS_PATH = "/service_status"
+        private const val ERROR_CODE_PATH = "/error_code"
         private const val TOAST_PATH = "/toast"
     }
 }

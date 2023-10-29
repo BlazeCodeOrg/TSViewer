@@ -7,6 +7,7 @@
 package wear
 
 import android.content.Context
+import com.blazecode.tsviewer.data.ErrorCode
 import com.blazecode.tsviewer.data.TsClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.wearable.CapabilityClient
@@ -32,15 +33,17 @@ class WearDataManager(context: Context) {
         private const val WEAR_CAPABILITY = "wear"
         private const val CLIENTS_PATH = "/clients"
         private const val SERVICE_STATUS_PATH = "/service_status"
+        private const val ERROR_CODE_PATH = "/error_code"
         private const val TOAST_PATH = "/toast"
     }
 
-    fun sendClientList(list: MutableList<TsClient>){
+    fun sendClientList(list: MutableList<TsClient>, code: ErrorCode){
         val gson = GsonBuilder().create()
         val gsonType: Type = object : TypeToken<WearDataPackage>() {}.type
 
         val json = gson.toJson(WearDataPackage(list, System.currentTimeMillis()), gsonType)
         send(CLIENTS_PATH, json)
+        send(ERROR_CODE_PATH, code.toString())
         Timber.d("Sent data to wear: $json")
     }
 

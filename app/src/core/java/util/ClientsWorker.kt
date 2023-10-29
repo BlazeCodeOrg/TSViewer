@@ -20,6 +20,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.blazecode.tsviewer.R
 import com.blazecode.tsviewer.data.ConnectionDetails
+import com.blazecode.tsviewer.data.ErrorCode
 import com.blazecode.tsviewer.data.TsClient
 import com.blazecode.tsviewer.database.DatabaseManager
 import com.blazecode.tsviewer.util.ConnectionManager
@@ -73,7 +74,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
                 )
             } else {
                 clientNotificationManager.removeNotification()
-                writeClients(null)
+                writeClients(mutableListOf(), ErrorCode.NO_WIFI)
             }
         }
 
@@ -87,32 +88,32 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
     ){
         clientList = connectionManager.getClients(ConnectionDetails(IP_ADRESS, USERNAME, PASSWORD, INCLUDE_QUERY_CLIENTS, PORT, SERVER_ID))
 
+        var code : ErrorCode = ErrorCode.NO_ERROR
+        if (clientList.isEmpty()) {
+            if(!isWifi() && RUN_ONLY_WIFI && hasCellReception()){
+                // ONLY WIFI ALLOWED, NO WIFI CONNECTION
+                code = ErrorCode.NO_WIFI
+            } else if (isAirplaneMode(context)){
+                // AIRPLANE MODE IS ACTIVE
+                code = ErrorCode.AIRPLANE_MODE
+            } else {
+                // NO INTERNET CONNECTION
+                code = ErrorCode.NO_NETWORK
+            }
+        }
+        if (code != ErrorCode.NO_ERROR) tileManager.error(code)
+
         if(syncWearable && SYNC_WEARABLE)
-            wearDataManager.sendClientList(clientList)
+            wearDataManager.sendClientList(clientList, code)
         if(postNotification)
             clientNotificationManager.post(clientList)
         if(writeDB)
-            writeClients(clientList)
+            writeClients(clientList, code)
     }
 
-    private fun writeClients(list: MutableList<TsClient>?) {
-        if(list == null){
+    private fun writeClients(list: MutableList<TsClient>, errorCode: ErrorCode) {
+        if(list.size == 0 && errorCode != ErrorCode.NO_ERROR){
             run {
-                var message : String = ""
-
-                if(!isWifi() && RUN_ONLY_WIFI && hasCellReception()){
-                    // ONLY WIFI ALLOWED, NO WIFI CONNECTION
-                    message = context.getString(R.string.no_wifi)
-                } else if (isAirplaneMode(context)){
-                    // AIRPLANE MODE IS ACTIVE
-                    message = context.getString(R.string.airplane_mode)
-                } else {
-                    // NO INTERNET CONNECTION
-                    message = context.getString(R.string.no_network)
-                }
-                // QS TILE
-                tileManager.error(message)
-                // DATABASE
                 val databaseManager = DatabaseManager(context)
                 databaseManager.writeClients(mutableListOf())
             }
