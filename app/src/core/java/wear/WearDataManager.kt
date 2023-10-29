@@ -44,7 +44,7 @@ class WearDataManager(context: Context) {
         val json = gson.toJson(WearDataPackage(list, System.currentTimeMillis()), gsonType)
         send(CLIENTS_PATH, json)
         send(ERROR_CODE_PATH, code.toString())
-        Timber.d("Sent data to wear: $json")
+        Timber.d("Sent data to wear: $json, $code")
     }
 
     fun sendToastMessage(message: String) {
@@ -53,6 +53,7 @@ class WearDataManager(context: Context) {
 
     fun sendServiceStatus(isRunning: Boolean) {
         send(SERVICE_STATUS_PATH, isRunning.toString())
+        if (!isRunning) send(ERROR_CODE_PATH, ErrorCode.NO_ERROR.toString())
     }
 
     suspend fun areNodesAvailable(): Boolean{
