@@ -22,3 +22,5 @@
 
 -dontwarn org.slf4j.impl.StaticLoggerBinder
 -dontwarn sun.security.x509.X509Key
+-dontwarn javax.annotation.processing.AbstractProcessor
+-dontwarn javax.annotation.processing.SupportedOptions
