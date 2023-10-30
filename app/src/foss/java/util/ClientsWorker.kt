@@ -88,7 +88,7 @@ class ClientsWorker(private val context: Context, workerParameters: WorkerParame
             } else if (isAirplaneMode(context)){
                 // AIRPLANE MODE IS ACTIVE
                 code = ErrorCode.AIRPLANE_MODE
-            } else {
+            } else if (!isWifi() && !hasCellReception()){
                 // NO INTERNET CONNECTION
                 code = ErrorCode.NO_NETWORK
             }
