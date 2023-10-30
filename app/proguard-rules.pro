@@ -24,3 +24,5 @@
 -dontwarn sun.security.x509.X509Key
 -dontwarn javax.annotation.processing.AbstractProcessor
 -dontwarn javax.annotation.processing.SupportedOptions
+-keep class com.blazecode.tsviewer.util.updater.GitHubAssets { *; }
+-keep class com.blazecode.tsviewer.util.updater.GitHubRelease { *; }
